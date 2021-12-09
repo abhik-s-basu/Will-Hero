@@ -45,10 +45,10 @@ public class MainMenuController implements Initializable {
 
         TranslateTransition translate4 = new TranslateTransition();
         translate4.setNode(cloud);
-        translate4.setDuration(Duration.millis(10000));
+        translate4.setDuration(Duration.millis(20000));
         translate4.setCycleCount(TranslateTransition.INDEFINITE);
 //        translate.setByX(300);
-        translate4.setByX(900);
+        translate4.setByX(700);
         translate4.setAutoReverse(false);
         translate4.play();
 
@@ -97,7 +97,7 @@ public class MainMenuController implements Initializable {
         scale.setInterpolator(Interpolator.LINEAR);
         scale.setByX(0.2);
         scale.setByY(0.2);
-        scale.setAutoReverse(true);
+//        scale.setAutoReverse(true);
         scale.play();
 
 

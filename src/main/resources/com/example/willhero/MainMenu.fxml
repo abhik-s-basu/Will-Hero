@@ -7,31 +7,31 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="657.0" maxWidth="310.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#0083B0)linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#0083B0);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.MainMenuController">
+<AnchorPane maxHeight="657.0" maxWidth="310.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.MainMenuController">
    <children>
       <ImageView fitHeight="65.0" fitWidth="313.0" layoutX="-1.0" layoutY="603.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../Assets/neechePane.jpeg" />
          </image>
       </ImageView>
-      <Group fx:id="cloud" layoutX="-391.0" layoutY="16.0">
+      <Group fx:id="cloud" layoutX="-336.0" layoutY="10.0">
          <children>
-            <ImageView fx:id="cloud2" fitHeight="79.0" fitWidth="200.0">
+            <ImageView fx:id="cloud2" fitHeight="50.0" fitWidth="98.0" layoutX="64.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_3.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud3" fitHeight="79.0" fitWidth="171.0" layoutX="158.0" layoutY="163.0">
+            <ImageView fx:id="cloud3" fitHeight="30.0" fitWidth="64.0" layoutX="140.0" layoutY="163.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_4.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud1" fitHeight="74.0" fitWidth="130.0" layoutX="-28.0" layoutY="99.0">
+            <ImageView fx:id="cloud1" fitHeight="36.0" fitWidth="70.0" layoutX="-28.0" layoutY="99.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud4" fitHeight="70.0" fitWidth="151.0" layoutX="172.0" layoutY="73.0">
+            <ImageView fx:id="cloud4" fitHeight="70.0" fitWidth="151.0" layoutX="218.0" layoutY="5.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_2.png" />
                </image>
@@ -51,11 +51,6 @@
       <ImageView fx:id="bannerName" fitHeight="124.0" fitWidth="200.0" layoutX="66.0" layoutY="53.0">
          <image>
             <Image url="@../../../Assets/banner-removebg-preview.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="savedGames" fitHeight="50.0" fitWidth="51.0" layoutX="16.0" layoutY="604.0">
-         <image>
-            <Image url="@../../../Assets/savedGames.png" />
          </image>
       </ImageView>
       <ImageView fx:id="exit" fitHeight="48.0" fitWidth="62.0" layoutX="243.0" layoutY="605.0">
@@ -107,6 +102,11 @@
             </ImageView>
          </children>
       </Group>
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="14.0" layoutY="605.0">
+         <image>
+            <Image url="@../../../Assets/save%20(1).png" />
+         </image>
+      </ImageView>
       <Group fx:id="floatingIsland" layoutX="24.0" layoutY="201.0">
          <children>
             <ImageView fitHeight="43.0" fitWidth="66.0" layoutY="2.0" opacity="0.69">
