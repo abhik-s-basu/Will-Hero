@@ -8,10 +8,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
@@ -147,6 +149,23 @@ public class MainMenuController implements Initializable {
 
     public void BackToGame(MouseEvent event){
         setScreen(-1, savedGameScreen);
+    }
+
+    public void loadSavedGame(MouseEvent event){
+        if(((Text)event.getSource()).getText().equals("Empty Slot")){
+            System.out.println("Cannot load game!");
+        }
+        else{
+            System.out.println("Load saved game!");
+        }
+    }
+
+    public void pressLeaderboard(MouseEvent event){
+        System.out.println("Leaderboard displayed!");
+    }
+
+    public void pressSettings(MouseEvent event){
+        System.out.println("Press settings!");
     }
 
     @Override
