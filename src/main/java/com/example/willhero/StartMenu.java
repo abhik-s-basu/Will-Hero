@@ -19,14 +19,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StartMenu extends Application implements Initializable {
-    public static Stage myStage;
 
     @Override
     public void start(Stage stage) throws IOException {
         try{
-            Image icon = new Image(new File("file:src/main/resources/Assets/Knight.png").toURI().toString());
-            stage.getIcons().add(icon);
-//            stage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
+            stage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
             Parent root = FXMLLoader.load(getClass().getResource("StartMenu.fxml"));
             Scene scene = new Scene (root);
             stage.setScene(scene);
