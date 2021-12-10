@@ -37,9 +37,25 @@ public class MainMenuController implements Initializable {
     @FXML
     private  Group cloud;
     @FXML
+    private Group soundGroup;
+    @FXML
     private Group quitScreen;
     @FXML
     private Group savedGameScreen;
+    @FXML
+    private ImageView soundImage;
+    @FXML
+    private ImageView musicImage;
+
+    private int settingsClickCount;
+    private int soundClickCount;
+    private int musicClickCount;
+
+    public MainMenuController(){
+        settingsClickCount = 0;
+        soundClickCount = 0;
+        musicClickCount = 0;
+    }
 
     private void translateFloatingIsland(){
         TranslateTransition translate = new TranslateTransition();
@@ -126,6 +142,21 @@ public class MainMenuController implements Initializable {
         translate5.play();
     }
 
+    private void setVolumeAndSound(){
+        TranslateTransition translate6 = new TranslateTransition();
+        translate6.setNode(soundGroup);
+        translate6.setDuration(Duration.millis(500)); //need to fix the double click bug
+        if (settingsClickCount % 2 == 0){
+            translate6.setByX(75);
+        }
+        else{
+            translate6.setByX(-75);
+        }
+        translate6.setAutoReverse(false);
+        translate6.setInterpolator(Interpolator.EASE_BOTH);
+        translate6.play();
+    }
+
     public void startGame(MouseEvent event){
         System.out.println("Start Game!");
     }
@@ -160,17 +191,43 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    public void pressMusic(MouseEvent event){
+        Image tempImage;
+        if (musicClickCount % 2 == 0){
+            tempImage = new Image("file:src/main/resources/Assets/MusicOff.png");
+            musicImage.setImage(tempImage);
+        }
+        else{
+            tempImage = new Image("file:src/main/resources/Assets/MusicOn.png");
+            musicImage.setImage(tempImage);
+        }
+        musicClickCount++;
+    }
+
     public void pressLeaderboard(MouseEvent event){
         System.out.println("Leaderboard displayed!");
     }
 
     public void pressSettings(MouseEvent event){
-        System.out.println("Press settings!");
+        setVolumeAndSound();
+        settingsClickCount++;
+    }
+
+    public void pressSound(MouseEvent event){
+        Image tempImage;
+        if (soundClickCount % 2 == 0){
+            tempImage = new Image("file:src/main/resources/Assets/mute_1.png");
+            soundImage.setImage(tempImage);
+        }
+        else{
+            tempImage = new Image("file:src/main/resources/Assets/volume_1.png");
+            soundImage.setImage(tempImage);
+        }
+        soundClickCount++;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         translateFloatingIsland();
         translateCloud();
         rotateBannerName();
@@ -178,6 +235,5 @@ public class MainMenuController implements Initializable {
         translateHero();
         translateGreenOrc();
         scaleCursor();
-
     }
 }
