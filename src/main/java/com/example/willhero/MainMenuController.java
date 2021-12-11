@@ -1,9 +1,6 @@
 package com.example.willhero;
 
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +8,6 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -50,28 +46,31 @@ public class MainMenuController implements Initializable {
     private ImageView musicImage;
     @FXML
     private Group startGameComponents;
+    @FXML
+    private Group saveAndLoadGame;
+    @FXML
+    private ImageView tnt;
+    @FXML
+    private ImageView tntSmoke;
+    @FXML
+    private ImageView chest;
 
     private int settingsClickCount;
     private int soundClickCount;
     private int musicClickCount;
     private boolean hasGameStarted;
+    private int pauseClickCount;
+    private int chestClickCount;
 
     public MainMenuController(){
         settingsClickCount = 0;
         soundClickCount = 0;
         musicClickCount = 0;
         hasGameStarted = false;
+        pauseClickCount = 0;
+        chestClickCount = 0;
     }
 
-    private void translateFloatingIsland(){
-        TranslateTransition translate = new TranslateTransition();
-        translate.setNode(floatingIsland);
-        translate.setDuration(Duration.millis(5000));
-        translate.setCycleCount(TranslateTransition.INDEFINITE);
-        translate.setByY(25);
-        translate.setAutoReverse(true);
-        translate.play();
-    }
 
     private void translateCloud(){
         TranslateTransition translate4 = new TranslateTransition();
@@ -96,12 +95,12 @@ public class MainMenuController implements Initializable {
         rotate.play();
     }
 
-    private void translateMainIsland(){
+    private void translateIsland(Group island, int duration, int translateY){
         TranslateTransition translate1 = new TranslateTransition();
-        translate1.setNode(mainIsland);
-        translate1.setDuration(Duration.millis(2000));
+        translate1.setNode(island);
+        translate1.setDuration(Duration.millis(duration));
         translate1.setCycleCount(TranslateTransition.INDEFINITE);
-        translate1.setByY(15);
+        translate1.setByY(translateY);
         translate1.setAutoReverse(true);
         translate1.play();
     }
@@ -156,17 +155,69 @@ public class MainMenuController implements Initializable {
         System.out.println("Axe clicked!");
     }
 
-    public void clickPause(MouseEvent event){
-        System.out.println("Pause clicked!"); //save game, load game, sound, music
+    public void clickSaveGame(MouseEvent event){
+        System.out.println("Game Saved!");
     }
 
-    //progress bar
+    public void clickBackToMainMenu(MouseEvent event){
+        tapToBegin.setVisible(true);
+        cursor.setVisible(true);
+        bannerName.setVisible(true);
+        toHideComponents.setVisible(true);
+        startGameComponents.setVisible(false);
+        pressPause(event);
+        hasGameStarted = false;
+    }
 
-    private void setVolumeAndSound(){ //need to fix the double click bug
+    public void pressPause(MouseEvent event){
+        setSideElements(soundGroup, pauseClickCount);
+        setSideElements(saveAndLoadGame, pauseClickCount);
+        pauseClickCount++;
+    }
+
+    public void clickChest(MouseEvent event){ //will be changed later
+        Image tempImage;
+        if (chestClickCount % 2 == 0){
+            tempImage = new Image("file:src/main/resources/Assets/Chests/openChest.png");
+            chest.setImage(tempImage);
+        }
+        else{
+            tempImage = new Image("file:src/main/resources/Assets/Chests/closedChest.png");
+            chest.setImage(tempImage);
+        }
+        chestClickCount++;
+    }
+
+    public void clickTNT(MouseEvent event){ //will be changed later
+        FadeTransition fade1 = new FadeTransition();
+        fade1.setNode(tnt);
+        fade1.setDuration(Duration.millis(500));
+        fade1.setCycleCount(5);
+        fade1.setFromValue(1.0);
+        fade1.setToValue(0.0);
+        fade1.play();
+        fade1.setOnFinished((e1)->{
+            FadeTransition fade2 = new FadeTransition();
+            tntSmoke.setVisible(true);
+            fade2.setNode(tntSmoke);
+            fade2.setDuration(Duration.millis(2000));
+            fade2.setCycleCount(1);
+            fade2.setFromValue(1.0);
+            fade2.setToValue(0.0);
+            fade2.play();
+            fade2.setOnFinished((e2)->{
+                tnt.setOpacity(1.0);
+                tnt.setVisible(true);
+                tntSmoke.setVisible(false);
+            });
+        });
+    }
+
+    private void setSideElements(Group group, int count){ //need to fix the double click bug
         TranslateTransition translate6 = new TranslateTransition();
-        translate6.setNode(soundGroup);
+        translate6.setNode(group);
         translate6.setDuration(Duration.millis(500));
-        if (settingsClickCount % 2 == 0){
+        if (count % 2 == 0){
             translate6.setByX(75);
         }
         else{
@@ -229,7 +280,7 @@ public class MainMenuController implements Initializable {
         System.out.println("Leaderboard displayed!");
     }
 
-    public void pressSettings(MouseEvent event){ setVolumeAndSound(); settingsClickCount++; }
+    public void pressSettings(MouseEvent event){ setSideElements(soundGroup, settingsClickCount); settingsClickCount++; }
 
     public void pressQuit(MouseEvent event){
         setScreen(1, quitScreen);
@@ -260,10 +311,6 @@ public class MainMenuController implements Initializable {
             bannerName.setVisible(false);
             toHideComponents.setVisible(false);
             startGameComponents.setVisible(true);
-            /* load -> 20,610
-            quit -> 243,605
-            settings -> 0,-1
-            leaderBoard -> 125, 605 */
             System.out.println("Start Game!");
             hasGameStarted = true;
         }
@@ -273,14 +320,13 @@ public class MainMenuController implements Initializable {
 
     }
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        translateFloatingIsland();
+        tntSmoke.setVisible(false);
         translateCloud();
         rotateBannerName();
-        translateMainIsland();
+        translateIsland(mainIsland, 2000, 15);
+        translateIsland(floatingIsland, 5000, 25);
         translateHero();
         translateGreenOrc();
         scaleCursor();
