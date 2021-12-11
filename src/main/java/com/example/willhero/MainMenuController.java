@@ -8,14 +8,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -27,34 +25,42 @@ public class MainMenuController implements Initializable {
     @FXML
     private ImageView bannerName;
     @FXML
-    private  ImageView hero;
+    private ImageView hero;
     @FXML
-    private  Group mainIsland;
+    private Group mainIsland;
     @FXML
     private ImageView greenOrc;
     @FXML
-    private  ImageView cursor;
+    private ImageView cursor;
     @FXML
-    private  Group cloud;
+    private Group cloud;
+    @FXML
+    private Text tapToBegin;
     @FXML
     private Group soundGroup;
     @FXML
     private Group quitScreen;
+    @FXML
+    private Group toHideComponents;
     @FXML
     private Group savedGameScreen;
     @FXML
     private ImageView soundImage;
     @FXML
     private ImageView musicImage;
+    @FXML
+    private Group startGameComponents;
 
     private int settingsClickCount;
     private int soundClickCount;
     private int musicClickCount;
+    private boolean hasGameStarted;
 
     public MainMenuController(){
         settingsClickCount = 0;
         soundClickCount = 0;
         musicClickCount = 0;
+        hasGameStarted = false;
     }
 
     private void translateFloatingIsland(){
@@ -142,10 +148,24 @@ public class MainMenuController implements Initializable {
         translate5.play();
     }
 
-    private void setVolumeAndSound(){
+    public void clickThrowingKnife(MouseEvent event){
+        System.out.println("Knife clicked!");
+    }
+
+    public void clickThrowingAxe(MouseEvent event){
+        System.out.println("Axe clicked!");
+    }
+
+    public void clickPause(MouseEvent event){
+        System.out.println("Pause clicked!"); //save game, load game, sound, music
+    }
+
+    //progress bar
+
+    private void setVolumeAndSound(){ //need to fix the double click bug
         TranslateTransition translate6 = new TranslateTransition();
         translate6.setNode(soundGroup);
-        translate6.setDuration(Duration.millis(500)); //need to fix the double click bug
+        translate6.setDuration(Duration.millis(500));
         if (settingsClickCount % 2 == 0){
             translate6.setByX(75);
         }
@@ -155,18 +175,6 @@ public class MainMenuController implements Initializable {
         translate6.setAutoReverse(false);
         translate6.setInterpolator(Interpolator.EASE_BOTH);
         translate6.play();
-    }
-
-    public void startGame(MouseEvent event){
-        System.out.println("Start Game!");
-    }
-
-    public void pressQuit(MouseEvent event){
-        setScreen(1, quitScreen);
-    }
-
-    public void pressLoadGame(MouseEvent event){
-        setScreen(1, savedGameScreen);
     }
 
     public void exitGame(MouseEvent event){
@@ -204,15 +212,6 @@ public class MainMenuController implements Initializable {
         musicClickCount++;
     }
 
-    public void pressLeaderboard(MouseEvent event){
-        System.out.println("Leaderboard displayed!");
-    }
-
-    public void pressSettings(MouseEvent event){
-        setVolumeAndSound();
-        settingsClickCount++;
-    }
-
     public void pressSound(MouseEvent event){
         Image tempImage;
         if (soundClickCount % 2 == 0){
@@ -226,6 +225,56 @@ public class MainMenuController implements Initializable {
         soundClickCount++;
     }
 
+    public void pressLeaderboard(MouseEvent event){
+        System.out.println("Leaderboard displayed!");
+    }
+
+    public void pressSettings(MouseEvent event){ setVolumeAndSound(); settingsClickCount++; }
+
+    public void pressQuit(MouseEvent event){
+        setScreen(1, quitScreen);
+    }
+
+    public void pressLoadGame(MouseEvent event){
+        setScreen(1, savedGameScreen);
+    }
+
+    public void playGame(){
+        System.out.println("Game has begun!");
+    }
+
+    public void startGame(MouseEvent event){
+        if(settingsClickCount%2 == 1){
+            TranslateTransition translate7 = new TranslateTransition();
+            translate7.setNode(soundGroup);
+            translate7.setDuration(Duration.millis(500));
+            translate7.setByX(-75);
+            translate7.setInterpolator(Interpolator.EASE_BOTH);
+            translate7.setAutoReverse(false);
+            translate7.play();
+            settingsClickCount++;
+        }
+        if (!hasGameStarted){
+            tapToBegin.setVisible(false);
+            cursor.setVisible(false);
+            bannerName.setVisible(false);
+            toHideComponents.setVisible(false);
+            startGameComponents.setVisible(true);
+            /* load -> 20,610
+            quit -> 243,605
+            settings -> 0,-1
+            leaderBoard -> 125, 605 */
+            System.out.println("Start Game!");
+            hasGameStarted = true;
+        }
+        else{
+            playGame();
+        }
+
+    }
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         translateFloatingIsland();
@@ -235,5 +284,6 @@ public class MainMenuController implements Initializable {
         translateHero();
         translateGreenOrc();
         scaleCursor();
+        startGameComponents.setVisible(false);
     }
 }
