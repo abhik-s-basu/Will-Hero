@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,21 +55,27 @@ public class MainMenuController implements Initializable {
     private ImageView tntSmoke;
     @FXML
     private ImageView chest;
+    @FXML
+    private ImageView explosionSquare;
+    @FXML
+    private Rectangle bottomBlocker;
+    @FXML
+    private Rectangle topBlocker;
 
-    private int settingsClickCount;
-    private int soundClickCount;
-    private int musicClickCount;
+    private boolean settingsClickCount;
+    private boolean soundClickCount;
+    private boolean musicClickCount;
     private boolean hasGameStarted;
-    private int pauseClickCount;
-    private int chestClickCount;
+    private boolean pauseClickCount;
+    private boolean chestClickCount;
 
     public MainMenuController(){
-        settingsClickCount = 0;
-        soundClickCount = 0;
-        musicClickCount = 0;
+        settingsClickCount = false;
+        soundClickCount = false;
+        musicClickCount = false;
         hasGameStarted = false;
-        pauseClickCount = 0;
-        chestClickCount = 0;
+        pauseClickCount = false;
+        chestClickCount = false;
     }
 
 
@@ -115,7 +122,7 @@ public class MainMenuController implements Initializable {
         translate2.play();
     }
 
-    private void translateGreenOrc(){
+    private void translateGreenOrc(){ //very similar to upper function
         TranslateTransition translate3 = new TranslateTransition();
         translate3.setNode(greenOrc);
         translate3.setDelay(Duration.millis(50));
@@ -138,6 +145,7 @@ public class MainMenuController implements Initializable {
     }
 
     private void setScreen(int flag, Group screen){
+        bottomBlocker.setVisible(true);
         TranslateTransition translate5 = new TranslateTransition();
         translate5.setNode(screen);
         translate5.setDuration(Duration.millis(500));
@@ -145,6 +153,9 @@ public class MainMenuController implements Initializable {
         translate5.setAutoReverse(false);
         translate5.setInterpolator(Interpolator.EASE_BOTH);
         translate5.play();
+        translate5.setOnFinished(e->{
+            bottomBlocker.setVisible(false);
+        });
     }
 
     public void clickThrowingKnife(MouseEvent event){
@@ -172,12 +183,12 @@ public class MainMenuController implements Initializable {
     public void pressPause(MouseEvent event){
         setSideElements(soundGroup, pauseClickCount);
         setSideElements(saveAndLoadGame, pauseClickCount);
-        pauseClickCount++;
+        pauseClickCount = !pauseClickCount;
     }
 
     public void clickChest(MouseEvent event){ //will be changed later
         Image tempImage;
-        if (chestClickCount % 2 == 0){
+        if (!chestClickCount){
             tempImage = new Image("file:src/main/resources/Assets/Chests/openChest.png");
             chest.setImage(tempImage);
         }
@@ -185,18 +196,20 @@ public class MainMenuController implements Initializable {
             tempImage = new Image("file:src/main/resources/Assets/Chests/closedChest.png");
             chest.setImage(tempImage);
         }
-        chestClickCount++;
+        chestClickCount = !chestClickCount;
     }
 
     public void clickTNT(MouseEvent event){ //will be changed later
         FadeTransition fade1 = new FadeTransition();
         fade1.setNode(tnt);
-        fade1.setDuration(Duration.millis(500));
-        fade1.setCycleCount(5);
+        fade1.setDuration(Duration.millis(250));
+        fade1.setCycleCount(10);
         fade1.setFromValue(1.0);
         fade1.setToValue(0.0);
+        fade1.setInterpolator(Interpolator.LINEAR);
         fade1.play();
         fade1.setOnFinished((e1)->{
+            explosionSquare.setVisible(false);
             FadeTransition fade2 = new FadeTransition();
             tntSmoke.setVisible(true);
             fade2.setNode(tntSmoke);
@@ -208,16 +221,18 @@ public class MainMenuController implements Initializable {
             fade2.setOnFinished((e2)->{
                 tnt.setOpacity(1.0);
                 tnt.setVisible(true);
+                explosionSquare.setVisible(true);
                 tntSmoke.setVisible(false);
             });
         });
     }
 
-    private void setSideElements(Group group, int count){ //need to fix the double click bug
+    private void setSideElements(Group group, boolean count){
+        topBlocker.setVisible(true);
         TranslateTransition translate6 = new TranslateTransition();
         translate6.setNode(group);
         translate6.setDuration(Duration.millis(500));
-        if (count % 2 == 0){
+        if (!count){
             translate6.setByX(75);
         }
         else{
@@ -226,6 +241,9 @@ public class MainMenuController implements Initializable {
         translate6.setAutoReverse(false);
         translate6.setInterpolator(Interpolator.EASE_BOTH);
         translate6.play();
+        translate6.setOnFinished(e->{
+            topBlocker.setVisible(false);
+        });
     }
 
     public void exitGame(MouseEvent event){
@@ -252,7 +270,7 @@ public class MainMenuController implements Initializable {
 
     public void pressMusic(MouseEvent event){
         Image tempImage;
-        if (musicClickCount % 2 == 0){
+        if (!musicClickCount){
             tempImage = new Image("file:src/main/resources/Assets/MusicOff.png");
             musicImage.setImage(tempImage);
         }
@@ -260,12 +278,12 @@ public class MainMenuController implements Initializable {
             tempImage = new Image("file:src/main/resources/Assets/MusicOn.png");
             musicImage.setImage(tempImage);
         }
-        musicClickCount++;
+        musicClickCount = !musicClickCount;
     }
 
     public void pressSound(MouseEvent event){
         Image tempImage;
-        if (soundClickCount % 2 == 0){
+        if (!soundClickCount){
             tempImage = new Image("file:src/main/resources/Assets/mute_1.png");
             soundImage.setImage(tempImage);
         }
@@ -273,14 +291,17 @@ public class MainMenuController implements Initializable {
             tempImage = new Image("file:src/main/resources/Assets/volume_1.png");
             soundImage.setImage(tempImage);
         }
-        soundClickCount++;
+        soundClickCount = !soundClickCount;
     }
 
     public void pressLeaderboard(MouseEvent event){
         System.out.println("Leaderboard displayed!");
     }
 
-    public void pressSettings(MouseEvent event){ setSideElements(soundGroup, settingsClickCount); settingsClickCount++; }
+    public void pressSettings(MouseEvent event){
+        setSideElements(soundGroup, settingsClickCount);
+        settingsClickCount = !settingsClickCount;
+    }
 
     public void pressQuit(MouseEvent event){
         setScreen(1, quitScreen);
@@ -295,7 +316,7 @@ public class MainMenuController implements Initializable {
     }
 
     public void startGame(MouseEvent event){
-        if(settingsClickCount%2 == 1){
+        if(settingsClickCount){
             TranslateTransition translate7 = new TranslateTransition();
             translate7.setNode(soundGroup);
             translate7.setDuration(Duration.millis(500));
@@ -303,7 +324,7 @@ public class MainMenuController implements Initializable {
             translate7.setInterpolator(Interpolator.EASE_BOTH);
             translate7.setAutoReverse(false);
             translate7.play();
-            settingsClickCount++;
+            settingsClickCount = !settingsClickCount;
         }
         if (!hasGameStarted){
             tapToBegin.setVisible(false);
@@ -322,7 +343,6 @@ public class MainMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tntSmoke.setVisible(false);
         translateCloud();
         rotateBannerName();
         translateIsland(mainIsland, 2000, 15);
@@ -330,6 +350,9 @@ public class MainMenuController implements Initializable {
         translateHero();
         translateGreenOrc();
         scaleCursor();
+        tntSmoke.setVisible(false);
+        topBlocker.setVisible(false);
+        bottomBlocker.setVisible(false);
         startGameComponents.setVisible(false);
     }
 }

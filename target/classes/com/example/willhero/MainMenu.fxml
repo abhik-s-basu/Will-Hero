@@ -119,7 +119,7 @@
                   <Image url="@../../../Assets/Screenshot_2021-12-08_at_9.05.21_PM-removebg-preview.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="45.0" fitWidth="46.0" layoutY="-1.0">
+            <ImageView fitHeight="58.0" fitWidth="59.0" layoutX="-8.0" layoutY="-8.0">
                <image>
                   <Image url="@../../../Assets/settings-removebg-preview.png" />
                </image>
@@ -137,7 +137,7 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="75.0" layoutX="-8.0" layoutY="598.0" onMouseClicked="#pressLoadGame" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="84.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="69.0" layoutX="113.0" layoutY="598.0" onMouseClicked="#pressLeaderboard" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="84.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="69.0" layoutX="233.0" layoutY="598.0" onMouseClicked="#pressQuit" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="84.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="64.0" layoutX="-19.0" layoutY="-17.0" onMouseClicked="#pressSettings" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="73.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="71.0" layoutX="-19.0" layoutY="-17.0" onMouseClicked="#pressSettings" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="76.0" />
          </children>
       </Group>
       <Group fx:id="startGameComponents" layoutX="79.0" layoutY="38.0">
@@ -173,7 +173,7 @@
          </children>
       </Group>
       <ImageView fitHeight="415.0" fitWidth="326.0" layoutX="-9.0" layoutY="169.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true" />
-      <Group fx:id="saveAndLoadGame" layoutX="-61.0" layoutY="138.0">
+      <Group fx:id="saveAndLoadGame" layoutX="-66.0" layoutY="138.0">
          <children>
             <ImageView fitHeight="76.0" fitWidth="43.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -195,7 +195,7 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="43.0" layoutX="-16.0" layoutY="103.0" onMouseClicked="#clickBackToMainMenu" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="65.0" />
          </children>
       </Group>
-      <Group fx:id="soundGroup" layoutX="-47.0" layoutY="73.0">
+      <Group fx:id="soundGroup" layoutX="-53.0" layoutY="73.0">
          <children>
             <ImageView fx:id="soundImage" fitHeight="69.0" fitWidth="35.0" layoutX="-10.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -207,10 +207,17 @@
                   <Image url="@../../../Assets/MusicOn.png" />
                </image>
             </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="-25.0" layoutY="-21.0" onMouseClicked="#pressSound" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="62.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="41.0" layoutX="-26.0" layoutY="23.0" onMouseClicked="#pressMusic" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="63.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="-25.0" layoutY="-21.0" onMouseClicked="#pressSound" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="41.0" layoutX="-26.0" layoutY="23.0" onMouseClicked="#pressMusic" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="58.0" />
          </children>
       </Group>
+      <Rectangle fx:id="bottomBlocker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="67.0" layoutX="-2.0" layoutY="596.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="314.0" />
+      <Rectangle fx:id="topBlocker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="291.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="79.0" />
+      <ImageView fx:id="explosionSquare" fitHeight="41.0" fitWidth="42.0" layoutX="255.0" layoutY="170.5" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Assets/WhiteSquare.png" />
+         </image>
+      </ImageView>
       <ImageView fx:id="tnt" fitHeight="80.0" fitWidth="42.0" layoutX="255.0" layoutY="171.0" onMouseClicked="#clickTNT" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../Assets/TNT.png" />
