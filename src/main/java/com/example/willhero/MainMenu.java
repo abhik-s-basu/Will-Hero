@@ -1,5 +1,5 @@
 package com.example.willhero;
 
-public class MainMenu {
+public class MainMenu implements Screen {
 
 }

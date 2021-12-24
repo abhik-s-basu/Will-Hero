@@ -12,6 +12,8 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import javafx.scene.shape.Rectangle;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Point2D;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -112,26 +114,26 @@ public class MainMenuController implements Initializable {
         translate1.play();
     }
 
-    private void translateHero(){
-        TranslateTransition translate2 = new TranslateTransition();
-        translate2.setNode(hero);
-        translate2.setDuration(Duration.millis(550));
-        translate2.setCycleCount(TranslateTransition.INDEFINITE);
-        translate2.setByY(-60);
-        translate2.setAutoReverse(true);
-        translate2.play();
-    }
+//    private void translateHero(){
+//        TranslateTransition translate2 = new TranslateTransition();
+//        translate2.setNode(hero);
+//        translate2.setDuration(Duration.millis(550));
+//        translate2.setCycleCount(TranslateTransition.INDEFINITE);
+//        translate2.setByY(-60);
+//        translate2.setAutoReverse(true);
+//        translate2.play();
+//    }
 
-    private void translateGreenOrc(){ //very similar to upper function
-        TranslateTransition translate3 = new TranslateTransition();
-        translate3.setNode(greenOrc);
-        translate3.setDelay(Duration.millis(50));
-        translate3.setDuration(Duration.millis(700));
-        translate3.setCycleCount(TranslateTransition.INDEFINITE);
-        translate3.setByY(-75);
-        translate3.setAutoReverse(true);
-        translate3.play();
-    }
+//    private void translateGreenOrc(){ //very similar to upper function
+//        TranslateTransition translate3 = new TranslateTransition();
+//        translate3.setNode(greenOrc);
+//        translate3.setDelay(Duration.millis(50));
+//        translate3.setDuration(Duration.millis(700));
+//        translate3.setCycleCount(TranslateTransition.INDEFINITE);
+//        translate3.setByY(-75);
+//        translate3.setAutoReverse(true);
+//        translate3.play();
+//    }
 
     private void scaleCursor(){
         ScaleTransition scale = new ScaleTransition();
@@ -271,7 +273,7 @@ public class MainMenuController implements Initializable {
     public void pressMusic(MouseEvent event){
         Image tempImage;
         if (!musicClickCount){
-            tempImage = new Image("file:src/main/resources/Assets/MusicOff.png");
+            tempImage = new Image("file:src/main/resources/Assets/MusicOff.png");//needs to be edited later
             musicImage.setImage(tempImage);
         }
         else{
@@ -312,6 +314,7 @@ public class MainMenuController implements Initializable {
     }
 
     public void playGame(){
+
         System.out.println("Game has begun!");
     }
 
@@ -347,8 +350,9 @@ public class MainMenuController implements Initializable {
         rotateBannerName();
         translateIsland(mainIsland, 2000, 15);
         translateIsland(floatingIsland, 5000, 25);
-        translateHero();
-        translateGreenOrc();
+//        translateHero();
+//        translateGreenOrc();
+        setAnimateListener
         scaleCursor();
         tntSmoke.setVisible(false);
         topBlocker.setVisible(false);

@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StartMenu extends Application {
+public class StartMenu extends Application implements Screen {
 
     @Override
     public void start(Stage stage) throws IOException {
