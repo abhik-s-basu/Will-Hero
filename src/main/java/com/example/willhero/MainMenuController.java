@@ -12,8 +12,6 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import javafx.scene.shape.Rectangle;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Point2D;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -339,6 +337,7 @@ public class MainMenuController implements Initializable {
             hasGameStarted = true;
         }
         else{
+
             playGame();
         }
 
@@ -352,7 +351,7 @@ public class MainMenuController implements Initializable {
         translateIsland(floatingIsland, 5000, 25);
 //        translateHero();
 //        translateGreenOrc();
-        setAnimateListener
+//        setAnimateListener?
         scaleCursor();
         tntSmoke.setVisible(false);
         topBlocker.setVisible(false);

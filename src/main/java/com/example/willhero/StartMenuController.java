@@ -34,12 +34,15 @@ public class StartMenuController implements  Initializable  {
 
 
     public void gotoStartMenu(MouseEvent event) throws IOException{
-        root= FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+//        root= FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+//        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage)  clickToStart.getScene().getWindow();
+        MainMenu mm = new MainMenu();
+        mm.start(stage);
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.setResizable(false);
+//        stage.show();
     }
 
 
