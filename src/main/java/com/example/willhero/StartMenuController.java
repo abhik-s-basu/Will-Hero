@@ -31,21 +31,17 @@ public class StartMenuController implements  Initializable  {
     private Scene scene;
     private Parent root;
 
-
-
     public void gotoStartMenu(MouseEvent event) throws IOException{
 //        root= FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
 //        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Stage stage = (Stage)  clickToStart.getScene().getWindow();
         MainMenu mm = new MainMenu();
-        mm.start(stage);
+        mm.startMenu(stage);
 //        scene = new Scene(root);
 //        stage.setScene(scene);
 //        stage.setResizable(false);
 //        stage.show();
     }
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

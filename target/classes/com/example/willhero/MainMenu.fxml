@@ -12,22 +12,22 @@
    <children>
       <Group fx:id="cloud" layoutX="-375.0" layoutY="10.0">
          <children>
-            <ImageView fx:id="cloud2" fitHeight="50.0" fitWidth="98.0" layoutX="64.0">
+            <ImageView fitHeight="50.0" fitWidth="98.0" layoutX="64.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_3.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud3" fitHeight="30.0" fitWidth="64.0" layoutX="140.0" layoutY="163.0">
+            <ImageView fitHeight="30.0" fitWidth="64.0" layoutX="140.0" layoutY="163.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_4.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud1" fitHeight="36.0" fitWidth="70.0" layoutX="-28.0" layoutY="99.0">
+            <ImageView fitHeight="36.0" fitWidth="70.0" layoutX="-28.0" layoutY="99.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cloud4" fitHeight="70.0" fitWidth="151.0" layoutX="218.0" layoutY="5.0">
+            <ImageView fitHeight="70.0" fitWidth="151.0" layoutX="218.0" layoutY="5.0">
                <image>
                   <Image url="@../../../Assets/Clouds/Cloud_2.png" />
                </image>
@@ -44,11 +44,30 @@
             <Image url="@../../../Assets/coins-removebg-preview.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="101.0" fitWidth="166.0" layoutX="155.0" layoutY="211.0" opacity="0.83" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Assets/Islands/T_Islands_02.png" />
-         </image>
-      </ImageView>
+      <Group fx:id="floatingIsland2">
+         <children>
+            <ImageView fitHeight="101.0" fitWidth="166.0" layoutX="155.0" layoutY="211.0" opacity="0.83" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Assets/Islands/T_Islands_02.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="255.0" layoutY="170.5" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Assets/WhiteSquare.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="80.0" fitWidth="42.0" layoutX="255.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Assets/TNT.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="33.0" fitWidth="52.0" layoutX="178.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Assets/Chests/closedChest.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
       <Group fx:id="mainIsland" layoutX="150.0" layoutY="484.0">
          <children>
             <ImageView fitHeight="137.0" fitWidth="56.0" layoutX="26.0" layoutY="-175.0" opacity="0.84">
@@ -107,7 +126,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="toHideComponents">
+      <Group>
          <children>
             <ImageView fitHeight="60.0" fitWidth="311.0" layoutY="598.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -124,7 +143,7 @@
                   <Image url="@../../../Assets/settings-removebg-preview.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="gameStats" fitHeight="48.0" fitWidth="62.0" layoutX="125.0" layoutY="605.0">
+            <ImageView fitHeight="48.0" fitWidth="62.0" layoutX="125.0" layoutY="605.0">
                <image>
                   <Image url="@../../../Assets/leaderboard-removebg-preview.png" />
                </image>
@@ -138,61 +157,6 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="69.0" layoutX="113.0" layoutY="598.0" onMouseClicked="#pressLeaderboard" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="84.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="69.0" layoutX="233.0" layoutY="598.0" onMouseClicked="#pressQuit" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="84.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="71.0" layoutX="-19.0" layoutY="-17.0" onMouseClicked="#pressSettings" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="76.0" />
-         </children>
-      </Group>
-      <Group fx:id="startGameComponents" layoutX="79.0" layoutY="38.0">
-         <children>
-            <Text fill="#ff66c4" layoutX="73.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="12.685958862304688">
-               <font>
-                  <Font name="Comic Sans MS" size="26.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="50.0" fitWidth="223.0" layoutX="-35.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/progressBar.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#afd8ff" height="43.0" layoutX="98.0" layoutY="555.0" onMouseClicked="#clickThrowingKnife" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="43.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#afd8ff" height="43.0" layoutX="171.0" layoutY="555.0" onMouseClicked="#clickThrowingAxe" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="43.0" />
-            <ImageView fitHeight="36.0" fitWidth="20.0" layoutX="182.0" layoutY="559.0" onMouseClicked="#clickThrowingAxe" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/Throwing%20Axes/ThrowingAxeNew.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="8.0" layoutX="115.0" layoutY="558.0" onMouseClicked="#clickThrowingKnife" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/Throwing%20Knives/ThrowingKnife2.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="48.0" fitWidth="50.0" layoutX="-70.0" layoutY="-32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/Pause.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="57.0" layoutX="-86.0" layoutY="-41.0" onMouseClicked="#pressPause" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="79.0" />
-         </children>
-      </Group>
-      <ImageView fitHeight="415.0" fitWidth="326.0" layoutX="-9.0" layoutY="169.0" onMouseClicked="#startGame" pickOnBounds="true" preserveRatio="true" />
-      <Group fx:id="saveAndLoadGame" layoutX="-66.0" layoutY="138.0">
-         <children>
-            <ImageView fitHeight="76.0" fitWidth="43.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/BackToMainMenu.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="49.0" fitWidth="39.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/saveGame.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="61.0" fitWidth="42.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/LoadGame.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="49.0" layoutX="-16.0" layoutY="1.0" onMouseClicked="#clickSaveGame" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="65.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="51.0" layoutX="-17.0" layoutY="52.0" onMouseClicked="#pressLoadGame" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="66.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="43.0" layoutX="-16.0" layoutY="103.0" onMouseClicked="#clickBackToMainMenu" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="65.0" />
          </children>
       </Group>
       <Group fx:id="soundGroup" layoutX="-53.0" layoutY="73.0">
@@ -212,27 +176,7 @@
          </children>
       </Group>
       <Rectangle fx:id="bottomBlocker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="67.0" layoutX="-2.0" layoutY="596.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="314.0" />
-      <Rectangle fx:id="topBlocker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="291.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="79.0" />
-      <ImageView fx:id="explosionSquare" fitHeight="41.0" fitWidth="42.0" layoutX="255.0" layoutY="170.5" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Assets/WhiteSquare.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="tnt" fitHeight="80.0" fitWidth="42.0" layoutX="255.0" layoutY="171.0" onMouseClicked="#clickTNT" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Assets/TNT.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="chest" fitHeight="33.0" fitWidth="52.0" layoutX="178.0" layoutY="179.0" onMouseClicked="#clickChest" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Assets/Chests/closedChest.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="tntSmoke" fitHeight="186.0" fitWidth="233.0" layoutX="184.0" layoutY="102.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Assets/TNT_smoke-removebg-preview.png" />
-         </image>
-      </ImageView>
+      <Rectangle fx:id="topBlocker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="154.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="79.0" />
       <Group fx:id="savedGameScreen" layoutX="47.5" layoutY="771.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="919.0" layoutX="-141.0" layoutY="-85.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="505.0" />
