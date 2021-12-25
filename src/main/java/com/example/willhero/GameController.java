@@ -1,13 +1,17 @@
 package com.example.willhero;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -16,6 +20,8 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
@@ -76,11 +82,22 @@ public class GameController implements Initializable {
     private boolean soundClickCount;
     private boolean musicClickCount;
 
+    private HashMap<KeyCode, Boolean> keys;
+    private ArrayList<Node> islands;
+    private Point2D heroVelocity;
+    private boolean canJump;
+    private AnimationTimer timer;
+
+
     public GameController(){
         chestClickCount = false;
         pauseClickCount = false;
         soundClickCount = false;
         musicClickCount = false;
+        canJump = true;
+        keys = new HashMap<KeyCode, Boolean>();
+        islands = new ArrayList<Node>();
+        heroVelocity = new Point2D(0,0);
     }
 
     private void translateCloud(){
@@ -155,6 +172,7 @@ public class GameController implements Initializable {
         Stage stage = (Stage)  hero.getScene().getWindow();
         MainMenu mm = new MainMenu();
         mm.startMenu(stage, soundClickCount, musicClickCount);
+        timer.stop();
     }
 
      public void clickSaveGame(MouseEvent event) {
@@ -244,6 +262,63 @@ public class GameController implements Initializable {
         });
     }
 
+    private boolean isPressed(KeyCode key){
+        return keys.getOrDefault(key, false);
+    }
+
+    private void update(){
+        jumpHero();
+        if (isPressed(KeyCode.SPACE) && hero.getTranslateX() <= 1000) { //1000 needs to be changed
+            movePlayerX(50);
+        }
+        if (heroVelocity.getY() < 100){
+            heroVelocity = heroVelocity.add(0, 1);
+//            System.out.println(heroVelocity.getY());
+        }
+        movePlayerY((int) heroVelocity.getY());
+    }
+
+    private void movePlayerY(int displacement){
+        for (int i = 0; i < Math.abs(displacement); i++){
+            if (hero.getBoundsInParent().intersects(Island1.getBoundsInParent())) {
+                if (displacement > 0) {
+                    if (hero.getTranslateY() == Island1.getTranslateY()) {
+                        hero.setTranslateY(hero.getTranslateY() - 1);
+                        canJump = true;
+                        return;
+                    }
+                }
+            }
+        }
+        hero.setTranslateY(hero.getTranslateY() + ((displacement > 0) ? 1 : -1));
+    }
+
+    private void jumpHero(){
+        if (canJump){
+            heroVelocity = heroVelocity.add(0,-100);
+            canJump = false;
+        }
+    }
+
+
+    private void movePlayerX(int displacement){
+        for (int i = 0; i < Math.abs(displacement); i++){
+            if (hero.getBoundsInParent().intersects(greenOrc.getBoundsInParent())) {
+                if (displacement > 0) {
+                    if (hero.getTranslateX() + 29 == greenOrc.getTranslateX()) {
+                        return;
+                    }
+                } else {
+                    if (hero.getTranslateX() == greenOrc.getTranslateX() + 33) {
+                        return;
+                    }
+                }
+            }
+        }
+        double l = hero.getTranslateX() + ((displacement > 0) ? 1 : -1);
+        hero.setTranslateX(l);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         translateCloud();
@@ -253,5 +328,17 @@ public class GameController implements Initializable {
 //        translateHero();
 //        translateGreenOrc();
         topBlocker.setVisible(false);
+
+//        hero.getScene().setOnKeyPressed(e -> keys.put(e.getCode(), true));
+//        hero.getScene().setOnKeyReleased(e -> keys.put(e.getCode(), false));
+
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                update();
+            }
+        };
+        timer.start();
+
     }
 }

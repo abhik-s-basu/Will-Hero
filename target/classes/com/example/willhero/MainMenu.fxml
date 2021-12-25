@@ -68,16 +68,30 @@
             </ImageView>
          </children>
       </Group>
+      <Group fx:id="floatingIsland" layoutX="5.0" layoutY="201.0">
+         <children>
+            <ImageView fitHeight="43.0" fitWidth="66.0" layoutY="2.0">
+               <image>
+                  <Image url="@../../../Assets/Towers/5.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="57.0" fitWidth="122.0" layoutY="43.0" opacity="0.83">
+               <image>
+                  <Image url="@../../../Assets/Islands/T_Islands_02.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="50.0" fitWidth="44.0" layoutX="78.0" layoutY="-6.0">
+               <image>
+                  <Image url="@../../../Assets/Trees/Tree2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
       <Group fx:id="mainIsland" layoutX="150.0" layoutY="484.0" onMouseClicked="#startGame">
          <children>
             <ImageView fitHeight="137.0" fitWidth="56.0" layoutX="26.0" layoutY="-175.0" opacity="0.84">
                <image>
                   <Image url="@../../../Assets/Towers/2.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="hero" fitHeight="27.0" fitWidth="29.0" layoutX="-115.0" layoutY="-67.0">
-               <image>
-                  <Image url="@../../../Assets/Knight.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="128.0" fitWidth="283.0" layoutX="-132.0" layoutY="-40.0">
@@ -95,33 +109,19 @@
                   <Image url="@../../../Assets/HandTap.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="greenOrc" fitHeight="33.0" fitWidth="35.0" layoutX="102.0" layoutY="-72.0">
-               <image>
-                  <Image url="@../../../Assets/Orks/3%20%2352073.png" />
-               </image>
-            </ImageView>
             <ImageView fitHeight="74.0" fitWidth="36.0" layoutX="-40.0" layoutY="-113.0" opacity="0.8">
                <image>
                   <Image url="@../../../Assets/Trees/Tree5.png" />
                </image>
             </ImageView>
-         </children>
-      </Group>
-      <Group fx:id="floatingIsland" layoutX="5.0" layoutY="201.0">
-         <children>
-            <ImageView fitHeight="43.0" fitWidth="66.0" layoutY="2.0">
+            <ImageView fx:id="greenOrc" fitHeight="33.0" fitWidth="33.0" layoutX="102.0" layoutY="-72.0">
                <image>
-                  <Image url="@../../../Assets/Towers/5.png" />
+                  <Image url="@../../../Assets/Orks/3%20%2352073.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="57.0" fitWidth="122.0" layoutY="43.0" opacity="0.83">
+            <ImageView fx:id="hero" fitHeight="29.0" fitWidth="29.0" layoutX="-115.0" layoutY="-68.0">
                <image>
-                  <Image url="@../../../Assets/Islands/T_Islands_02.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="50.0" fitWidth="44.0" layoutX="78.0" layoutY="-6.0">
-               <image>
-                  <Image url="@../../../Assets/Trees/Tree2.png" />
+                  <Image url="@../../../Assets/Knight.png" />
                </image>
             </ImageView>
          </children>
