@@ -10,9 +10,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -69,13 +71,11 @@ public class MainMenuController implements Initializable {
     private boolean settingsClickCount;
     private boolean soundClickCount;
     private boolean musicClickCount;
-    private boolean hasGameStarted;
 
     public MainMenuController(){
         settingsClickCount = false;
         soundClickCount = false;
         musicClickCount = false;
-        hasGameStarted = false;
     }
 
 
@@ -211,7 +211,7 @@ public class MainMenuController implements Initializable {
         musicClickCount = !musicClickCount;
     }
 
-    public void pressSound(MouseEvent event){
+    private void pressSound(){
         Image tempImage;
         if (!soundClickCount){
             tempImage = new Image("file:src/main/resources/Assets/mute_1.png");
@@ -221,6 +221,10 @@ public class MainMenuController implements Initializable {
         }
         soundImage.setImage(tempImage);
         soundClickCount = !soundClickCount;
+    }
+
+    public void pressSound(MouseEvent event){
+        pressSound();
     }
 
     public void pressLeaderboard(MouseEvent event){
@@ -240,33 +244,17 @@ public class MainMenuController implements Initializable {
         setScreen(1, savedGameScreen);
     }
 
-    public void playGame(){
-        System.out.println("Game has begun!");
+    public void setSound(boolean sound){
+        if (sound){
+            pressSound();
+        }
     }
 
-    public void startGame(MouseEvent event){
-        if(settingsClickCount){
-            TranslateTransition translate7 = new TranslateTransition();
-            translate7.setNode(soundGroup);
-            translate7.setDuration(Duration.millis(500));
-            translate7.setByX(-75);
-            translate7.setInterpolator(Interpolator.EASE_BOTH);
-            translate7.setAutoReverse(false);
-            translate7.play();
-            settingsClickCount = !settingsClickCount;
-        }
-        if (!hasGameStarted){
-            tapToBegin.setVisible(false);
-            cursor.setVisible(false);
-            bannerName.setVisible(false);
-            System.out.println("Start Game!");
-            hasGameStarted = true;
-        }
-        else{
-
-            playGame();
-        }
-
+    public void startGame(MouseEvent event) throws IOException{
+        System.out.println("Game has begun!");
+        Stage stage = (Stage)  bannerName.getScene().getWindow();
+        Game game = new Game();
+        game.startGame(stage, 5.0, soundClickCount, musicClickCount);
     }
 
     @Override
@@ -275,7 +263,7 @@ public class MainMenuController implements Initializable {
         rotateBannerName();
         translateIsland(mainIsland, 2000, 15);
         translateIsland(floatingIsland, 5000, 25);
-        translateIsland(floatingIsland2, 4000, 30);
+        translateIsland(floatingIsland2, 4000, 10);
         translateHero();
         translateGreenOrc();
         scaleCursor();

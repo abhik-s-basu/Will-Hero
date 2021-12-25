@@ -36,7 +36,7 @@ public class StartMenuController implements  Initializable  {
 //        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Stage stage = (Stage)  clickToStart.getScene().getWindow();
         MainMenu mm = new MainMenu();
-        mm.startMenu(stage);
+        mm.startMenu(stage, false, false);
 //        scene = new Scene(root);
 //        stage.setScene(scene);
 //        stage.setResizable(false);

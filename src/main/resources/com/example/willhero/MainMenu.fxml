@@ -68,7 +68,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="mainIsland" layoutX="150.0" layoutY="484.0">
+      <Group fx:id="mainIsland" layoutX="150.0" layoutY="484.0" onMouseClicked="#startGame">
          <children>
             <ImageView fitHeight="137.0" fitWidth="56.0" layoutX="26.0" layoutY="-175.0" opacity="0.84">
                <image>

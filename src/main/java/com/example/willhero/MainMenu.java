@@ -1,6 +1,5 @@
 package com.example.willhero;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -15,16 +14,14 @@ public class MainMenu implements Screen {
     Pane playField;
     Scene scene;
 
-    public void startMenu(Stage primaryStage) throws IOException {
-        System.out.println("here!!!");
+    public void startMenu(Stage primaryStage, boolean sound, boolean music) throws IOException {
         primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
         mainMenuPane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-        playField = new Pane();
-        playField.setPrefSize(310,657);
+//        playField = new Pane();
+//        playField.setPrefSize(310,657);
 //        mainMenuPane.getChildren().addAll(playField);
         scene = new Scene(mainMenuPane,310,657);
         primaryStage.setScene(scene);
-        System.out.println("here part 2");
         primaryStage.show();
     }
 }
