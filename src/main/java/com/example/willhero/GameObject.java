@@ -1,5 +1,8 @@
 package com.example.willhero;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public abstract class GameObject {
     private double xCoordinate;
     private double yCoordinate;
@@ -8,8 +11,12 @@ public abstract class GameObject {
     private double length;
     private double breadth;
     private boolean moves;
+    private  String imageURL;
+    private  Image image;
+    private  ImageView imageView;
 
-    GameObject(double x,double y,double _xSpeed , double _ySpeed , double length, double breadth,boolean moves){
+    GameObject(double x,double y,double _xSpeed , double _ySpeed , double length,
+               double breadth,boolean moves, String imageURL){
         this.xCoordinate = x;
         this.yCoordinate = y;
         this.xSpeed = _xSpeed;
@@ -17,6 +24,17 @@ public abstract class GameObject {
         this.length = length;
         this.breadth = breadth;
         this.moves = moves;
+        this.imageURL = imageURL;
+    }
+    public void display(){
+        image = new Image(imageURL);
+        imageView = new ImageView(image);
+        imageView.setX(xCoordinate);
+        imageView.setY(yCoordinate);
+        imageView.setFitHeight(length);
+        imageView.setFitWidth(breadth);
+        imageView.setPreserveRatio(true);
+
     }
     public double getX(){
         return this.xCoordinate;
@@ -61,5 +79,9 @@ public abstract class GameObject {
     public void setBreadth(double breadth) {
         this.breadth = breadth;
     }
+    public boolean isMoving(){
+        return this.moves;
+    }
+    public void movement(){};
 
 }
