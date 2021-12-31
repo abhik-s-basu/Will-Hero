@@ -258,7 +258,8 @@ public class MainMenuController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle) { //need to do the space thingie
+        //to start game, press space and not click on the cursor
         translateCloud();
         rotateBannerName();
         translateIsland(mainIsland, 2000, 15);

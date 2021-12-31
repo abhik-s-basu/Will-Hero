@@ -1,5 +1,7 @@
 package com.example.willhero;
 
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -26,7 +28,7 @@ public abstract class GameObject {
         this.moves = moves;
         this.imageURL = imageURL;
     }
-    public void display(){
+    public Node display(){
         image = new Image(imageURL);
         imageView = new ImageView(image);
         imageView.setX(xCoordinate);
@@ -34,7 +36,7 @@ public abstract class GameObject {
         imageView.setFitHeight(length);
         imageView.setFitWidth(breadth);
         imageView.setPreserveRatio(true);
-
+        return imageView;
     }
     public double getX(){
         return this.xCoordinate;

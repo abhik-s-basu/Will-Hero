@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="657.0" maxWidth="310.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.MainMenuController">
+<AnchorPane maxHeight="657.0" maxWidth="310.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="478.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.MainMenuController">
    <children>
       <Group fx:id="cloud" layoutX="-375.0" layoutY="10.0">
          <children>

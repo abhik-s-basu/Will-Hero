@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -77,6 +78,9 @@ public class GameController implements Initializable {
     @FXML
     private Rectangle topBlocker;
 
+    @FXML
+    private Rectangle tempClicker;
+
     private boolean chestClickCount;
     private boolean pauseClickCount;
     private boolean soundClickCount;
@@ -85,8 +89,11 @@ public class GameController implements Initializable {
     private HashMap<KeyCode, Boolean> keys;
     private ArrayList<Node> islands;
     private Point2D heroVelocity;
+    private Point2D orcVelocity;
     private boolean canJump;
+    private boolean canJumpOrc;
     private AnimationTimer timer;
+    private double gravity;
 
 
     public GameController(){
@@ -94,10 +101,13 @@ public class GameController implements Initializable {
         pauseClickCount = false;
         soundClickCount = false;
         musicClickCount = false;
-        canJump = true;
+        canJump = false;
+        canJumpOrc = false;
         keys = new HashMap<KeyCode, Boolean>();
         islands = new ArrayList<Node>();
         heroVelocity = new Point2D(0,0);
+        orcVelocity = new Point2D(0,0);
+        gravity = 0.25;
     }
 
     private void translateCloud(){
@@ -120,8 +130,6 @@ public class GameController implements Initializable {
         translate1.setAutoReverse(true);
         translate1.play();
     }
-
-
 
     public void clickChest(MouseEvent event){ //will be changed later
         Image tempImage;
@@ -175,7 +183,7 @@ public class GameController implements Initializable {
         timer.stop();
     }
 
-     public void clickSaveGame(MouseEvent event) {
+    public void clickSaveGame(MouseEvent event) {
         System.out.println("Game Saved"); //need to do
     }
 
@@ -268,77 +276,101 @@ public class GameController implements Initializable {
 
     private void update(){
         jumpHero();
-        if (isPressed(KeyCode.SPACE) && hero.getTranslateX() <= 1000) { //1000 needs to be changed
-            movePlayerX(50);
-        }
-        if (heroVelocity.getY() < 100){
-            heroVelocity = heroVelocity.add(0, 1);
-//            System.out.println(heroVelocity.getY());
-        }
-        movePlayerY((int) heroVelocity.getY());
-    }
-
-    private void movePlayerY(int displacement){
-        for (int i = 0; i < Math.abs(displacement); i++){
-            if (hero.getBoundsInParent().intersects(Island1.getBoundsInParent())) {
-                if (displacement > 0) {
-                    if (hero.getTranslateY() == Island1.getTranslateY()) {
-                        hero.setTranslateY(hero.getTranslateY() - 1);
-                        canJump = true;
-                        return;
-                    }
+        jumpOrc();
+        tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e) {
+                if (hero.getTranslateX() <= 1000) { //1000 needs to be changed
+                    movePlayerX(50, hero); //40ms (change to 1s) this is moving 50
                 }
             }
+        });
+
+        if (heroVelocity.getY() < 9){
+            heroVelocity = heroVelocity.add(0, gravity); //v = u + at
+//            System.out.println(hero.getTranslateY());
         }
-        hero.setTranslateY(hero.getTranslateY() + ((displacement > 0) ? 1 : -1));
+        if (orcVelocity.getY() < 9){
+            orcVelocity = orcVelocity.add(0, gravity); //v = u + at
+//            System.out.println(hero.getTranslateY());
+        }
+        movePlayerY((int) heroVelocity.getY(), hero);
+        movePlayerY((int) orcVelocity.getY(), greenOrc);
     }
 
-    private void jumpHero(){
-        if (canJump){
-            heroVelocity = heroVelocity.add(0,-100);
-            canJump = false;
-        }
-    }
+    //s = ut + 1/2*at^2
+    //v = u + at
 
-
-    private void movePlayerX(int displacement){
-        for (int i = 0; i < Math.abs(displacement); i++){
+    private void movePlayerX(int XVelocity, Node node){
+        for (int i = 0; i < Math.abs(XVelocity); i++){
+            System.out.println(hero.getTranslateX() + 29 + " " + greenOrc.getTranslateX());
             if (hero.getBoundsInParent().intersects(greenOrc.getBoundsInParent())) {
-                if (displacement > 0) {
-                    if (hero.getTranslateX() + 29 == greenOrc.getTranslateX()) {
+                System.out.println("Collision");
+                if (XVelocity > 0) {
+                    XVelocity = -XVelocity;
+                    //move orc
+                    if (hero.getTranslateX() - 218 == greenOrc.getTranslateX()) {
+                        System.out.println("COLLIDED");
                         return;
                     }
                 } else {
                     if (hero.getTranslateX() == greenOrc.getTranslateX() + 33) {
+                        System.out.println("COLLided");
                         return;
                     }
                 }
             }
+            hero.setTranslateX(hero.getTranslateX() + ((XVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
         }
-        double l = hero.getTranslateX() + ((displacement > 0) ? 1 : -1);
-        hero.setTranslateX(l);
+    }
+
+    private void movePlayerY(int YVelocity, Node node){
+        for (int i = 0; i < Math.abs(YVelocity); i++){
+            if (node.getBoundsInParent().intersects(Island1.getBoundsInParent())) {
+                if (YVelocity > 0) {
+                    if (node.getTranslateY() == Island1.getTranslateY()) {
+                        if(node == hero){
+                            canJump = true;
+                        }
+                        else if (node == greenOrc){
+                            canJumpOrc = true;
+                        }
+                        return;
+                    }
+                }
+            }
+            node.setTranslateY(node.getTranslateY() + ((YVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
+        }
+    }
+
+
+    private void jumpHero(){ //in hero
+        if (canJump){
+            heroVelocity = heroVelocity.add(0,-7.5);
+            canJump = false;
+        }
+    }
+
+    private void jumpOrc(){ //in orc
+        if (canJumpOrc){
+            orcVelocity = orcVelocity.add(0,-6.9);
+            canJumpOrc = false;
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         translateCloud();
-        translateIsland(mainIsland, 2000, 15);
+        translateIsland(mainIsland, 2000, 15); //for i in islands
         translateIsland(floatingIsland, 5000, 25);
         translateIsland(floatingIsland2, 4000, 10);
-//        translateHero();
-//        translateGreenOrc();
-        topBlocker.setVisible(false);
+        topBlocker.setVisible(false); //pause menu
 
-//        hero.getScene().setOnKeyPressed(e -> keys.put(e.getCode(), true));
-//        hero.getScene().setOnKeyReleased(e -> keys.put(e.getCode(), false));
-
-        timer = new AnimationTimer() {
+        timer = new AnimationTimer() { //40ms
             @Override
             public void handle(long now) {
                 update();
             }
         };
         timer.start();
-
     }
 }

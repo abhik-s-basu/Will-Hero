@@ -24,7 +24,6 @@ public class StartMenu extends Application implements Screen {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) {

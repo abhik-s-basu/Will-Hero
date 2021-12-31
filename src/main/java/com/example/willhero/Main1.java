@@ -118,8 +118,7 @@ public class Main1 extends Application {
                         if (player.getTranslateX() + 40 == platform.getTranslateX()) {
                             return;
                         }
-                    }
-                    else {
+                    } else {
                         if (player.getTranslateX() == platform.getTranslateX() + 60) {
                             return;
                         }
@@ -150,6 +149,7 @@ public class Main1 extends Application {
                     }
                 }
             }
+            System.out.println(player.getTranslateY() + (movingDown ? 1 : -1));
             player.setTranslateY(player.getTranslateY() + (movingDown ? 1 : -1));
         }
     }
