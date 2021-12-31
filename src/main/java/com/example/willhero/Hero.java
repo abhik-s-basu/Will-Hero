@@ -5,15 +5,15 @@ public class Hero extends GameObject{
     private int heroNoOfJumps = 0;
 //    private int heroHeight;
     private Weapon currWeapon = null;
-    private boolean isRessurected = false;
+    private boolean isResurrected = false;
     private boolean isAlive;
-    private Game currGame;
+    private Game curGame;
 //    Hero (Helmet helmet, Game game, double x, double y,
 //          String imageURL)
-      Hero(double x, double y, String imageURL){
+      Hero(double x, double y, Game game, String imageURL){
         super(x,y,50,0,29,29,true,imageURL);
 //        this.helmet = helmet;
-//        this.currGame = game;
+        this.curGame = game;
 //        this.display();// super mein hi daldenge
     }
     public void resurrect(){
@@ -23,34 +23,19 @@ public class Hero extends GameObject{
         //code tbd
     }
     public void jumpInPlace() {
-        if (isMoving()) {
-            setYSpeed(getYSpeed() - 7.5);
-            setMoving(false);
-        }
         for (int i = 0; i < Math.abs(getYSpeed()); i++) {
-//            if (node.getBoundsInParent().intersects(Island1.getBoundsInParent())) {
-//                if (YVelocity > 0) {
-//                    if (node.getTranslateY() == Island1.getTranslateY()) {
-//                        if(node == hero){
-//                            canJump = true;
-//                        }
-//                        else if (node == greenOrc){
-//                            canJumpOrc = true;
-//                        }
-//                        return;
-//                    }
-//                }
-//            }
+            if (curGame.checkCollision(this, getYSpeed())){
+                setYSpeed(getYSpeed() - 15);
+                System.out.println("flsmlfcms");
+            }
             getNode().setTranslateY(getNode().getTranslateY() + ((getYSpeed() > 0) ? 1 : -1)); //s = ut + 1/2 at^2
         }
     }
+
     public void jumpForward(){
-        System.out.println("here");
-        for (int i = 0; i < Math.abs(getXSpeed()); i++){
-            getNode().setTranslateX(getNode().getTranslateX() + ((getXSpeed() > 0) ? 1 : -1)); //s = ut + 1/2 at^2
-        }
+        //screen moving back;
     }
-    public void swapWeaapon(){
+    public void swapWeapon(){
         //code tbd
     }
     public void openChest(){
@@ -59,8 +44,8 @@ public class Hero extends GameObject{
     public boolean isAlive(){
         return this.isAlive;
     }
-    public boolean isRessurected(){
-        return this.isRessurected;
+    public boolean isResurrected(){
+        return this.isResurrected;
     }
     public void useWeapon(){
         //code tbd

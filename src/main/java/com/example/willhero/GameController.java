@@ -4,7 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -12,7 +11,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -22,7 +20,6 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
@@ -86,7 +83,6 @@ public class GameController implements Initializable {
     private boolean soundClickCount;
     private boolean musicClickCount;
 
-//    private HashMap<KeyCode, Boolean> keys;
     private ArrayList<Node> islands;
     private Point2D heroVelocity;
     private Point2D orcVelocity;
@@ -176,10 +172,9 @@ public class GameController implements Initializable {
 
     public void clickBackToMainMenu(MouseEvent event) throws IOException{
         System.out.println("Back to main menu");
-        Stage stage = (Stage)  hero.getScene().getWindow();
+        Stage stage = (Stage)  floatingIsland.getScene().getWindow();
         MainMenu mm = new MainMenu();
         mm.startMenu(stage, soundClickCount, musicClickCount);
-        timer.stop();
     }
 
     public void clickSaveGame(MouseEvent event) {

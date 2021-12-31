@@ -1,6 +1,5 @@
 package com.example.willhero;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,8 +7,8 @@ import javafx.scene.image.ImageView;
 public abstract class GameObject {
     private double xCoordinate;
     private double yCoordinate;
-    private double xSpeed;
-    private double ySpeed;
+    private int xSpeed;
+    private int ySpeed;
     private double length;
     private double breadth;
     private boolean moves;
@@ -17,7 +16,7 @@ public abstract class GameObject {
     private  Image image;
     private  ImageView imageView;
 
-    GameObject(double x,double y,double _xSpeed , double _ySpeed , double length,
+    GameObject(double x,double y,int _xSpeed , int _ySpeed , double length,
                double breadth,boolean moves, String imageURL){
         this.xCoordinate = x;
         this.yCoordinate = y;
@@ -27,22 +26,20 @@ public abstract class GameObject {
         this.breadth = breadth;
         this.moves = moves;
         this.imageURL = imageURL;
+        this.display();
     }
-    public Node display(){
+
+    public void display(){
         image = new Image(imageURL);
         imageView = new ImageView(image);
         imageView.setX(xCoordinate);
         imageView.setY(yCoordinate);
         imageView.setFitHeight(breadth);
         imageView.setFitWidth(length);
-//        imageView.setPreserveRatio(true);
-        return imageView;
+        return;
     }
     public Node getNode(){
         return imageView;
-    }
-    public ImageView getImage(){
-        return  imageView;
     }
     public double getX(){
         return this.xCoordinate;
@@ -57,19 +54,19 @@ public abstract class GameObject {
         this.yCoordinate = y;
     }
 
-    public double getXSpeed() {
+    public int getXSpeed() {
         return xSpeed;
     }
 
-    public double getYSpeed() {
+    public int getYSpeed() {
         return ySpeed;
     }
 
-    public void setXSpeed(double xSpeed) {
+    public void setXSpeed(int xSpeed) {
         this.xSpeed = xSpeed;
     }
 
-    public void setYSpeed(double ySpeed) {
+    public void setYSpeed(int ySpeed) {
         this.ySpeed = ySpeed;
     }
 

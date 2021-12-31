@@ -244,7 +244,7 @@ public class MainMenuController implements Initializable {
         setScreen(1, savedGameScreen);
     }
 
-    public void setSound(boolean sound){
+    public void setSound(boolean sound){ //to manage pause and sound controls
         if (sound){
             pressSound();
         }
@@ -258,8 +258,7 @@ public class MainMenuController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) { //need to do the space thingie
-        //to start game, press space and not click on the cursor
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         translateCloud();
         rotateBannerName();
         translateIsland(mainIsland, 2000, 15);

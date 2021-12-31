@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="657.0" maxWidth="10000.0" minHeight="657.0" minWidth="10000.0" prefHeight="657.0" prefWidth="10000.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.GameController">
+<AnchorPane maxHeight="657.0" maxWidth="10000.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.GameController">
    <children>
       <Group fx:id="cloud" layoutX="-375.0" layoutY="10.0">
          <children>
@@ -87,42 +87,8 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="mainIsland" layoutX="150.0" layoutY="484.0">
-         <children>
-            <ImageView fitHeight="137.0" fitWidth="56.0" layoutX="26.0" layoutY="-175.0" opacity="0.84">
-               <image>
-                  <Image url="@../../../Assets/Towers/2.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="hero" fitHeight="29.0" fitWidth="29.0" layoutX="-115.0" layoutY="-69.0">
-               <image>
-                  <Image url="@../../../Assets/Knight.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="Island1" fitHeight="128.0" fitWidth="283.0" layoutX="-132.0" layoutY="-40.0">
-               <image>
-                  <Image url="@../../../Assets/Islands/T_Islands_03.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="greenOrc" fitHeight="33.0" fitWidth="33.0" layoutX="102.0" layoutY="-72.0">
-               <image>
-                  <Image url="@../../../Assets/Orks/3%20%2352073.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="74.0" fitWidth="36.0" layoutX="-40.0" layoutY="-113.0" opacity="0.8">
-               <image>
-                  <Image url="@../../../Assets/Trees/Tree5.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Group>
       <Group fx:id="startGameComponents" layoutX="79.0" layoutY="38.0">
          <children>
-            <Text fx:id="HeroPositionCounter" fill="#ff66c4" layoutX="73.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" wrappingWidth="12.685958862304688">
-               <font>
-                  <Font name="Comic Sans MS" size="26.0" />
-               </font>
-            </Text>
             <ImageView fitHeight="50.0" fitWidth="223.0" layoutX="-35.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../Assets/progressBar.png" />
