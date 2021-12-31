@@ -7,7 +7,7 @@ public class Island extends GameObject{
         super(x,y,0,0,length,breadth,false,imageURL);
         this.isFloating = isFloating;
         this.moveFloat();
-        this.display();
+//        this.display();
     }
     public void moveFloat(){
     // yaha pe manipulate karlenge image view pr transition daalke if need be

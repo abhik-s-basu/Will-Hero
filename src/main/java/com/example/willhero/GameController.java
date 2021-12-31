@@ -86,7 +86,7 @@ public class GameController implements Initializable {
     private boolean soundClickCount;
     private boolean musicClickCount;
 
-    private HashMap<KeyCode, Boolean> keys;
+//    private HashMap<KeyCode, Boolean> keys;
     private ArrayList<Node> islands;
     private Point2D heroVelocity;
     private Point2D orcVelocity;
@@ -103,7 +103,6 @@ public class GameController implements Initializable {
         musicClickCount = false;
         canJump = false;
         canJumpOrc = false;
-        keys = new HashMap<KeyCode, Boolean>();
         islands = new ArrayList<Node>();
         heroVelocity = new Point2D(0,0);
         orcVelocity = new Point2D(0,0);
@@ -270,92 +269,94 @@ public class GameController implements Initializable {
         });
     }
 
-    private boolean isPressed(KeyCode key){
-        return keys.getOrDefault(key, false);
-    }
 
-    private void update(){
-        jumpHero();
-        jumpOrc();
-        tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
-            public void handle(MouseEvent e) {
-                if (hero.getTranslateX() <= 1000) { //1000 needs to be changed
-                    movePlayerX(50, hero); //40ms (change to 1s) this is moving 50
-                }
-            }
-        });
+//
+//    public Rectangle getTempClicker (){
+//        return this.tempClicker;
+//    }
 
-        if (heroVelocity.getY() < 9){
-            heroVelocity = heroVelocity.add(0, gravity); //v = u + at
-//            System.out.println(hero.getTranslateY());
-        }
-        if (orcVelocity.getY() < 9){
-            orcVelocity = orcVelocity.add(0, gravity); //v = u + at
-//            System.out.println(hero.getTranslateY());
-        }
-        movePlayerY((int) heroVelocity.getY(), hero);
-        movePlayerY((int) orcVelocity.getY(), greenOrc);
-    }
-
-    //s = ut + 1/2*at^2
-    //v = u + at
-
-    private void movePlayerX(int XVelocity, Node node){
-        for (int i = 0; i < Math.abs(XVelocity); i++){
-            System.out.println(hero.getTranslateX() + 29 + " " + greenOrc.getTranslateX());
-            if (hero.getBoundsInParent().intersects(greenOrc.getBoundsInParent())) {
-                System.out.println("Collision");
-                if (XVelocity > 0) {
-                    XVelocity = -XVelocity;
-                    //move orc
-                    if (hero.getTranslateX() - 218 == greenOrc.getTranslateX()) {
-                        System.out.println("COLLIDED");
-                        return;
-                    }
-                } else {
-                    if (hero.getTranslateX() == greenOrc.getTranslateX() + 33) {
-                        System.out.println("COLLided");
-                        return;
-                    }
-                }
-            }
-            hero.setTranslateX(hero.getTranslateX() + ((XVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
-        }
-    }
-
-    private void movePlayerY(int YVelocity, Node node){
-        for (int i = 0; i < Math.abs(YVelocity); i++){
-            if (node.getBoundsInParent().intersects(Island1.getBoundsInParent())) {
-                if (YVelocity > 0) {
-                    if (node.getTranslateY() == Island1.getTranslateY()) {
-                        if(node == hero){
-                            canJump = true;
-                        }
-                        else if (node == greenOrc){
-                            canJumpOrc = true;
-                        }
-                        return;
-                    }
-                }
-            }
-            node.setTranslateY(node.getTranslateY() + ((YVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
-        }
-    }
-
-
-    private void jumpHero(){ //in hero
-        if (canJump){
-            heroVelocity = heroVelocity.add(0,-7.5);
-            canJump = false;
-        }
-    }
-
-    private void jumpOrc(){ //in orc
-        if (canJumpOrc){
-            orcVelocity = orcVelocity.add(0,-6.9);
-            canJumpOrc = false;
-        }
-    }
+//    private void update(){
+//        jumpHero();
+//        jumpOrc();
+//        tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
+//            public void handle(MouseEvent e) {
+//                if (hero.getTranslateX() <= 1000) { //1000 needs to be changed
+//                    movePlayerX(50, hero); //40ms (change to 1s) this is moving 50
+//                }
+//            }
+//        });
+//
+//        if (heroVelocity.getY() < 9){
+//            heroVelocity = heroVelocity.add(0, gravity); //v = u + at
+////            System.out.println(hero.getTranslateY());
+//        }
+//        if (orcVelocity.getY() < 9){
+//            orcVelocity = orcVelocity.add(0, gravity); //v = u + at
+////            System.out.println(hero.getTranslateY());
+//        }
+//        movePlayerY((int) heroVelocity.getY(), hero);
+//        movePlayerY((int) orcVelocity.getY(), greenOrc);
+//    }
+//
+//    //s = ut + 1/2*at^2
+//    //v = u + at
+//
+//    private void movePlayerX(int XVelocity, Node node){
+//        for (int i = 0; i < Math.abs(XVelocity); i++){
+//            System.out.println(hero.getTranslateX() + 29 + " " + greenOrc.getTranslateX());
+//            if (hero.getBoundsInParent().intersects(greenOrc.getBoundsInParent())) {
+//                System.out.println("Collision");
+//                if (XVelocity > 0) {
+//                    XVelocity = -XVelocity;
+//                    //move orc
+//                    if (hero.getTranslateX() - 218 == greenOrc.getTranslateX()) {
+//                        System.out.println("COLLIDED");
+//                        return;
+//                    }
+//                } else {
+//                    if (hero.getTranslateX() == greenOrc.getTranslateX() + 33) {
+//                        System.out.println("COLLided");
+//                        return;
+//                    }
+//                }
+//            }
+//            hero.setTranslateX(hero.getTranslateX() + ((XVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
+//        }
+//    }
+//
+//    private void movePlayerY(int YVelocity, Node node){
+//        for (int i = 0; i < Math.abs(YVelocity); i++){
+//            if (node.getBoundsInParent().intersects(Island1.getBoundsInParent())) {
+//                if (YVelocity > 0) {
+//                    if (node.getTranslateY() == Island1.getTranslateY()) {
+//                        if(node == hero){
+//                            canJump = true;
+//                        }
+//                        else if (node == greenOrc){
+//                            canJumpOrc = true;
+//                        }
+//                        return;
+//                    }
+//                }
+//            }
+//            node.setTranslateY(node.getTranslateY() + ((YVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
+//        }
+//    }
+//
+//
+//    private void jumpHero(){ //in hero
+//        if (canJump){
+//            heroVelocity = heroVelocity.add(0,-7.5);
+//            canJump = false;
+//        }
+//    }
+//
+//    private void jumpOrc(){ //in orc
+//        if (canJumpOrc){
+//            orcVelocity = orcVelocity.add(0,-6.9);
+//            canJumpOrc = false;
+//        }
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -364,13 +365,5 @@ public class GameController implements Initializable {
         translateIsland(floatingIsland, 5000, 25);
         translateIsland(floatingIsland2, 4000, 10);
         topBlocker.setVisible(false); //pause menu
-
-        timer = new AnimationTimer() { //40ms
-            @Override
-            public void handle(long now) {
-                update();
-            }
-        };
-        timer.start();
     }
 }

@@ -33,10 +33,16 @@ public abstract class GameObject {
         imageView = new ImageView(image);
         imageView.setX(xCoordinate);
         imageView.setY(yCoordinate);
-        imageView.setFitHeight(length);
-        imageView.setFitWidth(breadth);
-        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(breadth);
+        imageView.setFitWidth(length);
+//        imageView.setPreserveRatio(true);
         return imageView;
+    }
+    public Node getNode(){
+        return imageView;
+    }
+    public ImageView getImage(){
+        return  imageView;
     }
     public double getX(){
         return this.xCoordinate;
@@ -83,6 +89,9 @@ public abstract class GameObject {
     }
     public boolean isMoving(){
         return this.moves;
+    }
+    public void setMoving (boolean moves){
+        this.moves = moves;
     }
     public void movement(){};
 

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="657.0" maxWidth="310.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.GameController">
+<AnchorPane maxHeight="657.0" maxWidth="10000.0" minHeight="657.0" minWidth="10000.0" prefHeight="657.0" prefWidth="10000.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.GameController">
    <children>
       <Group fx:id="cloud" layoutX="-375.0" layoutY="10.0">
          <children>
@@ -148,7 +148,6 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="57.0" layoutX="-86.0" layoutY="-41.0" onMouseClicked="#pressPause" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="79.0" />
          </children>
       </Group>
-      <Rectangle fx:id="tempClicker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="448.0" layoutY="130.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="310.0" />
       <Group fx:id="pauseObjects">
          <children>
             <ImageView fx:id="soundImage" fitHeight="69.0" fitWidth="35.0" layoutX="-63.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
