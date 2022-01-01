@@ -7,16 +7,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-//platforms - done
+import java.util.ArrayList;
+
 //coins - tbd - TODAY
-//orcs - done
 //chests - tbd - TODAY
 //weapons - TBD
 //TNT - tbd - TODAY
-//menus - TBD - TODAY
-//serializable - TO BE DONE
-//music - not priority
-//Boss fight - done
+//menus - TBD - TODAY - abhik
+//serializable - TO BE DONE - abhik
+//music - not priority - abhik
 //touch ups - end
 
 public abstract class GameObject {
@@ -67,8 +66,8 @@ public abstract class GameObject {
 
         lower = new Rectangle();
         lower.setLayoutX(xCoordinate);
-        lower.setLayoutY(yCoordinate + breadth);
-        lower.setHeight(2);
+        lower.setLayoutY(yCoordinate + breadth - 4);
+        lower.setHeight(4);
         lower.setWidth(length);
         lower.setOpacity(0);
 
@@ -76,11 +75,11 @@ public abstract class GameObject {
         left.setLayoutX(xCoordinate);
         left.setLayoutY(yCoordinate);
         left.setHeight(breadth);
-        left.setWidth(2);
+        left.setWidth(4);
         left.setOpacity(0);
 
         right = new Rectangle();
-        right.setLayoutX(xCoordinate + length);
+        right.setLayoutX(xCoordinate + length - 4);
         right.setLayoutY(yCoordinate);
         right.setHeight(breadth);
         right.setWidth(4);
@@ -89,9 +88,10 @@ public abstract class GameObject {
         return;
     }
 
-    public Node getAll(){
-        Group temp = new Group();
-        temp.getChildren().addAll(upper, lower, left, right, imageView);
+    public ArrayList<Node> getAll(){
+        ArrayList<Node> temp = new ArrayList<Node>();
+        temp.add(upper); temp.add(lower); temp.add(right);
+        temp.add(left); temp.add(imageView);
         return temp;
     }
 

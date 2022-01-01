@@ -7,4 +7,12 @@ public class Helmet {
         this.weapon1 = weapon1;
         this.weapon2 = weapon2;
     }
+
+    public Weapon getWeapon2() {
+        return weapon2;
+    }
+
+    public Weapon getWeapon1() {
+        return weapon1;
+    }
 }

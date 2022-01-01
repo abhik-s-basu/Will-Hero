@@ -25,7 +25,7 @@ public class Hero extends GameObject{
         for (int i = 0; i < Math.abs(getYSpeed()); i++) {
             if (curGame.checkCollisionY(this, getYSpeed())){
                 setYSpeed(-14);
-                System.out.println(getYSpeed());
+//                System.out.println(getYSpeed());
             }
             getUpper().setTranslateY(getUpper().getTranslateY() + ((getYSpeed() > 0) ? 1 : -1));
             getLower().setTranslateY(getLower().getTranslateY() + ((getYSpeed() > 0) ? 1 : -1));
@@ -41,9 +41,10 @@ public class Hero extends GameObject{
     public void swapWeapon(){
         //code tbd
     }
-    public void openChest(){
-        //code tbd
+    public void openChest(WeaponChest wc){
+        currWeapon = wc.openChest();
     }
+
     public boolean isAlive(){
         return this.isAlive;
     }

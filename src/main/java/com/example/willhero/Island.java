@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
 import javafx.util.Duration;
 
 public class Island extends GameObject{
@@ -28,12 +29,14 @@ public class Island extends GameObject{
 
     private void introTransition(){
         System.out.println("lmao");
-        TranslateTransition translate1 = new TranslateTransition();
-        translate1.setNode(getAll());
-        translate1.setDuration(Duration.millis((int) (Math.random()*5000 + 2000)));
-        translate1.setCycleCount(TranslateTransition.INDEFINITE);
-        translate1.setByY((int) (Math.random()*10 + 20));
-        translate1.setAutoReverse(true);
-        translate1.play();
+        for(Node n : getAll()){
+            TranslateTransition translate1 = new TranslateTransition();
+            translate1.setNode(n);
+            translate1.setDuration(Duration.millis((int) (Math.random()*5000 + 2000)));
+            translate1.setCycleCount(TranslateTransition.INDEFINITE);
+            translate1.setByY((int) (Math.random()*10 + 20));
+            translate1.setAutoReverse(true);
+            translate1.play();
+        }
     }
 }

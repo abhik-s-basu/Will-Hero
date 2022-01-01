@@ -18,17 +18,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game implements Screen {
 
     private AnchorPane gamePane;
     private Scene scene;
-    private int coinsCollected;
+    private volatile int coinsCollected;
     private int score;
     private ArrayList<GameObject> gameObjects;
-    private final int RESURRECT_COINS ;
+    private final int RESURRECT_COINS;
     private final int WINNING_JUMP;
     private final int ABYSS;
     private final int GRAVITY;
@@ -42,22 +41,22 @@ public class Game implements Screen {
     private ArrayList<Obstacle> obstacles;
     private int progCounter;
 
-    Game(){
-       this.coinsCollected = 0;
-       this.score = 0;
-       this.gameObjects = new ArrayList<GameObject>();
-       this.orcs = new ArrayList<Orc>();
-       this.islands = new ArrayList<Island>();
-       this.chests = new ArrayList<Chest>();
-       this.obstacles = new ArrayList<Obstacle>();
-       this.RESURRECT_COINS = 100;
-       this.ABYSS = 575;
-       this.WINNING_JUMP = 122;
-       this.GRAVITY = 1;
+    Game() {
+        this.coinsCollected = 0;
+        this.score = 0;
+        this.gameObjects = new ArrayList<GameObject>();
+        this.orcs = new ArrayList<Orc>();
+        this.islands = new ArrayList<Island>();
+        this.chests = new ArrayList<Chest>();
+        this.obstacles = new ArrayList<Obstacle>();
+        this.RESURRECT_COINS = 100;
+        this.ABYSS = 575;
+        this.WINNING_JUMP = 122;
+        this.GRAVITY = 1;
     }
 
-    public boolean checkCollisionY(GameObject go, int YSpeed){
-        for (GameObject n : islands){
+    public boolean checkCollisionY(GameObject go, int YSpeed) {
+        for (GameObject n : islands) {
             Node upper = n.getUpper();
             if (YSpeed > 0) {
 //                if (!go.equals(n)) {
@@ -67,37 +66,58 @@ public class Game implements Screen {
 //                }
             }
         }
-        for (GameObject n : orcs){
+        for (GameObject n : orcs) {
             Node upper = n.getUpper();
             if (YSpeed > 0) {
-//                if (!go.equals(n)) {
-                    if (go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) {
-                        return true;
-//                    }
+                if (!go.equals(n)) {
+                if ((go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) ||
+                        n.getNode().getBoundsInParent().intersects(go.getNode().getBoundsInParent())){
+                    return true;
+                    }
                 }
             }
         }
-            Node upper = hero.getUpper();
+        for (GameObject n : chests) {
+            Node node = n.getNode();
             if (YSpeed > 0) {
-//                if (!go.equals(n)) {
-                if (go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) {
-                    System.exit(0);
+                if (go.equals(hero)) {
+                    if (go.getNode().getBoundsInParent().intersects(node.getBoundsInParent())) {
+                        if(n.isMoving()){
+                            break;
+                        }
+                        n.setMoving(true);
+                        ((ImageView)(n.getNode())).setImage(new Image("file:src/main/resources/Assets/Chests/OpenChestNoBG.png"));
+                        if(n instanceof CoinChest){
+                            coinsCollected += ((CoinChest) n).openChest();
+                        }
+                        else if (n instanceof WeaponChest){
+                            hero.openChest((WeaponChest) n);
+                        }
+                    }
                 }
-//                }
             }
+        }
+        Node upper = hero.getUpper();
+        if (YSpeed > 0) {
+//                if (!go.equals(n)) {
+            if (go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) {
+//                System.exit(0);
+            }
+//                }
+        }
         return false;
     }
 
 
-
-    private void update(){
-        if (hero.getYSpeed() < 30){
+    private void update() {
+        System.out.println(coinsCollected);
+        if (hero.getYSpeed() < 30) {
             hero.setYSpeed(hero.getYSpeed() + GRAVITY); //v = u + at
         }
         hero.jumpInPlace();
 
-        for(Orc o : orcs){
-            if (o.getYSpeed() < 30){
+        for (Orc o : orcs) {
+            if (o.getYSpeed() < 30) {
                 o.setYSpeed(o.getYSpeed() + GRAVITY); //v = u + at
             }
             o.jumpInPlace(this);
@@ -105,18 +125,15 @@ public class Game implements Screen {
     }
 
 
-
-
-
-
     private void startGameLoop() {
         gameLoop = new AnimationTimer() {
             private long lastUpdate = 0;
+
             @Override
             public void handle(long now) {
                 if (now - lastUpdate >= 20_000_000) {
                     update();
-                    lastUpdate = now ;
+                    lastUpdate = now;
                 }
             }
         };
@@ -124,25 +141,26 @@ public class Game implements Screen {
     }
 
 
-
-    private void updateClicker(){
+    private void updateClicker() {
 //        System.out.println(princess.getNode().getTranslateX());
         if (princess.getNode().getTranslateX() >= -3200) {
             hero.jumpForward();
             GameObject collidedNode = null;
             boolean flag = false;
-            for (int i = 0; i < Math.abs(hero.getXSpeed()); i++){ // from 1 to 50
-                for(GameObject j : gameObjects) { //including orc
+//            System.out.println("1");
+            for (int i = 0; i < Math.abs(hero.getXSpeed()); i++) { // from 1 to 50
+                for (GameObject j : gameObjects) { //including orc
                     Node left = j.getLeft();
-                    Node right = j.getRight();
-                    if (!j.equals(hero)){
-                        if(j instanceof Orc && left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent())){
-                            System.out.println("Collided");
+                    if (!j.equals(hero)) {
+//                        System.out.println(" " + left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent()));
+                        if (j instanceof Orc &&
+                                (left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent()))) {
+//                            System.out.println("Collided");
                             collidedNode = j;
                             hero.setXSpeed(-50);
                         }
-                        if(!flag && collidedNode != null){
-                            for(int k = 0; k < Math.abs(hero.getXSpeed()) - i; k++){
+                        if (!flag && collidedNode != null) {
+                            for (int k = 0; k < Math.abs(hero.getXSpeed()) - i; k++) {
                                 collidedNode.getNode().setTranslateX((collidedNode.getNode().getTranslateX() +
                                         ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
                                 collidedNode.getUpper().setTranslateX((collidedNode.getUpper().getTranslateX() +
@@ -153,9 +171,48 @@ public class Game implements Screen {
                                         ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
                                 collidedNode.getLeft().setTranslateX((collidedNode.getLeft().getTranslateX() +
                                         ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+//                                for(int x = 0; x < 10000000; x++);
+
                             }
+//                            System.out.println("3");
+//                            for (Node n : j.getAll()){
+//                                TranslateTransition t1 = new TranslateTransition();
+//                                t1.setNode(n);
+//                                t1.setDuration(Duration.millis(1));
+//                                t1.setCycleCount(50);
+//                                t1.setByX(-hero.getXSpeed());
+//                                t1.setAutoReverse(false);
+//                                t1.play();
+//                                if(j instanceof Orc &&
+//                                        left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent())){
+//                                    System.out.println("Collided");
+//                                }
+//                            }
                             flag = true;
+//                        }
+
+//                        for(int i = 0; i < 4; i++){
+//                        for (Node n : j.getAll()) {
+//
+////                            for(int i = 0; i < 50; i++){
+//                            System.out.println(i);
+//                            TranslateTransition t1 = new TranslateTransition();
+//                            t1.setNode(n);
+//                            t1.setDuration(Duration.millis(1));
+//                            t1.setCycleCount(1);
+//                            t1.setByX(-1);
+//                            t1.setAutoReverse(false);
+//                            t1.play();
+//                            System.out.println(n.getTranslateX());
+//                            if (j instanceof Orc &&
+//                                    left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent())) {
+//                                System.out.println("Collided");
+//                            }
+//                            }
                         }
+//                    }
+
+
                         j.getNode().setTranslateX((j.getNode().getTranslateX() +
                                 ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
                         j.getUpper().setTranslateX((j.getUpper().getTranslateX() +
@@ -166,22 +223,24 @@ public class Game implements Screen {
                                 ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
                         j.getLeft().setTranslateX((j.getLeft().getTranslateX() +
                                 ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
-                    }
                 }
+            }
             }
             hero.setXSpeed(50);
         }
     }
 
 
+
+
     private void islandGenerator(){
         islands.add(new Island(18,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_02.png"));
-        orcs.add(new BossOrc(140,400,40,40,
+        orcs.add(new SmallOrc(140,400,40,40,
                 0, 0, "RED", 10, 15,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
 //
-        chests.add(new CoinChest(new Coin(10),200,408,"file:src/main/resources/Assets/Chests/closedChest.png"));
+        chests.add(new CoinChest(10,200,408,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
         islands.add(new Island(375,425,200,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_03.png"));
@@ -191,7 +250,7 @@ public class Game implements Screen {
         orcs.add(new SmallOrc(507,391,33,33,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-        chests.add(new CoinChest(new Coin(15),432,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
+        chests.add(new CoinChest(15,432,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
         islands.add(new Island(623,407,150,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_07.png"));
@@ -247,7 +306,7 @@ public class Game implements Screen {
         orcs.add(new SmallOrc(2070,460,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-        chests.add(new CoinChest(new Coin(30),1890,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
+        chests.add(new CoinChest(30,1890,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
         islands.add(new Island(2300,450,1100,300,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_06.png"));
