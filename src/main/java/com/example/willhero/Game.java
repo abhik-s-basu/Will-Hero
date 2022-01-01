@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game implements Screen {
@@ -37,6 +38,8 @@ public class Game implements Screen {
     private Hero princess;
     private ArrayList<Orc> orcs;
     private ArrayList<Island> islands;
+    private ArrayList<Chest> chests;
+    private ArrayList<Obstacle> obstacles;
 //    private Array
     private int progCounter;
 
@@ -46,6 +49,8 @@ public class Game implements Screen {
        this.gameObjects = new ArrayList<GameObject>();
        this.orcs = new ArrayList<Orc>();
        this.islands = new ArrayList<Island>();
+       this.chests = new ArrayList<Chest>();
+       this.obstacles = new ArrayList<Obstacle>();
        this.RESURRECT_COINS = 100;
        this.ABYSS = 575;
        this.WINNING_JUMP = 122;
@@ -143,40 +148,45 @@ public class Game implements Screen {
     private void islandGenerator(){
         islands.add(new Island(18,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_02.png"));
-        orcs.add(new SmallOrc(220,400,40,40,
+        orcs.add(new SmallOrc(140,400,40,40,
                 0, 0, "RED", 10, 15,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-//        coins
+//
+        chests.add(new CoinChest(new Coin(10),200,408,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
         islands.add(new Island(375,425,200,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_03.png"));
         orcs.add(new SmallOrc(386,391,33,33,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-        orcs.add(new SmallOrc(487,391,33,33,
+        orcs.add(new SmallOrc(507,391,33,33,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+        chests.add(new CoinChest(new Coin(15),432,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
         islands.add(new Island(623,407,150,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_07.png"));
         orcs.add(new SmallOrc(700,367,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+        chests.add(new WeaponChest(new Helmet(new ThrowingAxe(), new ThrowingKnife()),640,371,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
         islands.add(new Island(790,500,225,125,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_04.png"));
-        orcs.add(new SmallOrc(850,467,33,33,
+        orcs.add(new SmallOrc(810,467,33,33,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-        orcs.add(new SmallOrc(910,460,40,40,
+        orcs.add(new SmallOrc(920,460,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+        chests.add(new WeaponChest(new Helmet(new ThrowingAxe(),new ThrowingKnife()),860,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
         islands.add(new Island(1068,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_01.png"));
         orcs.add(new SmallOrc(1270,400,40,40,
                 0, 0, "RED", 10, 15,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+        obstacles.add(new TNT(1100,398,"file:src/main/resources/Assets/TNT.png"));
 
         islands.add(new Island(1425,425,200,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_05.png"));
@@ -186,27 +196,36 @@ public class Game implements Screen {
         orcs.add(new SmallOrc(1537,391,33,33,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+        chests.add(new WeaponChest(new Helmet(new ThrowingKnife(),new ThrowingAxe()),1480,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
+
 
         islands.add(new Island(1673,407,150,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_11.png"));
         orcs.add(new SmallOrc(1750,367,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+        obstacles.add(new TNT(1700,361,"file:src/main/resources/Assets/TNT.png"));
+
 
         islands.add(new Island(1880,500,300,125,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_09.png"));
-        orcs.add(new SmallOrc(1900,467,33,33,
-                0, 0, "RED", 5, 10,
-                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+//        orcs.add(new SmallOrc(1900,467,33,33,
+//                0, 0, "RED", 5, 10,
+//                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         orcs.add(new SmallOrc(1960,460,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         orcs.add(new SmallOrc(2070,460,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+        chests.add(new CoinChest(new Coin(30),1890,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
-        islands.add(new Island(2300,450,1000,300,
+        islands.add(new Island(2300,450,1100,300,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_06.png"));
+        chests.add(new WeaponChest(new Helmet(new ThrowingAxe(),new ThrowingKnife()),2400,414,"file:src/main/resources/Assets/Chests/closedChest.png"));
+        orcs.add(new SmallOrc(2500,420,40,40,
+                0, 0, "GREEN", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_green_ork.png"));
 
     }
 
@@ -223,6 +242,12 @@ public class Game implements Screen {
         }
         for (Orc o : orcs){
             gameObjects.add(o);
+        }
+        for (Chest c: chests){
+            gameObjects.add(c);
+        }
+        for (Obstacle obs: obstacles){
+            gameObjects.add(obs);
         }
         hero = new Hero(40, 414,this ,"file:src/main/resources/Assets/Knight.png");
         princess = new Hero (3250, 418, this, "file:src/main/resources/Assets/Princess/Princess_happy.png");
@@ -291,6 +316,7 @@ public class Game implements Screen {
                 score++;
                 scoreText.setText(""+score);
                 progCounter += 3;
+                progCounter = Math.min(progCounter,260);
                 heroProgView.setX(progCounter);
             }
         });
