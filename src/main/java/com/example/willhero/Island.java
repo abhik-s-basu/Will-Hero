@@ -13,7 +13,7 @@ public class Island extends GameObject{
             int breadth,boolean isFloating,String imageURL){
         super(x,y,0,0,length,breadth,false,imageURL);
         this.isFloating = isFloating;
-        this.moveFloat();
+//        this.moveFloat();
 //        this.display();
     }
 
@@ -29,7 +29,7 @@ public class Island extends GameObject{
     private void introTransition(){
         System.out.println("lmao");
         TranslateTransition translate1 = new TranslateTransition();
-        translate1.setNode(getNode());
+        translate1.setNode(getAll());
         translate1.setDuration(Duration.millis((int) (Math.random()*5000 + 2000)));
         translate1.setCycleCount(TranslateTransition.INDEFINITE);
         translate1.setByY((int) (Math.random()*10 + 20));

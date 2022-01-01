@@ -1,8 +1,22 @@
 package com.example.willhero;
 
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+//platforms
+//coins
+//orcs
+//chests
+//weapons
+//TNT
+//menus
+//serializable
+//Boss fight
+//touch ups
 
 public abstract class GameObject {
     private double xCoordinate;
@@ -15,6 +29,11 @@ public abstract class GameObject {
     private  String imageURL;
     private  Image image;
     private  ImageView imageView;
+
+    private Rectangle upper;
+    private Rectangle lower;
+    private Rectangle left;
+    private Rectangle right;
 
     GameObject(double x,double y,int _xSpeed , int _ySpeed , double length,
                double breadth,boolean moves, String imageURL){
@@ -29,17 +48,62 @@ public abstract class GameObject {
         this.display();
     }
 
-    public void display(){
+    private void display(){
+
         image = new Image(imageURL);
         imageView = new ImageView(image);
         imageView.setX(xCoordinate);
         imageView.setY(yCoordinate);
         imageView.setFitHeight(breadth);
         imageView.setFitWidth(length);
+
+        upper = new Rectangle();
+        upper.setLayoutX(xCoordinate);
+        upper.setLayoutY(yCoordinate);
+        upper.setHeight(2);
+        upper.setWidth(length);
+
+        lower = new Rectangle();
+        lower.setLayoutX(xCoordinate);
+        lower.setLayoutY(yCoordinate + breadth);
+        lower.setHeight(2);
+        lower.setWidth(length);
+
+        left = new Rectangle();
+        left.setLayoutX(xCoordinate);
+        left.setLayoutY(yCoordinate);
+        left.setHeight(breadth);
+        left.setWidth(2);
+
+        right = new Rectangle();
+        right.setLayoutX(xCoordinate + length);
+        right.setLayoutY(yCoordinate);
+        right.setHeight(breadth);
+        right.setWidth(2);
+
         return;
     }
+
+    public Node getAll(){
+        Group temp = new Group();
+        temp.getChildren().addAll(upper, lower, left, right, imageView);
+        return temp;
+    }
+
     public Node getNode(){
         return imageView;
+    }
+    public Node getUpper(){
+        return upper;
+    }
+    public Node getLower(){
+        return lower;
+    }
+    public Node getRight(){
+        return right;
+    }
+    public Node getLeft(){
+        return left;
     }
     public double getX(){
         return this.xCoordinate;

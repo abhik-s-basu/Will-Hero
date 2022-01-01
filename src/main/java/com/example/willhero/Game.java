@@ -34,10 +34,11 @@ public class Game implements Screen {
     private AnimationTimer gameLoop;
     private Rectangle tempClicker;
     private Hero hero;
+    private Hero princess;
     private ArrayList<Orc> orcs;
     private ArrayList<Island> islands;
+//    private Array
     private int progCounter;
-    Group groupOfObjects;
 
     Game(){
        this.coinsCollected = 0;
@@ -51,82 +52,19 @@ public class Game implements Screen {
        this.GRAVITY = 1;
     }
 
-
-    //s = ut + 1/2*at^2
-    //v = u + at
-
-//    private void movePlayerX(int XVelocity, Node node){
-//        for (int i = 0; i < Math.abs(XVelocity); i++){
-//            System.out.println(hero.getTranslateX() + 29 + " " + greenOrc.getTranslateX());
-//            if (hero.getBoundsInParent().intersects(greenOrc.getBoundsInParent())) {
-//                System.out.println("Collision");
-//                if (XVelocity > 0) {
-//                    XVelocity = -XVelocity;
-//                    //move orc
-//                    if (hero.getTranslateX() - 218 == greenOrc.getTranslateX()) {
-//                        System.out.println("COLLIDED");
-//                        return;
-//                    }
-//                } else {
-//                    if (hero.getTranslateX() == greenOrc.getTranslateX() + 33) {
-//                        System.out.println("COLLided");
-//                        return;
-//                    }
-//                }
-//            }
-//            hero.setTranslateX(hero.getTranslateX() + ((XVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
-//        }
-//    }
-
-//    private void movePlayerY(int YVelocity, Node node){
-//        for (int i = 0; i < Math.abs(YVelocity); i++){
-//            if (node.getBoundsInParent().intersects(Island1.getBoundsInParent())) {
-//                if (YVelocity > 0) {
-//                    if (node.getTranslateY() == Island1.getTranslateY()) {
-//                        if(node == hero){
-//                            canJump = true;
-//                        }
-//                        else if (node == greenOrc){
-//                            canJumpOrc = true;
-//                        }
-//                        return;
-//                    }
-//                }
-//            }
-//            node.setTranslateY(node.getTranslateY() + ((YVelocity > 0) ? 1 : -1)); //s = ut + 1/2 at^2
-//        }
-//    }
-
-
-//    private void jumpHero(){ //in hero
-//        if (canJump){
-//            heroVelocity = heroVelocity.add(0,-7.5);
-//            canJump = false;
-//        }
-//    }
-//
-//    private void jumpOrc(){ //in orc
-//        if (canJumpOrc){
-//            orcVelocity = orcVelocity.add(0,-6.9);
-//            canJumpOrc = false;
-//        }
-//    }
-
-
-
-
-
-    public boolean checkCollision(GameObject go, int YSpeed){
+    public boolean checkCollisionY(GameObject go, int YSpeed){
         for (GameObject n : gameObjects){
-            Node node = n.getNode();
+            Node upper = n.getUpper();
+            Node lower = n.getLower();
 //            System.out.println(go.getNode().getBoundsInParent().intersects(node.getBoundsInParent()));
             if (YSpeed > 0) {
-                if (go.getNode().getBoundsInParent().intersects(node.getBoundsInParent())) {
-//                    System.out.println("get in bounds");
-//                    System.out.println(go.getNode().getTranslateY() + " " + node.getTranslateY());
-                    if (( go.getNode().getTranslateY() + go.getY() + go.getLength() + 1 - n.getY() - node.getTranslateY()) < 3) {
-//                        go.setYSpeed(go.getYSpeed());
-//                        System.out.println("koodo");
+                if (!go.equals(n)) {
+                    if (go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) {
+//                        System.out.println(go.getClass());
+                        if(go instanceof SmallOrc && n instanceof Hero){
+//                            System.out.println("Game over");
+//                            System.exit(0);
+                        }
                         return true;
                     }
                 }
@@ -172,32 +110,105 @@ public class Game implements Screen {
 
 
 
+    private void updateClicker(){
+        if (hero.getNode().getTranslateX() <= 10000) { //10000 needs to be changed
+//            hero.jumpForward();
+            for (int i = 0; i < Math.abs(hero.getXSpeed()); i++){ // from 1 to 50
+                for(GameObject j : gameObjects) {
+                    Node left = j.getLeft();
+                    Node right = j.getRight();
+                    if (!j.equals(hero)){
+                        if(j instanceof Orc && left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent())){
+                            System.out.println("HEREEE");
+                            hero.setXSpeed(-50);
+                        }
+                        j.getNode().setTranslateX((j.getNode().getTranslateX() +
+                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                        j.getUpper().setTranslateX((j.getUpper().getTranslateX() +
+                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                        j.getLower().setTranslateX((j.getLower().getTranslateX() +
+                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                        j.getRight().setTranslateX((j.getRight().getTranslateX() +
+                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                        j.getLeft().setTranslateX((j.getLeft().getTranslateX() +
+                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                    }
+                }
+            }
+            hero.setXSpeed(50);
+        }
+    }
+
+
     private void islandGenerator(){
         islands.add(new Island(18,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_02.png"));
-        orcs.add(new SmallOrc(265,410,33,33,
-                0, 0, "GREEN", 5, 10,
+        orcs.add(new SmallOrc(220,400,40,40,
+                0, 0, "RED", 10, 15,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+//        coins
 
         islands.add(new Island(375,425,200,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_03.png"));
         orcs.add(new SmallOrc(386,391,33,33,
-                0, 0, "GREEN", 5, 10,
-                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         orcs.add(new SmallOrc(487,391,33,33,
-                0, 0, "GREEN", 5, 10,
+                0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
 
         islands.add(new Island(623,407,150,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_07.png"));
+        orcs.add(new SmallOrc(700,367,40,40,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
 
-        islands.add(new Island(790,500,300,125,
+        islands.add(new Island(790,500,225,125,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_04.png"));
+        orcs.add(new SmallOrc(850,467,33,33,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+        orcs.add(new SmallOrc(910,460,40,40,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+
+        islands.add(new Island(1068,444,270,100,
+                true,"file:src/main/resources/Assets/Islands/T_Islands_01.png"));
+        orcs.add(new SmallOrc(1270,400,40,40,
+                0, 0, "RED", 10, 15,
+                "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+
+        islands.add(new Island(1425,425,200,75,
+                true,"file:src/main/resources/Assets/Islands/T_Islands_05.png"));
+        orcs.add(new SmallOrc(1436,391,33,33,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+        orcs.add(new SmallOrc(1537,391,33,33,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+
+        islands.add(new Island(1673,407,150,75,
+                true,"file:src/main/resources/Assets/Islands/T_Islands_11.png"));
+        orcs.add(new SmallOrc(1750,367,40,40,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+
+        islands.add(new Island(1880,500,300,125,
+                true,"file:src/main/resources/Assets/Islands/T_Islands_09.png"));
+        orcs.add(new SmallOrc(1900,467,33,33,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+        orcs.add(new SmallOrc(1960,460,40,40,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
+        orcs.add(new SmallOrc(2070,460,40,40,
+                0, 0, "RED", 5, 10,
+                "file:src/main/resources/Assets/Orks/big_green_ork.png"));
+
+        islands.add(new Island(2300,450,1000,300,
+                true,"file:src/main/resources/Assets/Islands/T_Islands_06.png"));
+
     }
-
-
-
-
 
     public void startGame(Stage primaryStage, double posHero, boolean sound, boolean music)
             throws IOException {
@@ -213,8 +224,12 @@ public class Game implements Screen {
         for (Orc o : orcs){
             gameObjects.add(o);
         }
+        hero = new Hero(40, 414,this ,"file:src/main/resources/Assets/Knight.png");
+        princess = new Hero (3250, 418, this, "file:src/main/resources/Assets/Princess/Princess_happy.png");
+        gameObjects.add(princess);
+        gameObjects.add(hero);
         for(GameObject go : gameObjects) {
-            gamePane.getChildren().add(go.getNode());
+            gamePane.getChildren().addAll(go.getNode(), go.getUpper(), go.getLower(), go.getRight(), go.getLeft());
         }
 
         Text scoreText = new Text();
@@ -255,7 +270,6 @@ public class Game implements Screen {
         orcProgView.setFitHeight(20);
         orcProgView.setFitWidth(20);
 
-
         Group barGroup = new Group();
         barGroup.getChildren().add(progressLine);
         barGroup.getChildren().add(heroSide);
@@ -263,37 +277,21 @@ public class Game implements Screen {
         barGroup.getChildren().add(orcProgView);
         barGroup.getChildren().add(heroProgView);
         gamePane.getChildren().add(barGroup);
-
+//end of progress bar
 
         tempClicker = new Rectangle();
         tempClicker.setLayoutX(50); tempClicker.setLayoutY(130); tempClicker.setWidth(250);
         tempClicker.setHeight(448); tempClicker.setOpacity(0);
-        hero = new Hero(40, 414,this ,"file:src/main/resources/Assets/Knight.png");
-//        gameObjects.add(hero);
-//        groupOfObjects = new Group();
-//        for(GameObject i : gameObjects){
-//            groupOfObjects.getChildren().add(i.getNode());
-//        }
-//        gamePane.getChildren().add(groupOfObjects);
-        gamePane.getChildren().add(hero.getNode());
         gamePane.getChildren().add(tempClicker);
         gamePane.getChildren().add(scoreText);
 
         tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e) {
-                if (hero.getNode().getTranslateX() <= 10000) { //1000 needs to be changed
-                    hero.jumpForward(); //40ms (change to 1s) this is moving 50
-                    for (int i = 0; i < Math.abs(hero.getXSpeed()); i++){
-                        for(GameObject j : gameObjects) {
-                            j.getNode().setTranslateX((j.getNode().getTranslateX() + ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
-                        }
-                    }
-                }
+                updateClicker();
                 score++;
                 scoreText.setText(""+score);
-                progCounter +=5;
+                progCounter += 3;
                 heroProgView.setX(progCounter);
-
             }
         });
 
@@ -302,7 +300,4 @@ public class Game implements Screen {
         primaryStage.show();
         startGameLoop();
     }
-
-
-
 }
