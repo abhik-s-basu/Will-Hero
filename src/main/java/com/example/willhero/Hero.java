@@ -24,7 +24,8 @@ public class Hero extends GameObject{
     public void jumpInPlace() {
         for (int i = 0; i < Math.abs(getYSpeed()); i++) {
             if (curGame.checkCollisionY(this, getYSpeed())){
-                setYSpeed(getYSpeed() - 15);
+                setYSpeed(-14);
+                System.out.println(getYSpeed());
             }
             getUpper().setTranslateY(getUpper().getTranslateY() + ((getYSpeed() > 0) ? 1 : -1));
             getLower().setTranslateY(getLower().getTranslateY() + ((getYSpeed() > 0) ? 1 : -1));
