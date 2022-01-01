@@ -89,11 +89,6 @@
       </Group>
       <Group fx:id="startGameComponents" layoutX="79.0" layoutY="38.0">
          <children>
-            <ImageView fitHeight="50.0" fitWidth="223.0" layoutX="-35.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/progressBar.png" />
-               </image>
-            </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#afd8ff" height="43.0" layoutX="98.0" layoutY="555.0" onMouseClicked="#clickThrowingKnife" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="43.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#afd8ff" height="43.0" layoutX="171.0" layoutY="555.0" onMouseClicked="#clickThrowingAxe" rotate="45.0" stroke="BLACK" strokeType="INSIDE" width="43.0" />
             <ImageView fitHeight="36.0" fitWidth="20.0" layoutX="182.0" layoutY="559.0" onMouseClicked="#clickThrowingAxe" pickOnBounds="true" preserveRatio="true">

@@ -7,9 +7,11 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -34,6 +36,7 @@ public class Game implements Screen {
     private Hero hero;
     private ArrayList<Orc> orcs;
     private ArrayList<Island> islands;
+    private int progCounter;
     Group groupOfObjects;
 
     Game(){
@@ -121,7 +124,7 @@ public class Game implements Screen {
                 if (go.getNode().getBoundsInParent().intersects(node.getBoundsInParent())) {
 //                    System.out.println("get in bounds");
 //                    System.out.println(go.getNode().getTranslateY() + " " + node.getTranslateY());
-                    if (Math.abs( go.getNode().getTranslateY() + go.getY() + go.getLength() + 1 - n.getY() - node.getTranslateY()) < 4) {
+                    if (( go.getNode().getTranslateY() + go.getY() + go.getLength() + 1 - n.getY() - node.getTranslateY()) < 3) {
 //                        go.setYSpeed(go.getYSpeed());
 //                        System.out.println("koodo");
                         return true;
@@ -221,6 +224,47 @@ public class Game implements Screen {
         scoreText.setFont(Font.font("Comic Sans MS", 26));
         scoreText.setFill(Color.rgb(255, 102, 196));
 
+//        progressBarCreator();
+        Line progressLine = new Line(42,90,262,90);
+        progressLine.setStrokeWidth(5);
+        progressLine.setStroke(Color.rgb(255,102,196));
+
+        Rectangle heroSide = new Rectangle(15,15);
+        heroSide.setLayoutX(39);
+        heroSide.setLayoutY(82);
+        heroSide.setStroke(Color.rgb(255,102,196));
+        heroSide.setFill(Color.rgb(255,102,196));
+
+        Rectangle orcSide = new Rectangle(15,15);
+        orcSide.setLayoutX(265);
+        orcSide.setLayoutY(82);
+        orcSide.setStroke(Color.rgb(255,102,196));
+        orcSide.setFill(Color.rgb(255,102,196));
+        progCounter = 40;
+        Image heroProg =  new Image("file:src/main/resources/Assets/Knight.png");
+        ImageView heroProgView = new ImageView(heroProg);
+        heroProgView.setX(37);
+        heroProgView.setY(70);
+        heroProgView.setFitHeight(20);
+        heroProgView.setFitWidth(20);
+
+        Image orcProg =  new Image("file:src/main/resources/Assets/Orks/big_green_ork.png");
+        ImageView orcProgView = new ImageView(orcProg);
+        orcProgView.setX(263);
+        orcProgView.setY(70);
+        orcProgView.setFitHeight(20);
+        orcProgView.setFitWidth(20);
+
+
+        Group barGroup = new Group();
+        barGroup.getChildren().add(progressLine);
+        barGroup.getChildren().add(heroSide);
+        barGroup.getChildren().add(orcSide);
+        barGroup.getChildren().add(orcProgView);
+        barGroup.getChildren().add(heroProgView);
+        gamePane.getChildren().add(barGroup);
+
+
         tempClicker = new Rectangle();
         tempClicker.setLayoutX(50); tempClicker.setLayoutY(130); tempClicker.setWidth(250);
         tempClicker.setHeight(448); tempClicker.setOpacity(0);
@@ -247,6 +291,9 @@ public class Game implements Screen {
                 }
                 score++;
                 scoreText.setText(""+score);
+                progCounter +=5;
+                heroProgView.setX(progCounter);
+
             }
         });
 
@@ -255,5 +302,7 @@ public class Game implements Screen {
         primaryStage.show();
         startGameLoop();
     }
+
+
 
 }
