@@ -214,9 +214,8 @@ public class GameController implements Initializable {
         musicClickCount = !musicClickCount;
     }
 
-    public void pressPause(MouseEvent event){
-        setSideElements(pauseObjects, pauseClickCount);
-        pauseClickCount = !pauseClickCount;
+    public void pressPause(MouseEvent event) throws Exception {
+        Game.getInstance().pause();
     }
 
     public void pressSound(MouseEvent event){
@@ -245,24 +244,7 @@ public class GameController implements Initializable {
         });
     }
 
-    private void setSideElements(Group group, boolean count){
-        topBlocker.setVisible(true);
-        TranslateTransition translate6 = new TranslateTransition();
-        translate6.setNode(group);
-        translate6.setDuration(Duration.millis(500));
-        if (!count){
-            translate6.setByX(75);
-        }
-        else{
-            translate6.setByX(-75);
-        }
-        translate6.setAutoReverse(false);
-        translate6.setInterpolator(Interpolator.EASE_BOTH);
-        translate6.play();
-        translate6.setOnFinished(e->{
-            topBlocker.setVisible(false);
-        });
-    }
+
 
 
 
@@ -273,6 +255,5 @@ public class GameController implements Initializable {
         translateIsland(mainIsland, 2000, 15); //for i in islands
         translateIsland(floatingIsland, 5000, 25);
         translateIsland(floatingIsland2, 4000, 10);
-        topBlocker.setVisible(false); //pause menu
     }
 }

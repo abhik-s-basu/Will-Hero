@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,18 +33,15 @@ public class PauseGameMenuController  {
     private boolean musicClicked;
     private boolean soundClicked;
 
-    PauseGameMenuController(){
-        musicClicked = false;
-        soundClicked = false;
+
+
+
+    public void resumeGame(){
+        Game.getInstance().resumeGame();
     }
 
-    @FXML
-    void resumeGame(){
-        PauseGameMenu.getInstance().resumeGame();
-    }
 
-    @FXML
-    void pressMusic(){
+    public void pressMusic(){
         Image tempImage;
         if(!musicClicked){
             tempImage = new Image("file:src/main/resources/Assets/MusicOff.png");
@@ -56,8 +54,8 @@ public class PauseGameMenuController  {
         musicToggle.setImage(tempImage);
         musicClicked = !musicClicked;
     }
-    @FXML
-    void pressSound(){
+
+   public void pressSound(){
         Image tempImage;
         if(!soundClicked){
             tempImage = new Image("file:src/main/resources/Assets/mute_1.png");
@@ -68,19 +66,19 @@ public class PauseGameMenuController  {
         soundToggle.setImage(tempImage);
         soundClicked = !soundClicked;
     }
-    @FXML
-     void pressMainMenu(){
+
+     public void pressMainMenu() throws IOException {
         Stage stage = (Stage)mainMenuButton.getScene().getWindow();
         MainMenu mainMenu = new MainMenu();
-//        mainMenu.start(stage);
+        mainMenu.startMenu(stage,soundClicked,musicClicked);
 
      }
-    @FXML
-     void viewSavedGames(){
+
+     public void viewSavedGames(){
         //karna hai
      }
-    @FXML
-     void savedGames (){
+
+     public void savedGames (){
         //karna hai
      }
 

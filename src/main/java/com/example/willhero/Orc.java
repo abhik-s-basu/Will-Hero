@@ -19,7 +19,7 @@ public abstract class Orc extends  GameObject {
     public void killOrc(){
         //code tbd;
     }
-    public void jumpInPlace(Game curGame){
+    public void jumpInPlace(Game curGame) throws Exception {
         for (int i = 0; i < Math.abs(getYSpeed()); i++) {
             if (curGame.checkCollisionY(this, getYSpeed())){
                 if (this.getClass().getName().equals("com.example.willhero.SmallOrc")){

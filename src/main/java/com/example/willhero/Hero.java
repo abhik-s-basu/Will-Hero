@@ -21,7 +21,7 @@ public class Hero extends GameObject{
     public void killHero(){
         //code tbd
     }
-    public void jumpInPlace() {
+    public void jumpInPlace() throws Exception {
         for (int i = 0; i < Math.abs(getYSpeed()); i++) {
             if (curGame.checkCollisionY(this, getYSpeed())){
                 setYSpeed(-14);

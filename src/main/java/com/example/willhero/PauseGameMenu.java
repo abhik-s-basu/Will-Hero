@@ -28,7 +28,7 @@ public class PauseGameMenu extends Application implements Screen {
     @Override
     public void start(Stage stage) throws Exception {
         stage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
-        AnchorPane gameEndPane = FXMLLoader.load(getClass().getResource("GameEndMenu.fxml"));
+        AnchorPane gameEndPane = FXMLLoader.load(getClass().getResource("PauseGameMenu.fxml"));
         stage.setScene(new Scene(gameEndPane,310,657));
         stage.show();
     }

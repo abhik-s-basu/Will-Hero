@@ -34,11 +34,6 @@
             </ImageView>
          </children>
       </Group>
-      <ImageView fitHeight="47.0" fitWidth="105.0" layoutX="210.0" layoutY="-9.0">
-         <image>
-            <Image url="@../../../Assets/coins-removebg-preview.png" />
-         </image>
-      </ImageView>
       <Group fx:id="floatingIsland" layoutX="5.0" layoutY="201.0">
          <children>
             <ImageView fitHeight="43.0" fitWidth="66.0" layoutY="2.0">
@@ -143,7 +138,6 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="43.0" layoutX="-82.0" layoutY="241.0" onMouseClicked="#clickBackToMainMenu" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="65.0" />
          </children>
       </Group>
-      <Rectangle fx:id="topBlocker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="291.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="79.0" />
       <Group fx:id="savedGameScreen" layoutX="47.5" layoutY="771.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="919.0" layoutX="-141.0" layoutY="-85.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="505.0" />

@@ -24,8 +24,13 @@ public class Game implements Screen {
 
     private AnchorPane gamePane;
     private Scene scene;
+    private Scene pausedScene;
+    private Stage stage;
+    private static Game game = null;
     private volatile int coinsCollected;
     private int score;
+    private Text numCoins;
+    private boolean gamePause = false;
     private ArrayList<GameObject> gameObjects;
     private final int RESURRECT_COINS;
     private final int WINNING_JUMP;
@@ -47,6 +52,7 @@ public class Game implements Screen {
         this.gameObjects = new ArrayList<GameObject>();
         this.orcs = new ArrayList<Orc>();
         this.islands = new ArrayList<Island>();
+        this.game = this;
         this.chests = new ArrayList<Chest>();
         this.obstacles = new ArrayList<Obstacle>();
         this.RESURRECT_COINS = 100;
@@ -55,7 +61,7 @@ public class Game implements Screen {
         this.GRAVITY = 1;
     }
 
-    public boolean checkCollisionY(GameObject go, int YSpeed) {
+    public boolean checkCollisionY(GameObject go, int YSpeed) throws Exception {
         for (GameObject n : islands) {
             Node upper = n.getUpper();
             if (YSpeed > 0) {
@@ -89,6 +95,7 @@ public class Game implements Screen {
                         ((ImageView)(n.getNode())).setImage(new Image("file:src/main/resources/Assets/Chests/OpenChestNoBG.png"));
                         if(n instanceof CoinChest){
                             coinsCollected += ((CoinChest) n).openChest();
+                            numCoins.setText(String.valueOf(coinsCollected));
                         }
                         else if (n instanceof WeaponChest){
                             hero.openChest((WeaponChest) n);
@@ -101,15 +108,25 @@ public class Game implements Screen {
         if (YSpeed > 0) {
 //                if (!go.equals(n)) {
             if (go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) {
-//                System.exit(0);
+                endgame();
             }
 //                }
         }
         return false;
     }
 
+    private void endgame() throws Exception {
 
-    private void update() {
+        gamePause = true;
+        gameLoop.stop();
+        pausedScene = scene;
+        System.out.println(score + " " + coinsCollected);
+        GameEndMenu gameEndMenu = new GameEndMenu(this.score,this.coinsCollected);
+        gameEndMenu.start(stage);
+    }
+
+
+    private void update() throws Exception {
         System.out.println(coinsCollected);
         if (hero.getYSpeed() < 30) {
             hero.setYSpeed(hero.getYSpeed() + GRAVITY); //v = u + at
@@ -132,7 +149,11 @@ public class Game implements Screen {
             @Override
             public void handle(long now) {
                 if (now - lastUpdate >= 20_000_000) {
-                    update();
+                    try {
+                        update();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     lastUpdate = now;
                 }
             }
@@ -231,7 +252,27 @@ public class Game implements Screen {
     }
 
 
+    public static Game getInstance(){
+        return game;
+    }
 
+    public void pause() throws Exception {
+        pauseGame();
+    }
+    private void pauseGame() throws Exception{
+        gamePause = true;
+        gameLoop.stop();
+        pausedScene = scene;
+        PauseGameMenu pm = new PauseGameMenu();
+        pm.start(stage);
+    }
+
+    public void resumeGame(){
+        stage.setScene(pausedScene);
+        stage.show();
+        gamePause = false;
+        gameLoop.start();
+    }
 
     private void islandGenerator(){
         islands.add(new Island(18,444,270,100,
@@ -397,6 +438,21 @@ public class Game implements Screen {
         barGroup.getChildren().add(heroProgView);
         gamePane.getChildren().add(barGroup);
 //end of progress bar
+        Image coinPic = new Image("file:src/main/resources/Assets/Coin.png");
+        ImageView coinView = new ImageView(coinPic);
+        coinView.setFitWidth(25);
+        coinView.setFitHeight(25);
+        coinView.setLayoutX(280);
+        coinView.setLayoutY(12);
+        gamePane.getChildren().add(coinView);
+
+        numCoins = new Text();
+        numCoins.setLayoutX(250);
+        numCoins.setLayoutY(28);
+        numCoins.setText(String.valueOf(coinsCollected));
+        numCoins.setFont(Font.font("Comic Sans MS", 25));
+        numCoins.setFill(Color.rgb(255, 249, 2));
+        gamePane.getChildren().add(numCoins);
 
         tempClicker = new Rectangle();
         tempClicker.setLayoutX(50); tempClicker.setLayoutY(130); tempClicker.setWidth(250);
@@ -412,12 +468,14 @@ public class Game implements Screen {
                 progCounter += 3;
                 progCounter = Math.min(progCounter,260);
                 heroProgView.setX(progCounter);
+                numCoins.setText(String.valueOf(coinsCollected));
             }
         });
 
         scene = new Scene(gamePane,310,657);
         primaryStage.setScene(scene);
         primaryStage.show();
+        stage = primaryStage;
         startGameLoop();
     }
 }
