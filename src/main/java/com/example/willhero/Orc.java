@@ -23,13 +23,13 @@ public abstract class Orc extends  GameObject {
         for (int i = 0; i < Math.abs(getYSpeed()); i++) {
             if (curGame.checkCollisionY(this, getYSpeed())){
                 if (this.getClass().getName().equals("com.example.willhero.SmallOrc")){
-                    setYSpeed(getYSpeed() - (int) (Math.random()*7 + 10));
+                    setYSpeed( -(int) (Math.random()*7 + 12));
                 }
-                else if (this.getClass().getName().equals("com.example.willhero.SmallOrc")){
-                    setYSpeed(getYSpeed() - 14);
+                else if (this.getClass().getName().equals("com.example.willhero.MediumOrc")){
+                    setYSpeed(-(int) (Math.random()*5 + 10));
                 }
-                else if (this.getClass().getName().equals("com.example.willhero.SmallOrc")){
-                    setYSpeed(getYSpeed() - 13);
+                else if (this.getClass().getName().equals("com.example.willhero.BossOrc")){
+                    setYSpeed(-(int) (Math.random()*3 + 13));
                 }
             }
             getUpper().setTranslateY(getUpper().getTranslateY() + ((getYSpeed() > 0) ? 1 : -1));

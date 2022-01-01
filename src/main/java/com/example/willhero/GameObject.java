@@ -7,16 +7,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-//platforms
-//coins
-//orcs
-//chests
-//weapons
-//TNT
-//menus
-//serializable
-//Boss fight
-//touch ups
+//platforms - done
+//coins - tbd - TODAY
+//orcs - done
+//chests - tbd - TODAY
+//weapons - TBD
+//TNT - tbd - TODAY
+//menus - TBD - TODAY
+//serializable - TO BE DONE
+//music - not priority
+//Boss fight - done
+//touch ups - end
 
 public abstract class GameObject {
     private double xCoordinate;
@@ -60,26 +61,30 @@ public abstract class GameObject {
         upper = new Rectangle();
         upper.setLayoutX(xCoordinate);
         upper.setLayoutY(yCoordinate);
-        upper.setHeight(2);
+        upper.setHeight(5);
         upper.setWidth(length);
+        upper.setOpacity(0);
 
         lower = new Rectangle();
         lower.setLayoutX(xCoordinate);
         lower.setLayoutY(yCoordinate + breadth);
         lower.setHeight(2);
         lower.setWidth(length);
+        lower.setOpacity(0);
 
         left = new Rectangle();
         left.setLayoutX(xCoordinate);
         left.setLayoutY(yCoordinate);
         left.setHeight(breadth);
         left.setWidth(2);
+        left.setOpacity(0);
 
         right = new Rectangle();
         right.setLayoutX(xCoordinate + length);
         right.setLayoutY(yCoordinate);
         right.setHeight(breadth);
-        right.setWidth(2);
+        right.setWidth(4);
+        right.setOpacity(0);
 
         return;
     }
