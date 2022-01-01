@@ -258,7 +258,7 @@ public class Game implements Screen {
 
     }
 
-    public void startGame(Stage primaryStage, double posHero, boolean sound, boolean music)
+    public void startGame(Stage primaryStage, double posHero, boolean sound , boolean music )
             throws IOException {
 
         primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));

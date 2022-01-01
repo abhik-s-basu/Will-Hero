@@ -38,11 +38,12 @@ public class PauseGameMenuController  {
     }
 
     @FXML
-    void resumeGame(MouseEvent event){
+    void resumeGame(){
         PauseGameMenu.getInstance().resumeGame();
     }
 
-    void pressMusic(MouseEvent event){
+    @FXML
+    void pressMusic(){
         Image tempImage;
         if(!musicClicked){
             tempImage = new Image("file:src/main/resources/Assets/MusicOff.png");
@@ -55,8 +56,8 @@ public class PauseGameMenuController  {
         musicToggle.setImage(tempImage);
         musicClicked = !musicClicked;
     }
-
-    void pressSound(MouseEvent event){
+    @FXML
+    void pressSound(){
         Image tempImage;
         if(!soundClicked){
             tempImage = new Image("file:src/main/resources/Assets/mute_1.png");
@@ -67,19 +68,19 @@ public class PauseGameMenuController  {
         soundToggle.setImage(tempImage);
         soundClicked = !soundClicked;
     }
-
-     void pressMainMenu(MouseEvent event){
+    @FXML
+     void pressMainMenu(){
         Stage stage = (Stage)mainMenuButton.getScene().getWindow();
         MainMenu mainMenu = new MainMenu();
 //        mainMenu.start(stage);
 
      }
-
-     void viewSavedGames(MouseEvent event){
+    @FXML
+     void viewSavedGames(){
         //karna hai
      }
-
-     void savedGames (MouseEvent event){
+    @FXML
+     void savedGames (){
         //karna hai
      }
 
