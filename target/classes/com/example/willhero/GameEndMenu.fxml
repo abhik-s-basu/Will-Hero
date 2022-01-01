@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="657.0" maxWidth="310.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: #00B4Db;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.GameEndMenuController">
+   <children>
+      <Text fill="#393537" layoutX="41.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S C O R E ">
+         <font>
+            <Font name="Lucida Console" size="40.0" />
+         </font>
+      </Text>
+      <Text fill="#393537" layoutX="41.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="C O I N S">
+         <font>
+            <Font name="Lucida Console" size="40.0" />
+         </font>
+      </Text>
+      <Button fx:id="resurrectButton" layoutX="41.0" layoutY="462.0" mnemonicParsing="false" onMouseClicked="#revive" prefHeight="43.0" prefWidth="241.0" text="Resurrect">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="mainMenuButton" layoutX="41.0" layoutY="515.0" mnemonicParsing="false" onMouseClicked="#mainMenu" prefHeight="43.0" prefWidth="241.0" text="Main Menu">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Button>
+      <Button fx:id="restartButton" layoutX="41.0" layoutY="568.0" mnemonicParsing="false" onMouseClicked="#restartGame" prefHeight="43.0" prefWidth="241.0" text="Restart Game">
+         <font>
+            <Font name="Lucida Console" size="24.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="657.0" maxWidth="310.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: #00B4DB;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.PauseGameMenuJava">
+   <children>
+      <ImageView fx:id="resume" fitHeight="54.0" fitWidth="69.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#resumeGame">
+         <image>
+            <Image url="@../../../Assets/cross.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="musicToggle" fitHeight="84.0" fitWidth="95.0" layoutX="104.0" layoutY="141.0" onMouseClicked="#pressMusic">
+         <image>
+            <Image url="@../../../Assets/MusicOn.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="soundToggle" fitHeight="75.0" fitWidth="85.0" layoutX="110.0" layoutY="234.0" onMouseClicked="#pressSound">
+         <image>
+            <Image url="@../../../Assets/volume_1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="loadSavedGamesButton" fitHeight="70.0" fitWidth="80.0" layoutX="112.0" layoutY="410.0">
+         <image>
+            <Image url="@../../../Assets/saveGame.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="mainMenuButton" fitHeight="75.0" fitWidth="85.0" layoutX="110.0" layoutY="325.0" onMouseClicked="#pressMainMenu">
+         <image>
+            <Image url="@../../../Assets/BackToMainMenu.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="saveGameButton" fitHeight="75.0" fitWidth="85.0" layoutX="112.0" layoutY="492.0">
+         <image>
+            <Image url="@../../../Assets/LoadGame.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
