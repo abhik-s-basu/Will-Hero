@@ -26,7 +26,7 @@ public class GameEndMenu  extends Application {
     GameEndMenu(int _score, int _totalCoins){
         score = _score;
         totalCoins = _totalCoins;
-        finalCoins = totalCoins;
+        finalCoins += totalCoins;
         gameEndMenu = this;
     }
 
@@ -59,7 +59,8 @@ public class GameEndMenu  extends Application {
         numCoins.setFont(Font.font("Lucida Console",40));
         numCoins.setFill(Color.BLACK);
         gameEndPane.getChildren().add(numCoins);
-
+//        MainMenu.getInstance().putCoins(finalCoins);
+//        System.out.println(finalCoins);
         primaryStage.show();
 
     }
