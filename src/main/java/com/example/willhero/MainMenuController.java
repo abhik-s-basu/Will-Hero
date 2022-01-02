@@ -68,6 +68,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private Rectangle topBlocker;
 
+    @FXML
+    private ImageView exitButton;
+
     private boolean settingsClickCount;
     private boolean soundClickCount;
     private boolean musicClickCount;
