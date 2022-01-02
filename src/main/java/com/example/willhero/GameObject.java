@@ -1,22 +1,20 @@
 package com.example.willhero;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-//coins - tbd
-//chests - tbd
-//weapons - TO BE DONE
-//abyss -
+//weapon chests - tbd
+//weapon buttons
+//weapon milega - image change -> buttons, hero, chest
+//orc damage
 
 //cross, coins in main screen and updated - abhik
 //saved games menu, game won menu - abhik
-//serializable - TO BE DONE - abhik
+//serializable - TO BE DONE - abhik - 1
 //music - not priority - abhik
 //touch ups - end
 

@@ -84,6 +84,7 @@ public class Game implements Screen {
                             n.getNode().getBoundsInParent().intersects(go.getNode().getBoundsInParent())){
                         return true;
                     }
+                    //code change for attack w weapons
                 }
             }
         }
@@ -121,6 +122,11 @@ public class Game implements Screen {
                             gamePane.getChildren().removeAll(go.getNode(),
                                     go.getLeft(), go.getLower(), go.getRight(), go.getUpper());
                             ((Orc) go).setAlive();
+                            System.out.println("dead");
+                            coinsCollected += ((Orc) go).getCoinsOnKill();
+                            numCoins.setText(String.valueOf(coinsCollected));
+                            orcs.remove((Orc) go);
+                            gameObjects.remove(go);
                         }
                     }
                 }
@@ -152,12 +158,33 @@ public class Game implements Screen {
         }
         hero.jumpInPlace();
 
+        if(hero.getY() + hero.getNode().getTranslateY() >= ABYSS){
+            endgame();
+        }
+
+        Orc dead = null;
+
         for (Orc o : orcs) {
             if (o.getYSpeed() < 30) {
                 o.setYSpeed(o.getYSpeed() + GRAVITY); //v = u + at
             }
             o.jumpInPlace(this);
+            if(o.getY() + o.getNode().getTranslateY() >= ABYSS){
+                dead = o;
+                System.out.println("dead");
+                coinsCollected += dead.getCoinsOnKill();
+                numCoins.setText(String.valueOf(coinsCollected));
+            }
         }
+
+        if (dead != null){
+            gamePane.getChildren().removeAll(dead.getNode(),
+                    dead.getLeft(), dead.getLower(), dead.getRight(), dead.getUpper());
+            dead.setAlive();
+            orcs.remove(dead);
+            gameObjects.remove(dead);
+        }
+
     }
 
 
