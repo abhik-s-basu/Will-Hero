@@ -63,17 +63,21 @@ public class Game implements Screen, Serializable {
     private boolean flag;
     private int progCounter;
 
+
     transient String jumpSoundFile = "src/main/resources/Assets/Sounds/jump.wav";
     transient Media jumpSound;
     transient MediaPlayer jumpSoundPlayer;
+
 
     transient String collisionSoundFile = "src/main/resources/Assets/Sounds/collision.wav";
     transient Media collisionSound;
     transient MediaPlayer collisionSoundPlayer;
 
+
     transient String deadSoundFile ="src/main/resources/Assets/Sounds/dead.wav";
     transient Media deadSound;
     transient MediaPlayer deadSoundPlayer;
+
 
     Game() {
         this.coinsCollected = 0;
@@ -84,13 +88,14 @@ public class Game implements Screen, Serializable {
         this.game = this;
         this.chests = new ArrayList<Chest>();
         this.obstacles = new ArrayList<Obstacle>();
-        this.RESURRECT_COINS = 100;
+        this.RESURRECT_COINS = 40;
         this.ABYSS = 575;
-        this.WINNING_JUMP = 60;
+        this.WINNING_JUMP = 75;
         this.GRAVITY = 1;
         this.collidedNode = null;
         this.flag = false;
     }
+
 
     public boolean checkCollisionY(GameObject go, int YSpeed) throws Exception {
         for (GameObject n : islands) {
@@ -188,6 +193,8 @@ public class Game implements Screen, Serializable {
         return false;
     }
 
+
+
     private void endgame() throws Exception {
         deadSound = new Media(new File(deadSoundFile).toURI().toString());
         deadSoundPlayer = new MediaPlayer(deadSound);
@@ -199,6 +206,7 @@ public class Game implements Screen, Serializable {
         GameEndMenu gameEndMenu = new GameEndMenu(game,this.score,this.coinsCollected);
         gameEndMenu.start(stage);
     }
+
 
 
     private void update() throws Exception {
@@ -235,6 +243,7 @@ public class Game implements Screen, Serializable {
     }
 
 
+
     private void startGameLoop() {
         gameLoop = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -254,6 +263,9 @@ public class Game implements Screen, Serializable {
         gameLoop.start();
     }
 
+
+
+
     private void  gameWon() throws Exception {
         gamePause = true;
         gameLoop.stop();
@@ -261,8 +273,11 @@ public class Game implements Screen, Serializable {
         GameWon gameWonMenu = new GameWon(game,this.score,this.coinsCollected);
         gameWonMenu.start(stage);
     }
+
+
+
     private void updateClicker() throws Exception {
-        if (princess.getNode().getTranslateX() >= -3250) {
+        if (hero.getNode().getLayoutX() <= princess.getX() + princess.getNode().getTranslateX()) {
             score++;
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2), this::doStep));
             timeline.setCycleCount(hero.getXSpeed());
@@ -276,6 +291,8 @@ public class Game implements Screen, Serializable {
             gameWon();
         }
     }
+
+
 
     private void doStep(ActionEvent actionEvent) {
         for (GameObject j : gameObjects) {
@@ -338,16 +355,28 @@ public class Game implements Screen, Serializable {
         }
     }
 
+
+
+
     public static Game getInstance(){
         //conditions to maintain OOP concepts
         return game;
     }
+
+
+
     public Hero getHero(){
         return hero;
     }
+
+
+
     public ArrayList<GameObject> getAllObjects(){
         return gameObjects;
     }
+
+
+
     public void pause() throws Exception {
         for(GameObject i: gameObjects){
             i.setX(i.getNode().getTranslateX()+i.getX());
@@ -356,6 +385,9 @@ public class Game implements Screen, Serializable {
         }
         pauseGame();
     }
+
+
+
     private void pauseGame() throws Exception{
         gamePause = true;
         gameLoop.stop();
@@ -363,6 +395,9 @@ public class Game implements Screen, Serializable {
         PauseGameMenu pm = new PauseGameMenu(this);
         pm.start(stage);
     }
+
+
+
 
     public void resumeGame(Stage stage,boolean extralife){
 
@@ -378,6 +413,8 @@ public class Game implements Screen, Serializable {
         gamePause = false;
         gameLoop.start();
     }
+
+
 
     private void axeButtonClicked() {
         if (!(axeButton.getOpacity() == 0.5)){
@@ -404,7 +441,6 @@ public class Game implements Screen, Serializable {
     }
 
     private void islandGenerator() throws IOException {
-        gamePane = FXMLLoader.load(getClass().getResource("Game.fxml"));
         islands.add(new Island(18,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_02.png"));
         orcs.add(new MediumOrc(140,400,40,40,
@@ -529,6 +565,7 @@ public class Game implements Screen, Serializable {
             throws IOException {
 
         primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
+        gamePane = FXMLLoader.load(getClass().getResource("Game.fxml"));
 
         islandGenerator();
         initButtons();
@@ -723,6 +760,55 @@ public class Game implements Screen, Serializable {
     }
 
 
+    public void startSavedGame(Stage primaryStage, ArrayList<GameObject> tempList) throws IOException {
+        primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
+        gamePane = FXMLLoader.load(getClass().getResource("Game.fxml"));
+        gameObjects = tempList;
+        for (GameObject go : gameObjects){
+            if (go instanceof Orc){
+                orcs.add((Orc) go);
+            }
+            if (go instanceof Chest){
+                chests.add((Chest) go);
+            }
+            if (go instanceof Obstacle){
+                obstacles.add((Obstacle) go);
+            }
+            if (go instanceof Island){
+                islands.add((Island) go);
+            }
+            if (go instanceof Hero){
+                if (go.getX() == 40){
+                    hero = (Hero) go;
+                }
+                else{
+                    princess = (Hero) go;
+                }
+            }
+            gamePane.getChildren().addAll(go.getAll());
+        }
 
+        initButtons();
 
+        tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e) {
+                try {
+                    updateClicker();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                scoreText.setText(""+score);
+                progCounter += 3;
+                progCounter = Math.min(progCounter,260);
+                heroProgView.setX(progCounter);
+                numCoins.setText(String.valueOf(coinsCollected));
+            }
+        });
+
+        scene = new Scene(gamePane,310,657);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        stage = primaryStage;
+        startGameLoop();
+    }
 }

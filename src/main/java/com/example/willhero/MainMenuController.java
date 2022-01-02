@@ -243,7 +243,7 @@ public class MainMenuController implements Initializable {
         setScreen(1, quitScreen);
     }
 
-    public void pressLoadGame(MouseEvent event){
+    public void pressLoadGame(MouseEvent event) throws IOException, ClassNotFoundException {
         MainMenu.getInstance().loadState();
     }
 

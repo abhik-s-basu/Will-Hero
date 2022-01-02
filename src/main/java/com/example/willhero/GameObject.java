@@ -57,6 +57,9 @@ public abstract class GameObject implements Serializable {
         this.display();
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
 
     private void display(){
 

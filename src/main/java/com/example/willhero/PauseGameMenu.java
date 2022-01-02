@@ -51,11 +51,13 @@ public class PauseGameMenu extends Application implements Screen {
         }
         else{
             for(int i=1;i<=3;i++){
-                MainMenu.getInstance().savedGamesList.set(i-1,MainMenu.getInstance().savedGamesList.get(i));
+                MainMenu.getInstance().savedGamesList.set(i-1,
+                        MainMenu.getInstance().savedGamesList.get(i));
             }
             MainMenu.getInstance().savedGamesList.set(3,currPausedGame);
         }
         System.out.println(MainMenu.getInstance().savedGamesList.size());
+        System.out.println(MainMenu.getInstance().savedGamesList.get(0).getHero().getX());
         saveState();
     }
 

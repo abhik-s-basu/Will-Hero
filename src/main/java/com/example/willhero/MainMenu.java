@@ -21,7 +21,8 @@ public class MainMenu implements Screen {
     AnchorPane mainMenuPane;
     Scene scene;
     int totalCoinsCollected = 20;
-    ArrayList<Game> savedGamesList;
+    static ArrayList<Game> savedGamesList;
+    Stage stage;
 
     private String backgroundMusicFile = "src/main/resources/Assets/Sounds/letithappen.wav";
     Media backgroundMusic;
@@ -31,7 +32,6 @@ public class MainMenu implements Screen {
         return savedGamesList;
     }
     MainMenu(){
-
         mainMenu = this;
         savedGamesList = new ArrayList<>();
     }
@@ -67,6 +67,7 @@ public class MainMenu implements Screen {
         mainMenuPane.getChildren().add(numCoins);
     }
     public void start(Stage primaryStage) throws IOException {
+        stage = primaryStage;
         primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
         mainMenuPane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         showCoins();
@@ -84,11 +85,12 @@ public class MainMenu implements Screen {
         return mainMenu;
     }
 
-    public void loadState(){
+    public void loadState() throws IOException, ClassNotFoundException {
         System.out.println("load state pe hai");
-//            RegenerateObstacles regen = new RegenerateObstacles();
-//            regen.regenerateGameObjects("Game.txt");
-
-
+        RegenerateObstacles regen = new RegenerateObstacles();
+        ArrayList<GameObject> tempList = regen.regenerateGameObjects("main.txt");
+        //current properties
+        Game gameInstance = regen.getGame();
+        gameInstance.startSavedGame(stage, tempList);
     }
 }

@@ -1,123 +1,98 @@
-//package com.example.willhero;
-//
-//public class RegenerateObstacles {
-//        private ArrayList<GameObjects> myList;
-//        private GameObjects deserializedObj = null;
-//        private Ball gameBall;
-//
-//        private void deserialize(String fileName) throws IOException, ClassNotFoundException {
-//            ObjectInputStream in = null;
-//            myList = new ArrayList<>();
-//            try {
-//                in = new ObjectInputStream(new FileInputStream(fileName));
-//                deserializedObj = (GameObjects)in.readObject();
-//                gameBall = new Ball(deserializedObj.getPositionX(),deserializedObj.getPositionY(),15,1,3,1);
-//                gameBall.getGameBall().setCenterY(deserializedObj.getPositionY());
-//                gameBall.getGameBall().setCenterX(deserializedObj.getPositionX());
-//                while(true) {
-//                    try{
-//                        GameObjects tmp = (GameObjects) in.readObject();
-//                        myList.add(tmp);
-//                    }catch (EOFException e) {
-//                        break;
-//                    }catch (ClassCastException e) {
-//                        System.out.println("Invalid Class Cast Exception");
-//                    }
-//                }
-//            }
-//            finally {
-//                in.close();
-//            }
-//        }
-//
-//        public ArrayList<GameObjects> regenerateGameObjects(String fileName) throws IOException, ClassNotFoundException {
-//            deserialize(fileName);
-//            System.out.println(fileName);
-//            ArrayList<GameObjects> finalList = new ArrayList<>();
-//            for(int i=0;i<myList.size();i++) {
-//                GameObjects obj = myList.get(i);
-//                System.out.println(obj.getCenterPositionX()+"   "+obj.getCenterPositionY()+"   "+obj.getPositionX()+"   "+obj.getPositionY()+"   "+obj.getObjectType());
-//                if(obj.getObjectType().equals("Star")) {
-//                    Star s = new Star(obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    s.getImageView().setLayoutY(obj.getPositionY());
-//                    finalList.add(s);
-//                }
-//                else if(obj.getObjectType().equals("ColorChanger")) {
-//                    ColorChanger c = new ColorChanger(obj.getCenterPositionX(),obj.getCenterPositionY(),20.0f,20.0f,1);
-//                    c.getArcGroup().setLayoutY(obj.getPositionY());
-//                    finalList.add(c);
-//                }
-//                else if(obj.getObjectType().equals("NormalCircle")) {
-//                    Obstacles obs = new NormalCircle(3000,true,100.0f,100.0f,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ((NormalCircle)obs).getGroup().setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//                }
-//                else if(obj.getObjectType().equals("ConcentricCircles")) {
-//                    Obstacles obs = new ConcentricCircles(3000,obj.getCenterPositionX(),obj.getCenterPositionY());
-//
-//                    ArrayList<Group> groupList = ((ConcentricCircles)obs).getAllGroupList();
-//                    groupList.get(0).setLayoutY(obj.getPositionY());
-//                    groupList.get(1).setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if(obj.getObjectType().equals("Cross")) {
-//                    Obstacles obs = new Cross(3000,true,150,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ((Cross)obs).getStickGroup().setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if(obj.getObjectType().equals("Diamond")) {
-//                    Obstacles obs = new Diamond(3000,true,150,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ((Diamond)obs).getGroup().setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if(obj.getObjectType().equals("DoubleStackCircle")) {
-//                    Obstacles obs = new DoubleStackCircle(3000,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ArrayList<Group> groupList = ((DoubleStackCircle)obs).getGroupList();
-//                    groupList.get(0).setLayoutY(obj.getPositionY());
-//                    groupList.get(1).setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if(obj.getObjectType().equals("LongRod")) {
-//                    Obstacles obs = new LongRod(3000,true,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ((LongRod)obs).getGroup().setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if(obj.getObjectType().equals("Square")) {
-//                    Obstacles obs = new Square(3000,true,150,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ((Square)obs).getGroup().setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if(obj.getObjectType().equals("TripleConcentricCircles")) {
-//                    Obstacles obs = new TripleConcentricCircles(3000,4000,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ArrayList<Group> groupList = ((TripleConcentricCircles)obs).getAllGroupList();
-//                    groupList.get(0).setLayoutY(obj.getPositionY());
-//                    groupList.get(1).setLayoutY(obj.getPositionY());
-//                    groupList.get(2).setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if(obj.getObjectType().equals("TripleStackCircle")) {
-//                    Obstacles obs = new TripleStackCircle(3000,obj.getCenterPositionX(),obj.getCenterPositionY());
-//                    ArrayList<Group> groupList = ((TripleStackCircle)obs).getAllGroupList();
-//                    groupList.get(0).setLayoutY(obj.getPositionY());
-//                    groupList.get(1).setLayoutY(obj.getPositionY());
-//                    groupList.get(2).setLayoutY(obj.getPositionY());
-//                    finalList.add(obs);
-//
-//                }
-//                else if (obj.getObjectType().equals("Ball"))
-//                {
-//                    Ball currentBall = new Ball(obj.getPositionX(), obj.getPositionY(), 15, 4, 3, 1);
-//                    finalList.add(currentBall);
-//                }
-//            }
-//            return finalList;
-//        }
-//}
-//
+package com.example.willhero;
+
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
+public class RegenerateObstacles {
+        private ArrayList<GameObject> myList;
+        private GameObject deserializedObj = null;
+        private Hero gameHero;
+        private Game game = new Game();
+
+        private void deserialize(String fileName) throws IOException, ClassNotFoundException {
+
+            ObjectInputStream in = null;
+            myList = new ArrayList<>();
+            try {
+                in = new ObjectInputStream(new FileInputStream(fileName));
+                deserializedObj = (GameObject)in.readObject();
+                gameHero = new Hero(deserializedObj.getX(),deserializedObj.getY(),game,
+                        "file:src/main/resources/Assets/Knight.png");
+                while(true) {
+                    try{
+                        GameObject tmp = (GameObject) in.readObject();
+                        myList.add(tmp);
+                    }catch (EOFException e) {
+                        break;
+                    }catch (ClassCastException e) {
+                        System.out.println("Invalid Class Cast Exception");
+                    }
+                }
+            }
+            finally {
+                in.close();
+            }
+        }
+
+        public ArrayList<GameObject> regenerateGameObjects(String fileName) throws IOException, ClassNotFoundException {
+            deserialize(fileName);
+            System.out.println(fileName);
+            ArrayList<GameObject> finalList = new ArrayList<>();
+            for(GameObject obj : myList) {
+                System.out.println(obj.getX()+"   "+obj.getY()+"   "+
+                        obj.getLength()+"   "+obj.getBreadth()+"   "+obj.getClass().getSimpleName());
+                switch (obj.getClass().getSimpleName()){
+                    case "Island":
+                        finalList.add(new Island((int) obj.getX(),(int) obj.getY(),(int) obj.getLength(),(int) obj.getBreadth()
+                                , obj.isMoving(), obj.getImageURL()));
+                        break;
+                    case "Hero":
+                        finalList.add(new Hero((int) obj.getX(),(int) obj.getY()
+                                , game, obj.getImageURL()));
+                        break;
+                    case "SmallOrc":
+                        finalList.add(new SmallOrc((int) obj.getX(),(int) obj.getY(),(int) obj.getLength(),(int) obj.getBreadth(),
+                                obj.getXSpeed(), obj.getYSpeed(),null ,((SmallOrc) obj).getCoinsOnKill(),
+                                ((SmallOrc) obj).getHealth(), obj.getImageURL()));
+                        break;
+
+                    case "MediumOrc":
+                        finalList.add(new MediumOrc((int) obj.getX(),(int) obj.getY(),(int) obj.getLength(),(int) obj.getBreadth(),
+                                obj.getXSpeed(), obj.getYSpeed(),null ,((MediumOrc) obj).getCoinsOnKill(),
+                                ((MediumOrc) obj).getHealth(), obj.getImageURL()));
+                        break;
+                    case "BossOrc":
+                        finalList.add(new BossOrc((int) obj.getX(),(int) obj.getY(),(int) obj.getLength(),(int) obj.getBreadth(),
+                                obj.getXSpeed(), obj.getYSpeed(),"RED or GREEN" ,((BossOrc) obj).getCoinsOnKill(),
+                                ((BossOrc) obj).getHealth(), obj.getImageURL()));
+                        break;
+                    case "TNT":
+                        finalList.add(new TNT((int) obj.getX(), (int) obj.getY(), obj.getImageURL()));
+                        break;
+                    case "TNTBlinker":
+                        finalList.add(new TNTBlinker((int) obj.getX(), (int) obj.getY(), obj.getImageURL()));
+                        break;
+                    case "TNTSmoke":
+                        finalList.add(new TNTSmoke((int) obj.getX(), (int) obj.getY(), obj.getImageURL()));
+                        break;
+                    case "CoinChest":
+                        finalList.add(new CoinChest(((CoinChest) (obj)).openChest(), (int) obj.getX(),
+                                (int) obj.getY(), obj.getImageURL()));
+                        break;
+                    case "WeaponChest":
+                        finalList.add(new WeaponChest(new Helmet(new ThrowingAxe(), new ThrowingKnife()), (int) obj.getX(),
+                                (int) obj.getY(), obj.getImageURL()));
+                        break;
+                    }
+                }
+            return finalList;
+        }
+
+        public Game getGame(){
+            return this.game;
+        }
+}
+
