@@ -257,7 +257,7 @@ public class MainMenuController implements Initializable {
         System.out.println("Game has begun!");
         Stage stage = (Stage)  bannerName.getScene().getWindow();
         Game game = new Game();
-        game.startGame(stage, 5.0, soundClickCount, musicClickCount);
+        game.startGame(stage);
     }
 
     @Override

@@ -147,7 +147,7 @@ public class Game implements Screen {
         gamePause = true;
         gameLoop.stop();
         pausedScene = scene;
-        GameEndMenu gameEndMenu = new GameEndMenu(this.score,this.coinsCollected);
+        GameEndMenu gameEndMenu = new GameEndMenu(game,this.score,this.coinsCollected);
         gameEndMenu.start(stage);
     }
 
@@ -396,7 +396,7 @@ public class Game implements Screen {
 
     }
 
-    public void startGame(Stage primaryStage, double posHero, boolean sound , boolean music )
+    public void startGame(Stage primaryStage)
             throws IOException {
 
         primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
@@ -515,4 +515,6 @@ public class Game implements Screen {
         stage = primaryStage;
         startGameLoop();
     }
+
+
 }

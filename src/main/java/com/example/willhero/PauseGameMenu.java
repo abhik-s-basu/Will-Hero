@@ -22,7 +22,7 @@ public class PauseGameMenu extends Application implements Screen {
     }
     public void restartGame() throws IOException {
         Game game = new Game();
-        game.startGame(stage,5.0,true,true);
+        game.startGame(stage);
     }
 
     @Override

@@ -12,19 +12,19 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class GameEndMenu  extends Application {
+public class GameWon  extends Application {
 
     Text currScore;
     Text numCoins;
 
-    private static GameEndMenu gameEndMenu = null;
+    private static GameWon gameEndMenu = null;
     Game prevGame;
     int finalCoins;
     int totalCoins;
     int score;
     Stage stage;
 
-    GameEndMenu(Game currGame,int _score, int _totalCoins){
+    GameWon(Game currGame,int _score, int _totalCoins){
         score = _score;
         prevGame = currGame;
         finalCoins = _totalCoins;
@@ -33,20 +33,7 @@ public class GameEndMenu  extends Application {
         gameEndMenu = this;
     }
 
-    public boolean checkEligible(){
-        System.out.println("Total coins " + totalCoins);
-        if(totalCoins >= 15){
-            System.out.println("hello");
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 
-    public void continueGame(){
-        prevGame.resumeGame();// changes here and in game
-    }
 
     public void restart() throws IOException {
         Game game = new Game();
@@ -57,7 +44,7 @@ public class GameEndMenu  extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
-        AnchorPane gameEndPane = FXMLLoader.load(getClass().getResource("GameEndMenu.fxml"));
+        AnchorPane gameEndPane = FXMLLoader.load(getClass().getResource("GameWon.fxml"));
         primaryStage.setScene(new Scene(gameEndPane,310,657));
         //scores ka scene bhi yaha sort karna hoga and display karna hoga
         currScore = new Text();
@@ -83,7 +70,8 @@ public class GameEndMenu  extends Application {
 
     }
 
-    public static GameEndMenu getInstance(){
-        return gameEndMenu;
-    }
+//    public static GameEndMenu getInstance(){
+//        return gameEndMenu;
+//    }
 }
+

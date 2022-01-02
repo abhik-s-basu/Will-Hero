@@ -174,7 +174,7 @@ public class GameController implements Initializable {
         System.out.println("Back to main menu");
         Stage stage = (Stage)  floatingIsland.getScene().getWindow();
         MainMenu mm = new MainMenu();
-        mm.startMenu(stage, soundClickCount, musicClickCount);
+        mm.start(stage);
     }
 
     public void clickSaveGame(MouseEvent event) {

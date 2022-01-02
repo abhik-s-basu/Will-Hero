@@ -70,7 +70,7 @@ public class PauseGameMenuController  {
      public void pressMainMenu() throws IOException {
         Stage stage = (Stage)mainMenuButton.getScene().getWindow();
         MainMenu mainMenu = new MainMenu();
-        mainMenu.startMenu(stage,soundClicked,musicClicked);
+        mainMenu.start(stage);
 
      }
 

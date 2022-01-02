@@ -26,7 +26,7 @@ public class StartMenuController implements  Initializable  {
     public void gotoStartMenu(MouseEvent event) throws IOException{
         Stage stage = (Stage)  clickToStart.getScene().getWindow();
         MainMenu mm = new MainMenu();
-        mm.startMenu(stage, false, false);
+        mm.start(stage);
     }
 
     @Override
