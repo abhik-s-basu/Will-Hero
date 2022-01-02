@@ -35,9 +35,9 @@ public class PauseGameMenuController  {
 
 
 
-
     public void resumeGame(){
-        Game.getInstance().resumeGame();
+//        Game.getInstance().resumeGame(new Stage(),false);
+        PauseGameMenu.getInstance().resumeGame2();
     }
 
 
@@ -74,12 +74,13 @@ public class PauseGameMenuController  {
 
      }
 
-     public void viewSavedGames(){
-        //karna hai
+     public void viewSavedGames() throws Exception {
+        Stage stage = (Stage)loadSavedGamesButton.getScene().getWindow();
+        PauseGameMenu.getInstance().viewSavedGames();
      }
 
-     public void savedGames (){
-        //karna hai
+     public void savedGames () throws Exception {
+        PauseGameMenu.getInstance().saveGame();
      }
 
 

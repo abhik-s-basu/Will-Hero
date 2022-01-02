@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //weapon buttons
@@ -18,7 +22,8 @@ import java.util.ArrayList;
 //touch ups - end
 
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
+    private static final long serialVersionUID = 1729L;
     private double xCoordinate;
     private double yCoordinate;
     private int xSpeed;
@@ -27,15 +32,17 @@ public abstract class GameObject {
     private double breadth;
     private boolean moves;
     private  String imageURL;
-    private  Image image;
-    private  ImageView imageView;
+    private  transient Image image;
+    private  transient ImageView imageView;
+    private double deltaX;
+    private double deltaY;
 
-    private Rectangle upper;
-    private Rectangle lower;
-    private Rectangle left;
-    private Rectangle right;
+    private transient Rectangle upper;
+    private transient Rectangle lower;
+    private transient Rectangle left;
+    private transient Rectangle right;
 
-    GameObject(double x,double y,int _xSpeed , int _ySpeed , double length,
+    public GameObject(double x,double y,int _xSpeed , int _ySpeed , double length,
                double breadth,boolean moves, String imageURL){
         this.xCoordinate = x;
         this.yCoordinate = y;
@@ -45,8 +52,11 @@ public abstract class GameObject {
         this.breadth = breadth;
         this.moves = moves;
         this.imageURL = imageURL;
+        deltaX = 0;
+        deltaY = 0;
         this.display();
     }
+
 
     private void display(){
 
@@ -56,6 +66,8 @@ public abstract class GameObject {
         imageView.setY(yCoordinate);
         imageView.setFitHeight(breadth);
         imageView.setFitWidth(length);
+        imageView.setTranslateX(deltaX);
+        imageView.setTranslateY(deltaY);
 
         upper = new Rectangle();
         upper.setLayoutX(xCoordinate);
@@ -63,6 +75,8 @@ public abstract class GameObject {
         upper.setHeight(5);
         upper.setWidth(length);
         upper.setOpacity(0);
+        upper.setTranslateX(deltaX);
+        upper.setTranslateY(deltaY);
 
         lower = new Rectangle();
         lower.setLayoutX(xCoordinate);
@@ -70,6 +84,8 @@ public abstract class GameObject {
         lower.setHeight(4);
         lower.setWidth(length);
         lower.setOpacity(0);
+        lower.setTranslateX(deltaX);
+        lower.setTranslateY(deltaY);
 
         left = new Rectangle();
         left.setLayoutX(xCoordinate);
@@ -77,6 +93,8 @@ public abstract class GameObject {
         left.setHeight(breadth);
         left.setWidth(4);
         left.setOpacity(0);
+        left.setTranslateX(deltaX);
+        left.setTranslateY(deltaY);
 
         right = new Rectangle();
         right.setLayoutX(xCoordinate + length - 4);
@@ -84,6 +102,8 @@ public abstract class GameObject {
         right.setHeight(breadth);
         right.setWidth(4);
         right.setOpacity(0);
+        imageView.setTranslateX(deltaX);
+        imageView.setTranslateY(deltaY);
 
         return;
     }
@@ -169,6 +189,26 @@ public abstract class GameObject {
         this.moves = moves;
     }
     public void movement(){};
+
+//    private void writeObject(ObjectOutputStream out) throws IOException
+//   {
+//
+//             deltaX = imageView.getTranslateX();
+//             deltaY = imageView.getTranslateY();
+//       System.out.println(xCoordinate + deltaX + "hello");
+//             out.defaultWriteObject();
+//   }
+//   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+//   {
+//
+//       System.out.println(xCoordinate + "tataa");
+//             in.defaultReadObject();
+//
+//             display();
+//
+//   }
+
+
 
 
 }

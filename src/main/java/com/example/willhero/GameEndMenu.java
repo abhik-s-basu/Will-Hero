@@ -21,6 +21,7 @@ public class GameEndMenu  extends Application {
     Game prevGame;
     int finalCoins;
     int totalCoins;
+    boolean isResurrected;
     int score;
     Stage stage;
 
@@ -31,12 +32,14 @@ public class GameEndMenu  extends Application {
         MainMenu.getInstance().setNumCoins(finalCoins + MainMenu.getInstance().getNumCoins());
         totalCoins = MainMenu.getInstance().getNumCoins();
         gameEndMenu = this;
+        isResurrected = false;
     }
 
     public boolean checkEligible(){
         System.out.println("Total coins " + totalCoins);
-        if(totalCoins >= 15){
+        if(finalCoins >= 40 && !isResurrected){
             System.out.println("hello");
+            isResurrected = true;
             return true;
         }
         else{
@@ -45,7 +48,8 @@ public class GameEndMenu  extends Application {
     }
 
     public void continueGame(){
-        prevGame.resumeGame();// changes here and in game
+
+        prevGame.resumeGame(stage,true);// changes here and in game
     }
 
     public void restart() throws IOException {

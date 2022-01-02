@@ -1,8 +1,9 @@
 package com.example.willhero;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Hero extends GameObject{
+public class Hero extends GameObject implements Serializable {
 
     private Helmet helmet;
     private int heroNoOfJumps = 0;
@@ -71,6 +72,9 @@ public class Hero extends GameObject{
     }
     public boolean isResurrected(){
         return this.isResurrected;
+    }
+    public void setResurrected(boolean b){
+        this.isResurrected = b;
     }
     public void useWeapon(){
         //code tbd

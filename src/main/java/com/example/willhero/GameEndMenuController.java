@@ -1,5 +1,6 @@
 package com.example.willhero;
 
+import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,17 +30,18 @@ public class GameEndMenuController implements Initializable {
     @FXML
     void mainMenu () throws Exception{
         Stage stage = (Stage) mainMenuButton.getScene().getWindow();
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.start(stage); // just a fix
+//        MainMenu mainMenu = new MainMenu();
+//        mainMenu.start(stage); // just a fix
+        MainMenu.getInstance().start(stage);
     }
     @FXML
     void revive() throws IOException {
         System.out.println("here");
         boolean temp = GameEndMenu.getInstance().checkEligible();
         if(!temp){
-            Stage stage = (Stage) mainMenuButton.getScene().getWindow();
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.start(stage);
+//            Stage stage = (Stage) mainMenuButton.getScene().getWindow();
+//            MainMenu mainMenu = new MainMenu();
+//            mainMenu.start(stage);
         }
         else{
             System.out.println("hello again");

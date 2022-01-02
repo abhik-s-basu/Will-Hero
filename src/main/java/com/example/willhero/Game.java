@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -21,34 +23,38 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
-public class Game implements Screen {
+public class Game implements Screen, Serializable {
 
-    private AnchorPane gamePane;
-    private Scene scene;
-    private Scene pausedScene;
-    private Stage stage;
+    private static final long serialVersionUUID = 6592L;
+    private transient AnchorPane gamePane;
+    private transient Scene scene;
+    private transient Scene pausedScene;
+    private transient Stage stage;
     private static Game game = null;
     private volatile int coinsCollected;
     private int score;
-    private Text numCoins;
+    private transient Text numCoins;
     private boolean gamePause = false;
     private ArrayList<GameObject> gameObjects;
     private final int RESURRECT_COINS;
     private final int WINNING_JUMP;
     private final int ABYSS;
     private final int GRAVITY;
-    private AnimationTimer gameLoop;
+    private transient AnimationTimer gameLoop;
     private Hero hero;
     private Hero princess;
-    private ImageView axe;
-    private ImageView knife;
-    private Rectangle axeButton;
-    private Rectangle knifeButton;
-    private Text axeLevel;
-    private Text knifeLevel;
+    private transient Text scoreText;
+    private transient Rectangle tempClicker;
+    private transient ImageView heroProgView;
+    private transient ImageView axe;
+    private transient ImageView knife;
+    private transient Rectangle axeButton;
+    private transient Rectangle knifeButton;
+    private transient Text axeLevel;
+    private transient Text knifeLevel;
     private ArrayList<Orc> orcs;
     private ArrayList<Island> islands;
     private ArrayList<Chest> chests;
@@ -56,6 +62,18 @@ public class Game implements Screen {
     private GameObject collidedNode;
     private boolean flag;
     private int progCounter;
+
+    transient String jumpSoundFile = "src/main/resources/Assets/Sounds/jump.wav";
+    transient Media jumpSound;
+    transient MediaPlayer jumpSoundPlayer;
+
+    transient String collisionSoundFile = "src/main/resources/Assets/Sounds/collision.wav";
+    transient Media collisionSound;
+    transient MediaPlayer collisionSoundPlayer;
+
+    transient String deadSoundFile ="src/main/resources/Assets/Sounds/dead.wav";
+    transient Media deadSound;
+    transient MediaPlayer deadSoundPlayer;
 
     Game() {
         this.coinsCollected = 0;
@@ -78,6 +96,11 @@ public class Game implements Screen {
         for (GameObject n : islands) {
             if (YSpeed > 0) {
                 if (go.getLower().getBoundsInParent().intersects(n.getUpper().getBoundsInParent())) {
+                    if(go == hero){
+                        jumpSound = new Media(new File(jumpSoundFile).toURI().toString());
+                        jumpSoundPlayer = new MediaPlayer(jumpSound);
+                        jumpSoundPlayer.play();
+                    }
                     return true;
                 }
             }
@@ -158,6 +181,7 @@ public class Game implements Screen {
             if (go instanceof Orc) {
                 if (go.getLower().getBoundsInParent().intersects(hero.getUpper().getBoundsInParent())) {
                     endgame();
+                    return false;
                 }
             }
         }
@@ -165,6 +189,9 @@ public class Game implements Screen {
     }
 
     private void endgame() throws Exception {
+        deadSound = new Media(new File(deadSoundFile).toURI().toString());
+        deadSoundPlayer = new MediaPlayer(deadSound);
+        deadSoundPlayer.play();
 
         gamePause = true;
         gameLoop.stop();
@@ -227,8 +254,14 @@ public class Game implements Screen {
         gameLoop.start();
     }
 
-
-    private void updateClicker() {
+    private void  gameWon() throws Exception {
+        gamePause = true;
+        gameLoop.stop();
+        pausedScene = scene;
+        GameWon gameWonMenu = new GameWon(game,this.score,this.coinsCollected);
+        gameWonMenu.start(stage);
+    }
+    private void updateClicker() throws Exception {
         if (princess.getNode().getTranslateX() >= -3250) {
             score++;
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2), this::doStep));
@@ -240,7 +273,7 @@ public class Game implements Screen {
             });
         }
         else{
-            //game won menu
+            gameWon();
         }
     }
 
@@ -259,6 +292,9 @@ public class Game implements Screen {
                     }
                     System.out.println("Health remaining in the collided Orc = "
                             + ((Orc) j).getHealth());
+                    collisionSound = new Media(new File(collisionSoundFile).toURI().toString());
+                    collisionSoundPlayer = new MediaPlayer(collisionSound);
+                    collisionSoundPlayer.play();
                 }
                 if(collidedNode == null){
                     j.getNode().setTranslateX((j.getNode().getTranslateX() +
@@ -306,21 +342,39 @@ public class Game implements Screen {
         //conditions to maintain OOP concepts
         return game;
     }
-
+    public Hero getHero(){
+        return hero;
+    }
+    public ArrayList<GameObject> getAllObjects(){
+        return gameObjects;
+    }
     public void pause() throws Exception {
+        for(GameObject i: gameObjects){
+            i.setX(i.getNode().getTranslateX()+i.getX());
+            i.setY(i.getNode().getTranslateY()+i.getY());
+//            System.out.println(i.getClass().getSimpleName() + " "+ i.getX() +" "+ i.getY());
+        }
         pauseGame();
     }
     private void pauseGame() throws Exception{
         gamePause = true;
         gameLoop.stop();
         pausedScene = scene;
-        PauseGameMenu pm = new PauseGameMenu();
+        PauseGameMenu pm = new PauseGameMenu(this);
         pm.start(stage);
     }
 
-    public void resumeGame(){
+    public void resumeGame(Stage stage,boolean extralife){
+
         stage.setScene(pausedScene);
         stage.show();
+        if(extralife && !(hero.isResurrected())){
+            for(Node i : hero.getAll()){
+                i.setTranslateY(i.getTranslateY()-500);
+                hero.setYSpeed(0);
+                hero.setResurrected(true);
+            }
+        }
         gamePause = false;
         gameLoop.start();
     }
@@ -349,7 +403,8 @@ public class Game implements Screen {
         }
     }
 
-    private void islandGenerator(){
+    private void islandGenerator() throws IOException {
+        gamePane = FXMLLoader.load(getClass().getResource("Game.fxml"));
         islands.add(new Island(18,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_02.png"));
         orcs.add(new MediumOrc(140,400,40,40,
@@ -443,17 +498,6 @@ public class Game implements Screen {
         orcs.add(new BossOrc(2600,359,90,90,
                 0, 0, "GREEN", 100, 100,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-
-    }
-
-    public void startGame(Stage primaryStage)
-            throws IOException {
-
-        primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
-        gamePane = FXMLLoader.load(getClass().getResource("Game.fxml"));
-
-        islandGenerator();
-
         for (Island i : islands){
             gameObjects.add(i);
         }
@@ -479,7 +523,60 @@ public class Game implements Screen {
                     go.getLower(), go.getRight(), go.getLeft());
         }
 
-        Text scoreText = new Text();
+    }
+
+    public void startGame(Stage primaryStage)
+            throws IOException {
+
+        primaryStage.getIcons().add(new Image("file:src/main/resources/Assets/Knight.png"));
+
+        islandGenerator();
+        initButtons();
+
+
+        tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
+            public void handle(MouseEvent e) {
+                try {
+                    updateClicker();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                scoreText.setText(""+score);
+                progCounter += 3;
+                progCounter = Math.min(progCounter,260);
+                heroProgView.setX(progCounter);
+                numCoins.setText(String.valueOf(coinsCollected));
+            }
+        });
+
+        scene = new Scene(gamePane,310,657);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        stage = primaryStage;
+        startGameLoop();
+    }
+
+
+
+//    private void writeObject(ObjectOutputStream out) throws IOException
+//    {
+//
+//        out.defaultWriteObject();
+//    }
+//    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+//    {
+
+
+//        in.defaultReadObject();
+//        islandGenerator();
+//        initButtons();
+//        startGame(stage);
+
+
+//    }
+    private void initButtons() throws IOException {
+//        this.gamePane = FXMLLoader.load(getClass().getResource("Game.fxml"));;
+        scoreText = new Text();
         scoreText.setLayoutX(152);
         scoreText.setLayoutY(68);
         scoreText.setText(""+score);
@@ -505,7 +602,7 @@ public class Game implements Screen {
         progCounter = 40;
 
         Image heroProg =  new Image("file:src/main/resources/Assets/Knight.png");
-        ImageView heroProgView = new ImageView(heroProg);
+        heroProgView = new ImageView(heroProg);
         heroProgView.setX(37);
         heroProgView.setY(70);
         heroProgView.setFitHeight(20);
@@ -543,7 +640,7 @@ public class Game implements Screen {
         numCoins.setFill(Color.rgb(255, 249, 2));
         gamePane.getChildren().add(numCoins);
 
-        Rectangle tempClicker = new Rectangle();
+        tempClicker = new Rectangle();
         tempClicker.setLayoutX(50); tempClicker.setLayoutY(130); tempClicker.setWidth(250);
         tempClicker.setHeight(550); tempClicker.setOpacity(0);
         gamePane.getChildren().add(tempClicker);
@@ -605,24 +702,27 @@ public class Game implements Screen {
             axeButtonClicked();
         });
         gamePane.getChildren().add(axeLevel);
-
-        tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
-            public void handle(MouseEvent e) {
-                updateClicker();
-                scoreText.setText(""+score);
-                progCounter += 3;
-                progCounter = Math.min(progCounter,260);
-                heroProgView.setX(progCounter);
-                numCoins.setText(String.valueOf(coinsCollected));
-            }
-        });
-
-        scene = new Scene(gamePane,310,657);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        stage = primaryStage;
-        startGameLoop();
     }
+
+    public Game (Game prevGame){
+//        this.coinsCollected = 0;
+//        this.score = 0;
+        this.gameObjects = new ArrayList<GameObject>();
+        this.orcs = new ArrayList<Orc>();
+        this.islands = new ArrayList<Island>();
+        this.game = this;
+        this.chests = new ArrayList<Chest>();
+        this.obstacles = new ArrayList<Obstacle>();
+        this.RESURRECT_COINS = 100;
+        this.ABYSS = 575;
+        this.WINNING_JUMP = 60;
+        this.GRAVITY = 1;
+        this.collidedNode = null;
+        this.flag = false;
+//        this.gamePane = new AnchorPane();
+    }
+
+
 
 
 }

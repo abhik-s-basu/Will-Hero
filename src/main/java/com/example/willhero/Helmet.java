@@ -1,7 +1,9 @@
 package com.example.willhero;
 
-public class Helmet {
+import java.io.Serializable;
 
+public class Helmet implements Serializable {
+    private final static long  serialVersionUID = 2334;
     private  Weapon weapon1;
     private  Weapon weapon2;
     Helmet(Weapon weapon1, Weapon weapon2){

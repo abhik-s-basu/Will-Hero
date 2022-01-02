@@ -6,7 +6,7 @@ public class SavedGames {
      ArrayList<Game> savedGamesList;
      private static SavedGames savedGames;
      SavedGames(){
-         savedGamesList = new ArrayList<>();
+         savedGamesList = new ArrayList<Game>();
          savedGames = this;
      }
 

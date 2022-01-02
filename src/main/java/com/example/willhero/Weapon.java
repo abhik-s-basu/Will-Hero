@@ -1,10 +1,13 @@
 package com.example.willhero;
 
-public abstract class Weapon  { // need to figure out how this extends game object
+import java.io.Serializable;
+
+public abstract class Weapon implements Serializable { // need to figure out how this extends game object
+    private final static long serialVersionUID = 3298;
     private  String type;
     private  int damage;
     private  int quantity;
-    Weapon (String type, int damage, int quantity){
+    public Weapon (String type, int damage, int quantity){
         this.type = type;
         this.damage = damage;
         this.quantity = quantity;

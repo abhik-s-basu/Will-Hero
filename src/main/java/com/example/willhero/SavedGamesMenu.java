@@ -22,12 +22,13 @@ public class SavedGamesMenu extends Application {
     Stage stage;
 
     SavedGamesMenu(){
-        savedGamesList = new ArrayList<>(SavedGames.getInstance().savedGamesList);//check
+        savedGamesList = new ArrayList<>(MainMenu.getInstance().savedGamesList);//check
         gameLabelArrayList = new ArrayList<>();
         scoreLabelArrayList = new ArrayList<>();
     }
 
-    private void displaySavedGames(){
+
+    public void displaySavedGames(){
         if (savedGamesList.size() == 0){
             System.out.println("List empty");
         }
@@ -40,127 +41,127 @@ public class SavedGamesMenu extends Application {
             anchorPane.getChildren().add(temp);
             gameLabelArrayList.add(temp);
 
-//            Label tempScore = new Label(String.valueOf(savedGamesList.get(i).getCoins()));
-//            tempScore.setTextFill(Color.BLACK);
-//            tempScore.setLayoutX(250);
-//            tempScore.setLayoutY(184 + i*100);
-//            tempScore.setFont(Font.font("Lucida Console",18));
-//            anchorPane.getChildren().add(tempScore);
-//            scoreLabelArrayList.add(tempScore);
+            Label tempScore = new Label(String.valueOf(20));
+            tempScore.setTextFill(Color.BLACK);
+            tempScore.setLayoutX(250);
+            tempScore.setLayoutY(184 + i*100);
+            tempScore.setFont(Font.font("Lucida Console",18));
+            anchorPane.getChildren().add(tempScore);
+            scoreLabelArrayList.add(tempScore);
         }
     }
 
-//    private void startSelectedGame(){
-//        int x = savedGamesList.size();
-//        if(x==1) {
-//            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(0));
-//                savedGamesList.remove(0);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(1);
-//            });
-//        }
-//        else if(x==2) {
-//            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(0));
-//                savedGamesList.remove(0);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(1);
-//            });
-//            gameLabelArrayList.get(1).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(1));
-//                savedGamesList.remove(1);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(2);
-//            });
-//        }
-//        else if(x==3) {
-//            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(0));
-//                savedGamesList.remove(0);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(1);
-//            });
-//            gameLabelArrayList.get(1).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(1));
-//                savedGamesList.remove(1);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(2);
-//            });
-//            gameLabelArrayList.get(2).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(2));
-//                savedGamesList.remove(2);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(3);
-//            });
-//        }
-//        else if(x==4) {
-//            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(0));
-//                savedGamesList.remove(0);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(1);
-//            });
-//            gameLabelArrayList.get(1).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(1));
-//                savedGamesList.remove(1);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(2);
-//            });
-//            gameLabelArrayList.get(2).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(2));
-//                savedGamesList.remove(2);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(3);
-//            });
-//            gameLabelArrayList.get(3).setOnMouseClicked(e -> {
-//                Game game = new Game(savedGamesList.get(3));
-//                savedGamesList.remove(3);
-//                try {
-//                    game.start(stage);
-//                } catch (Exception exception) {
-//                    exception.printStackTrace();
-//                }
-//                System.out.println(4);
-//            });
-//        }
-//    }
+    private void startSelectedGame(){
+        int x = savedGamesList.size();
+        if(x==1) {
+            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(0));
+                savedGamesList.remove(0);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(1);
+            });
+        }
+        else if(x==2) {
+            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(0));
+                savedGamesList.remove(0);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(1);
+            });
+            gameLabelArrayList.get(1).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(1));
+                savedGamesList.remove(1);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(2);
+            });
+        }
+        else if(x==3) {
+            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(0));
+                savedGamesList.remove(0);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(1);
+            });
+            gameLabelArrayList.get(1).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(1));
+                savedGamesList.remove(1);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(2);
+            });
+            gameLabelArrayList.get(2).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(2));
+                savedGamesList.remove(2);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(3);
+            });
+        }
+        else if(x==4) {
+            gameLabelArrayList.get(0).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(0));
+                savedGamesList.remove(0);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(1);
+            });
+            gameLabelArrayList.get(1).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(1));
+                savedGamesList.remove(1);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(2);
+            });
+            gameLabelArrayList.get(2).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(2));
+                savedGamesList.remove(2);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(3);
+            });
+            gameLabelArrayList.get(3).setOnMouseClicked(e -> {
+                Game game = new Game(savedGamesList.get(3));
+                savedGamesList.remove(3);
+                try {
+                    game.startGame(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                System.out.println(4);
+            });
+        }
+    }
 
 
     @Override
@@ -172,7 +173,7 @@ public class SavedGamesMenu extends Application {
         anchorPane = root;
         displaySavedGames();
         primaryStage.show();
-//        startSelectedGame();
+        startSelectedGame();
 
     }
 }

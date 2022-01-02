@@ -244,7 +244,7 @@ public class MainMenuController implements Initializable {
     }
 
     public void pressLoadGame(MouseEvent event){
-        setScreen(1, savedGameScreen);
+        MainMenu.getInstance().loadState();
     }
 
     public void setSound(boolean sound){ //to manage pause and sound controls
