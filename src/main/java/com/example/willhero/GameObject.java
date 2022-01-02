@@ -9,14 +9,18 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-//coins - tbd - TODAY
-//chests - tbd - TODAY
-//weapons - TBD
-//TNT - tbd - TODAY
-//menus - TBD - TODAY - abhik
+//coins - tbd
+//chests - tbd
+//weapons - TO BE DONE
+//abyss -
+
+//cross, coins in main screen and updated - abhik
+//saved games menu, game won menu - abhik
 //serializable - TO BE DONE - abhik
 //music - not priority - abhik
 //touch ups - end
+
+
 
 public abstract class GameObject {
     private double xCoordinate;
@@ -160,5 +164,6 @@ public abstract class GameObject {
         this.moves = moves;
     }
     public void movement(){};
+
 
 }

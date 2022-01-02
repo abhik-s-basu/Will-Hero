@@ -39,5 +39,11 @@ public abstract class Orc extends  GameObject {
             getNode().setTranslateY(getNode().getTranslateY() + ((getYSpeed() > 0) ? 1 : -1)); //s = ut + 1/2 at^2
         }
     }
+    public void setAlive(){
+        this.isAlive = false;
+    }
 
+    public boolean getAlive(){
+        return this.isAlive;
+    }
 }

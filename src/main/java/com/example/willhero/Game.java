@@ -1,6 +1,9 @@
 package com.example.willhero;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -16,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +48,8 @@ public class Game implements Screen {
     private ArrayList<Island> islands;
     private ArrayList<Chest> chests;
     private ArrayList<Obstacle> obstacles;
+    private GameObject collidedNode;
+    private boolean flag;
     private int progCounter;
 
     Game() {
@@ -57,37 +63,34 @@ public class Game implements Screen {
         this.obstacles = new ArrayList<Obstacle>();
         this.RESURRECT_COINS = 100;
         this.ABYSS = 575;
-        this.WINNING_JUMP = 122;
+        this.WINNING_JUMP = 60;
         this.GRAVITY = 1;
+        this.collidedNode = null;
+        this.flag = false;
     }
 
     public boolean checkCollisionY(GameObject go, int YSpeed) throws Exception {
         for (GameObject n : islands) {
-            Node upper = n.getUpper();
             if (YSpeed > 0) {
-//                if (!go.equals(n)) {
-                if (go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) {
+                if (go.getLower().getBoundsInParent().intersects(n.getUpper().getBoundsInParent())) {
                     return true;
                 }
-//                }
             }
         }
         for (GameObject n : orcs) {
-            Node upper = n.getUpper();
-            if (YSpeed > 0) {
+            if (((Orc) n).getAlive() && YSpeed > 0) {
                 if (!go.equals(n)) {
-                if ((go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) ||
-                        n.getNode().getBoundsInParent().intersects(go.getNode().getBoundsInParent())){
-                    return true;
+                    if ((go.getLower().getBoundsInParent().intersects(n.getUpper().getBoundsInParent())) ||
+                            n.getNode().getBoundsInParent().intersects(go.getNode().getBoundsInParent())){
+                        return true;
                     }
                 }
             }
         }
         for (GameObject n : chests) {
-            Node node = n.getNode();
             if (YSpeed > 0) {
                 if (go.equals(hero)) {
-                    if (go.getNode().getBoundsInParent().intersects(node.getBoundsInParent())) {
+                    if (go.getNode().getBoundsInParent().intersects(n.getNode().getBoundsInParent())) {
                         if(n.isMoving()){
                             break;
                         }
@@ -103,14 +106,32 @@ public class Game implements Screen {
                     }
                 }
             }
-        }
-        Node upper = hero.getUpper();
-        if (YSpeed > 0) {
-//                if (!go.equals(n)) {
-            if (go.getLower().getBoundsInParent().intersects(upper.getBoundsInParent())) {
-                endgame();
+            for (GameObject g : obstacles){
+                if (g instanceof TNT){
+                    if (!((TNT) g).getIsCollided() && go.getNode().getBoundsInParent().intersects(g.getNode().getBoundsInParent())) {
+                        ((TNT) g).explode();
+                    }
+                }
+                if (g instanceof TNTSmoke){
+                    if (((TNTSmoke) g).getSmoke() && go.getNode().getBoundsInParent().intersects(g.getNode().getBoundsInParent())) {
+                        if(go == hero){
+                            endgame();
+                        }
+                        if (go instanceof Orc){
+                            gamePane.getChildren().removeAll(go.getNode(),
+                                    go.getLeft(), go.getLower(), go.getRight(), go.getUpper());
+                            ((Orc) go).setAlive();
+                        }
+                    }
+                }
             }
-//                }
+        }
+        if (YSpeed > 0) {
+            if (go instanceof Orc) {
+                if (go.getLower().getBoundsInParent().intersects(hero.getUpper().getBoundsInParent())) {
+                    endgame();
+                }
+            }
         }
         return false;
     }
@@ -120,14 +141,12 @@ public class Game implements Screen {
         gamePause = true;
         gameLoop.stop();
         pausedScene = scene;
-        System.out.println(score + " " + coinsCollected);
         GameEndMenu gameEndMenu = new GameEndMenu(this.score,this.coinsCollected);
         gameEndMenu.start(stage);
     }
 
 
     private void update() throws Exception {
-        System.out.println(coinsCollected);
         if (hero.getYSpeed() < 30) {
             hero.setYSpeed(hero.getYSpeed() + GRAVITY); //v = u + at
         }
@@ -163,91 +182,71 @@ public class Game implements Screen {
 
 
     private void updateClicker() {
-//        System.out.println(princess.getNode().getTranslateX());
-        if (princess.getNode().getTranslateX() >= -3200) {
-            hero.jumpForward();
-            GameObject collidedNode = null;
-            boolean flag = false;
-//            System.out.println("1");
-            for (int i = 0; i < Math.abs(hero.getXSpeed()); i++) { // from 1 to 50
-                for (GameObject j : gameObjects) { //including orc
-                    Node left = j.getLeft();
-                    if (!j.equals(hero)) {
+        if (princess.getNode().getTranslateX() >= -3250) {
+            score++;
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2), this::doStep));
+            timeline.setCycleCount(hero.getXSpeed());
+            timeline.play();
+            timeline.setOnFinished(e->{
+                collidedNode = null;
+                flag = false;
+            });
+        }
+        else{
+            //game won menu
+        }
+    }
+
+    private void doStep(ActionEvent actionEvent) {
+        for (GameObject j : gameObjects) {
+            Node left = j.getLeft();
+            if (!j.equals(hero)) {
 //                        System.out.println(" " + left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent()));
-                        if (j instanceof Orc &&
-                                (left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent()))) {
-//                            System.out.println("Collided");
-                            collidedNode = j;
-                            hero.setXSpeed(-50);
-                        }
-                        if (!flag && collidedNode != null) {
-                            for (int k = 0; k < Math.abs(hero.getXSpeed()) - i; k++) {
-                                collidedNode.getNode().setTranslateX((collidedNode.getNode().getTranslateX() +
-                                        ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
-                                collidedNode.getUpper().setTranslateX((collidedNode.getUpper().getTranslateX() +
-                                        ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
-                                collidedNode.getLower().setTranslateX((collidedNode.getLower().getTranslateX() +
-                                        ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
-                                collidedNode.getRight().setTranslateX((collidedNode.getRight().getTranslateX() +
-                                        ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
-                                collidedNode.getLeft().setTranslateX((collidedNode.getLeft().getTranslateX() +
-                                        ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
-//                                for(int x = 0; x < 10000000; x++);
-
-                            }
-//                            System.out.println("3");
-//                            for (Node n : j.getAll()){
-//                                TranslateTransition t1 = new TranslateTransition();
-//                                t1.setNode(n);
-//                                t1.setDuration(Duration.millis(1));
-//                                t1.setCycleCount(50);
-//                                t1.setByX(-hero.getXSpeed());
-//                                t1.setAutoReverse(false);
-//                                t1.play();
-//                                if(j instanceof Orc &&
-//                                        left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent())){
-//                                    System.out.println("Collided");
-//                                }
-//                            }
-                            flag = true;
-//                        }
-
-//                        for(int i = 0; i < 4; i++){
-//                        for (Node n : j.getAll()) {
-//
-////                            for(int i = 0; i < 50; i++){
-//                            System.out.println(i);
-//                            TranslateTransition t1 = new TranslateTransition();
-//                            t1.setNode(n);
-//                            t1.setDuration(Duration.millis(1));
-//                            t1.setCycleCount(1);
-//                            t1.setByX(-1);
-//                            t1.setAutoReverse(false);
-//                            t1.play();
-//                            System.out.println(n.getTranslateX());
-//                            if (j instanceof Orc &&
-//                                    left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent())) {
-//                                System.out.println("Collided");
-//                            }
-//                            }
-                        }
-//                    }
-
-
+                if (j instanceof Orc &&
+                        (left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent()))) {
+//                    System.out.println("Collided");
+                    collidedNode = j;
+                }
+                if(collidedNode == null){
+                    j.getNode().setTranslateX((j.getNode().getTranslateX() +
+                            ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                    j.getUpper().setTranslateX((j.getUpper().getTranslateX() +
+                            ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                    j.getLower().setTranslateX((j.getLower().getTranslateX() +
+                            ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                    j.getRight().setTranslateX((j.getRight().getTranslateX() +
+                            ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                    j.getLeft().setTranslateX((j.getLeft().getTranslateX() +
+                            ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                }
+                else{
+                    if (j != collidedNode) {
                         j.getNode().setTranslateX((j.getNode().getTranslateX() +
-                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                                ((hero.getXSpeed() > 0) ? 1 : -1))); //s = ut + 1/2 at^2
                         j.getUpper().setTranslateX((j.getUpper().getTranslateX() +
-                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                                ((hero.getXSpeed() > 0) ? 1 : -1))); //s = ut + 1/2 at^2
                         j.getLower().setTranslateX((j.getLower().getTranslateX() +
-                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                                ((hero.getXSpeed() > 0) ? 1 : -1))); //s = ut + 1/2 at^2
                         j.getRight().setTranslateX((j.getRight().getTranslateX() +
-                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                                ((hero.getXSpeed() > 0) ? 1 : -1))); //s = ut + 1/2 at^2
                         j.getLeft().setTranslateX((j.getLeft().getTranslateX() +
-                                ((hero.getXSpeed() < 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                                ((hero.getXSpeed() > 0) ? 1 : -1))); //s = ut + 1/2 at^2
+                    }
+                    else{
+//                        System.out.println("Whoops");
+                        collidedNode.getNode().setTranslateX((collidedNode.getNode().getTranslateX() +
+                                ((hero.getXSpeed() > 0) ? 3 : -1))); //s = ut + 1/2 at^2
+                        collidedNode.getUpper().setTranslateX((collidedNode.getUpper().getTranslateX() +
+                                ((hero.getXSpeed() > 0) ? 3 : -1))); //s = ut + 1/2 at^2
+                        collidedNode.getLower().setTranslateX((collidedNode.getLower().getTranslateX() +
+                                ((hero.getXSpeed() > 0) ? 3 : -1))); //s = ut + 1/2 at^2
+                        collidedNode.getRight().setTranslateX((collidedNode.getRight().getTranslateX() +
+                                ((hero.getXSpeed() > 0) ? 3 : -1))); //s = ut + 1/2 at^2
+                        collidedNode.getLeft().setTranslateX((collidedNode.getLeft().getTranslateX() +
+                                ((hero.getXSpeed() > 0) ? 3 : -1))); //s = ut + 1/2 at^2
+                    }
                 }
             }
-            }
-            hero.setXSpeed(50);
         }
     }
 
@@ -277,45 +276,54 @@ public class Game implements Screen {
     private void islandGenerator(){
         islands.add(new Island(18,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_02.png"));
-        orcs.add(new SmallOrc(140,400,40,40,
+        orcs.add(new MediumOrc(140,400,40,40,
                 0, 0, "RED", 10, 15,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-//
         chests.add(new CoinChest(10,200,408,"file:src/main/resources/Assets/Chests/closedChest.png"));
+
 
         islands.add(new Island(375,425,200,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_03.png"));
         orcs.add(new SmallOrc(386,391,33,33,
-                0, 0, "RED", 5, 10,
+                0, 0, "RED", 10, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         orcs.add(new SmallOrc(507,391,33,33,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         chests.add(new CoinChest(15,432,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
+
         islands.add(new Island(623,407,150,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_07.png"));
-        orcs.add(new SmallOrc(700,367,40,40,
-                0, 0, "RED", 5, 10,
+        orcs.add(new MediumOrc(700,367,40,40,
+                0, 0, "RED", 15, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         chests.add(new WeaponChest(new Helmet(new ThrowingAxe(), new ThrowingKnife()),640,371,"file:src/main/resources/Assets/Chests/closedChest.png"));
+
 
         islands.add(new Island(790,500,225,125,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_04.png"));
         orcs.add(new SmallOrc(810,467,33,33,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-        orcs.add(new SmallOrc(920,460,40,40,
+        orcs.add(new MediumOrc(920,460,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         chests.add(new WeaponChest(new Helmet(new ThrowingAxe(),new ThrowingKnife()),860,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
+
         islands.add(new Island(1068,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_01.png"));
-        orcs.add(new SmallOrc(1270,400,40,40,
-                0, 0, "RED", 10, 15,
+        orcs.add(new MediumOrc(1270,400,40,40,
+                0, 0, "RED", 20, 15,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-        obstacles.add(new TNT(1100,398,"file:src/main/resources/Assets/TNT.png"));
+        obstacles.add(new TNTBlinker(1100, 398, "file:src/main/resources/Assets/WhiteSquare.png"));
+        TNT tnt1 = new TNT(1100,398,"file:src/main/resources/Assets/TNT.png");
+        obstacles.add(tnt1);
+        obstacles.add(new TNTSmoke(1050, 348, "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png"));
+        tnt1.setBlinker((TNTBlinker) obstacles.get(obstacles.size() - 3));
+        tnt1.setSmoke((TNTSmoke) obstacles.get(obstacles.size() - 1));
+
 
         islands.add(new Island(1425,425,200,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_05.png"));
@@ -333,27 +341,30 @@ public class Game implements Screen {
         orcs.add(new SmallOrc(1750,367,40,40,
                 0, 0, "RED", 5, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-        obstacles.add(new TNT(1700,361,"file:src/main/resources/Assets/TNT.png"));
+        obstacles.add(new TNTBlinker(1700, 361, "file:src/main/resources/Assets/WhiteSquare.png"));
+        TNT tnt2 = new TNT(1700,361,"file:src/main/resources/Assets/TNT.png");
+        obstacles.add(tnt2);
+        obstacles.add(new TNTSmoke(1650, 311, "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png"));
+        tnt2.setBlinker((TNTBlinker) obstacles.get(obstacles.size() - 3));
+        tnt2.setSmoke((TNTSmoke) obstacles.get(obstacles.size() - 1));
 
 
         islands.add(new Island(1880,500,300,125,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_09.png"));
-//        orcs.add(new SmallOrc(1900,467,33,33,
-//                0, 0, "RED", 5, 10,
-//                "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-        orcs.add(new SmallOrc(1960,460,40,40,
-                0, 0, "RED", 5, 10,
+        orcs.add(new MediumOrc(1960,460,40,40,
+                0, 0, "RED", 15, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-        orcs.add(new SmallOrc(2070,460,40,40,
-                0, 0, "RED", 5, 10,
+        orcs.add(new MediumOrc(2070,460,40,40,
+                0, 0, "RED", 15, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         chests.add(new CoinChest(30,1890,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
+
 
         islands.add(new Island(2300,450,1100,300,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_06.png"));
         chests.add(new WeaponChest(new Helmet(new ThrowingAxe(),new ThrowingKnife()),2400,414,"file:src/main/resources/Assets/Chests/closedChest.png"));
-        orcs.add(new SmallOrc(2600,359,90,90,
-                0, 0, "GREEN", 5, 10,
+        orcs.add(new BossOrc(2600,359,90,90,
+                0, 0, "GREEN", 100, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
 
     }
@@ -463,7 +474,6 @@ public class Game implements Screen {
         tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e) {
                 updateClicker();
-                score++;
                 scoreText.setText(""+score);
                 progCounter += 3;
                 progCounter = Math.min(progCounter,260);

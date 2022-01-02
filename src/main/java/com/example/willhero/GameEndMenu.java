@@ -46,7 +46,7 @@ public class GameEndMenu  extends Application {
         currScore.setLayoutX(133);
         currScore.setLayoutY(250);
         currScore.setText(String.valueOf(score));
-        System.out.println(String.valueOf(score));
+//        System.out.println(String.valueOf(score));
         currScore.setFont(Font.font("Lucida Console", 40));
         currScore.setFill(Color.BLACK);
         gameEndPane.getChildren().add(currScore);
