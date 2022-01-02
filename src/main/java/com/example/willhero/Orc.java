@@ -4,14 +4,16 @@ public abstract class Orc extends  GameObject {
     private  String color;
     private  int size;
     private  int coinsOnKill;
-    private int health; //looks useless rn
+    private int health;
     private boolean isAlive;
     private Game game;
-    Orc(double x, double y,double length, double breadth,int xSpeed,
-        int ySpeed, String color, int coinsOnKill, int health,String imageURL){
+    Orc(double x, double y, double length, double breadth, int xSpeed,
+        int ySpeed, String color, int coinsOnKill, int health, String imageURL){
         super(x,y,xSpeed,ySpeed,length, breadth,true,imageURL);
         this.isAlive = true;
         this.coinsOnKill = coinsOnKill;
+        this.health = health;
+        super.setUpper(25);
     }
     public int getCoinsOnKill(){
         return this.coinsOnKill;
@@ -45,5 +47,11 @@ public abstract class Orc extends  GameObject {
 
     public boolean getAlive(){
         return this.isAlive;
+    }
+    public int getHealth() {
+        return health;
+    }
+    public void setHealth(int damage) {
+        this.health -= damage;
     }
 }
