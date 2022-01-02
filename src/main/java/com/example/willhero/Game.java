@@ -41,9 +41,14 @@ public class Game implements Screen {
     private final int ABYSS;
     private final int GRAVITY;
     private AnimationTimer gameLoop;
-    private Rectangle tempClicker;
     private Hero hero;
     private Hero princess;
+    private ImageView axe;
+    private ImageView knife;
+    private Rectangle axeButton;
+    private Rectangle knifeButton;
+    private Text axeLevel;
+    private Text knifeLevel;
     private ArrayList<Orc> orcs;
     private ArrayList<Island> islands;
     private ArrayList<Chest> chests;
@@ -80,11 +85,9 @@ public class Game implements Screen {
         for (GameObject n : orcs) {
             if (((Orc) n).getAlive() && YSpeed > 0) {
                 if (!go.equals(n)) {
-                    if ((go.getLower().getBoundsInParent().intersects(n.getUpper().getBoundsInParent())) ||
-                            n.getNode().getBoundsInParent().intersects(go.getNode().getBoundsInParent())){
+                    if ((go.getLower().getBoundsInParent().intersects(n.getUpper().getBoundsInParent()))){
                         return true;
                     }
-                    //code change for attack w weapons
                 }
             }
         }
@@ -96,13 +99,38 @@ public class Game implements Screen {
                             break;
                         }
                         n.setMoving(true);
-                        ((ImageView)(n.getNode())).setImage(new Image("file:src/main/resources/Assets/Chests/OpenChestNoBG.png"));
                         if(n instanceof CoinChest){
+                            n.getNode().setImage(new Image("file:src/main/resources/Assets/Chests/OpenChestNoBG.png"));
                             coinsCollected += ((CoinChest) n).openChest();
                             numCoins.setText(String.valueOf(coinsCollected));
                         }
                         else if (n instanceof WeaponChest){
+                            n.getNode().setImage(new Image("file:src/main/resources/Assets/Chests/WeaponChest.png"));
                             hero.openChest((WeaponChest) n);
+                            Weapon weapon = hero.getCurWeapon();
+                            if (weapon instanceof ThrowingAxe){
+                                hero.getHelmet().getWeapon1().setQuantity(1); //axe
+                                weapon = hero.getHelmet().getWeapon1(); //updating weapon status
+                                axeLevel.setText(String.valueOf(weapon.getQuantity()));
+                                if (weapon.getQuantity() == 1){
+                                    axe.setOpacity(1);
+                                    axeButton.setOpacity(1);
+                                    axeLevel.setOpacity(1);
+                                }
+                                axeButtonClicked();
+                            }
+                            if (weapon instanceof ThrowingKnife){
+                                hero.getHelmet().getWeapon2().setQuantity(1); //knife
+                                weapon = hero.getHelmet().getWeapon2(); //updating weapon status
+                                knifeLevel.setText(String.valueOf(weapon.getQuantity()));
+                                if (weapon.getQuantity() == 1){
+                                    knife.setOpacity(1);
+                                    knifeButton.setOpacity(1);
+                                    knifeLevel.setOpacity(1);
+                                }
+                                knifeButtonClicked();
+                            }
+                            hero.setCurWeapon(weapon);
                         }
                     }
                 }
@@ -119,14 +147,8 @@ public class Game implements Screen {
                             endgame();
                         }
                         if (go instanceof Orc){
-                            gamePane.getChildren().removeAll(go.getNode(),
-                                    go.getLeft(), go.getLower(), go.getRight(), go.getUpper());
                             ((Orc) go).setAlive();
-                            System.out.println("dead");
-                            coinsCollected += ((Orc) go).getCoinsOnKill();
-                            numCoins.setText(String.valueOf(coinsCollected));
-                            orcs.remove((Orc) go);
-                            gameObjects.remove(go);
+                            return false;
                         }
                     }
                 }
@@ -163,15 +185,14 @@ public class Game implements Screen {
         }
 
         Orc dead = null;
-
         for (Orc o : orcs) {
             if (o.getYSpeed() < 30) {
                 o.setYSpeed(o.getYSpeed() + GRAVITY); //v = u + at
             }
             o.jumpInPlace(this);
-            if(o.getY() + o.getNode().getTranslateY() >= ABYSS){
+            if(!o.getAlive() || o.getY() + o.getNode().getTranslateY() >= ABYSS){
                 dead = o;
-                System.out.println("dead");
+                System.out.println("Orc is dead");
                 coinsCollected += dead.getCoinsOnKill();
                 numCoins.setText(String.valueOf(coinsCollected));
             }
@@ -184,7 +205,6 @@ public class Game implements Screen {
             orcs.remove(dead);
             gameObjects.remove(dead);
         }
-
     }
 
 
@@ -228,11 +248,17 @@ public class Game implements Screen {
         for (GameObject j : gameObjects) {
             Node left = j.getLeft();
             if (!j.equals(hero)) {
-//                        System.out.println(" " + left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent()));
                 if (j instanceof Orc &&
                         (left.getBoundsInParent().intersects(hero.getRight().getBoundsInParent()))) {
-//                    System.out.println("Collided");
                     collidedNode = j;
+                    ((Orc) j).setHealth(hero.getCurWeapon() != null && !flag ? hero.getCurWeapon().getDamage() : 0);
+                    flag = true;
+                    if (((Orc) j).getHealth() <= 0){
+                        ((Orc) j).setAlive();
+                        collidedNode = null;
+                    }
+                    System.out.println("Health remaining in the collided Orc = "
+                            + ((Orc) j).getHealth());
                 }
                 if(collidedNode == null){
                     j.getNode().setTranslateX((j.getNode().getTranslateX() +
@@ -260,7 +286,6 @@ public class Game implements Screen {
                                 ((hero.getXSpeed() > 0) ? 1 : -1))); //s = ut + 1/2 at^2
                     }
                     else{
-//                        System.out.println("Whoops");
                         collidedNode.getNode().setTranslateX((collidedNode.getNode().getTranslateX() +
                                 ((hero.getXSpeed() > 0) ? 3 : -1))); //s = ut + 1/2 at^2
                         collidedNode.getUpper().setTranslateX((collidedNode.getUpper().getTranslateX() +
@@ -277,8 +302,8 @@ public class Game implements Screen {
         }
     }
 
-
     public static Game getInstance(){
+        //conditions to maintain OOP concepts
         return game;
     }
 
@@ -300,11 +325,35 @@ public class Game implements Screen {
         gameLoop.start();
     }
 
+    private void axeButtonClicked() {
+        if (!(axeButton.getOpacity() == 0.5)){
+            hero.setCurWeapon(hero.getHelmet().getWeapon1());
+            hero.getNode().setImage(new Image("file:src/main/resources/Assets/KnightAxe.png"));
+            hero.getNode().setFitWidth(70);
+            hero.getNode().setFitHeight(45);
+            hero.setRight(30);
+            hero.getNode().setLayoutY(-10);
+            hero.getNode().setLayoutX(-12);
+        }
+    }
+
+    private void knifeButtonClicked() {
+        if (!(knifeButton.getOpacity() == 0.5)) {
+            hero.setCurWeapon(hero.getHelmet().getWeapon2());
+            hero.getNode().setImage(new Image("file:src/main/resources/Assets/KnightKnife.png"));
+            hero.getNode().setFitWidth(57);
+            hero.getNode().setFitHeight(35);
+            hero.setRight(25);
+            hero.getNode().setLayoutY(-2);
+            hero.getNode().setLayoutX(-2);
+        }
+    }
+
     private void islandGenerator(){
         islands.add(new Island(18,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_02.png"));
         orcs.add(new MediumOrc(140,400,40,40,
-                0, 0, "RED", 10, 15,
+                0, 0, "RED", 10, 20,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         chests.add(new CoinChest(10,200,408,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
@@ -315,15 +364,15 @@ public class Game implements Screen {
                 0, 0, "RED", 10, 10,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         orcs.add(new SmallOrc(507,391,33,33,
-                0, 0, "RED", 5, 10,
+                0, 0, "RED", 20, 10,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-        chests.add(new CoinChest(15,432,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
+        chests.add(new CoinChest(20,432,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
 
         islands.add(new Island(623,407,150,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_07.png"));
         orcs.add(new MediumOrc(700,367,40,40,
-                0, 0, "RED", 15, 10,
+                0, 0, "RED", 20, 20,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         chests.add(new WeaponChest(new Helmet(new ThrowingAxe(), new ThrowingKnife()),640,371,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
@@ -331,10 +380,10 @@ public class Game implements Screen {
         islands.add(new Island(790,500,225,125,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_04.png"));
         orcs.add(new SmallOrc(810,467,33,33,
-                0, 0, "RED", 5, 10,
+                0, 0, "RED", 30, 15,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         orcs.add(new MediumOrc(920,460,40,40,
-                0, 0, "RED", 5, 10,
+                0, 0, "RED", 30, 25,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         chests.add(new WeaponChest(new Helmet(new ThrowingAxe(),new ThrowingKnife()),860,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
@@ -342,12 +391,13 @@ public class Game implements Screen {
         islands.add(new Island(1068,444,270,100,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_01.png"));
         orcs.add(new MediumOrc(1270,400,40,40,
-                0, 0, "RED", 20, 15,
+                0, 0, "RED", 30, 25,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         obstacles.add(new TNTBlinker(1100, 398, "file:src/main/resources/Assets/WhiteSquare.png"));
         TNT tnt1 = new TNT(1100,398,"file:src/main/resources/Assets/TNT.png");
         obstacles.add(tnt1);
-        obstacles.add(new TNTSmoke(1050, 348, "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png"));
+        obstacles.add(new TNTSmoke(1050, 348,
+                "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png"));
         tnt1.setBlinker((TNTBlinker) obstacles.get(obstacles.size() - 3));
         tnt1.setSmoke((TNTSmoke) obstacles.get(obstacles.size() - 1));
 
@@ -355,18 +405,18 @@ public class Game implements Screen {
         islands.add(new Island(1425,425,200,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_05.png"));
         orcs.add(new SmallOrc(1436,391,33,33,
-                0, 0, "RED", 5, 10,
+                0, 0, "RED", 30, 30,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         orcs.add(new SmallOrc(1537,391,33,33,
-                0, 0, "RED", 5, 10,
+                0, 0, "RED", 30, 15,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-        chests.add(new WeaponChest(new Helmet(new ThrowingKnife(),new ThrowingAxe()),1480,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
+        chests.add(new WeaponChest(new Helmet(new ThrowingAxe(),new ThrowingKnife()),1480,389,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
 
         islands.add(new Island(1673,407,150,75,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_11.png"));
-        orcs.add(new SmallOrc(1750,367,40,40,
-                0, 0, "RED", 5, 10,
+        orcs.add(new MediumOrc(1750,367,40,40,
+                0, 0, "RED", 30, 30,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         obstacles.add(new TNTBlinker(1700, 361, "file:src/main/resources/Assets/WhiteSquare.png"));
         TNT tnt2 = new TNT(1700,361,"file:src/main/resources/Assets/TNT.png");
@@ -379,10 +429,10 @@ public class Game implements Screen {
         islands.add(new Island(1880,500,300,125,
                 true,"file:src/main/resources/Assets/Islands/T_Islands_09.png"));
         orcs.add(new MediumOrc(1960,460,40,40,
-                0, 0, "RED", 15, 10,
+                0, 0, "RED", 40, 30,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
         orcs.add(new MediumOrc(2070,460,40,40,
-                0, 0, "RED", 15, 10,
+                0, 0, "RED", 40, 30,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
         chests.add(new CoinChest(30,1890,464,"file:src/main/resources/Assets/Chests/closedChest.png"));
 
@@ -391,7 +441,7 @@ public class Game implements Screen {
                 true,"file:src/main/resources/Assets/Islands/T_Islands_06.png"));
         chests.add(new WeaponChest(new Helmet(new ThrowingAxe(),new ThrowingKnife()),2400,414,"file:src/main/resources/Assets/Chests/closedChest.png"));
         orcs.add(new BossOrc(2600,359,90,90,
-                0, 0, "GREEN", 100, 10,
+                0, 0, "GREEN", 100, 100,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
 
     }
@@ -476,6 +526,7 @@ public class Game implements Screen {
         barGroup.getChildren().add(heroProgView);
         gamePane.getChildren().add(barGroup);
 //end of progress bar
+
         Image coinPic = new Image("file:src/main/resources/Assets/Coin.png");
         ImageView coinView = new ImageView(coinPic);
         coinView.setFitWidth(25);
@@ -485,18 +536,75 @@ public class Game implements Screen {
         gamePane.getChildren().add(coinView);
 
         numCoins = new Text();
-        numCoins.setLayoutX(250);
-        numCoins.setLayoutY(28);
+        numCoins.setLayoutX(230);
+        numCoins.setLayoutY(35);
         numCoins.setText(String.valueOf(coinsCollected));
         numCoins.setFont(Font.font("Comic Sans MS", 25));
         numCoins.setFill(Color.rgb(255, 249, 2));
         gamePane.getChildren().add(numCoins);
 
-        tempClicker = new Rectangle();
+        Rectangle tempClicker = new Rectangle();
         tempClicker.setLayoutX(50); tempClicker.setLayoutY(130); tempClicker.setWidth(250);
-        tempClicker.setHeight(448); tempClicker.setOpacity(0);
+        tempClicker.setHeight(550); tempClicker.setOpacity(0);
         gamePane.getChildren().add(tempClicker);
         gamePane.getChildren().add(scoreText);
+
+        knifeButton = new Rectangle();
+        knifeButton.setLayoutX(180); knifeButton.setLayoutY(593); knifeButton.setWidth(43);
+        knifeButton.setHeight(43); knifeButton.setOpacity(0.5); knifeButton.setRotate(45);
+        knifeButton.setStroke(Color.BLACK);
+        knifeButton.setFill(Color.rgb(175, 216,255));
+        knifeButton.setOnMouseClicked(e->{
+            knifeButtonClicked();
+        });
+        gamePane.getChildren().add(knifeButton);
+
+        axeButton = new Rectangle();
+        axeButton.setLayoutX(250); axeButton.setLayoutY(593); axeButton.setWidth(43);
+        axeButton.setHeight(43); axeButton.setOpacity(0.5); axeButton.setRotate(45);
+        axeButton.setStroke(Color.BLACK);
+        axeButton.setFill(Color.rgb(175, 216,255));
+        axeButton.setOnMouseClicked(e->{
+            axeButtonClicked();
+        });
+        gamePane.getChildren().add(axeButton);
+
+        knife = new ImageView(new Image(
+                "file:src/main/resources/Assets/Throwing Knives/ThrowingKnife2.png"));
+        knife.setLayoutX(198); knife.setLayoutY(596); knife.setFitWidth(8);
+        knife.setFitHeight(35);; knife.setOpacity(0.5);
+        knife.setRotate(45);
+        knife.setOnMouseClicked(e->{
+            knifeButtonClicked();
+        });
+        gamePane.getChildren().add(knife);
+
+        axe = new ImageView(new Image(
+                "file:src/main/resources/Assets/Throwing Axes/ThrowingAxeNew.png"));
+        axe.setLayoutX(261); axe.setLayoutY(596); axe.setFitWidth(20);
+        axe.setFitHeight(36);; axe.setOpacity(0.5);
+        axe.setOnMouseClicked(e->{
+            axeButtonClicked();
+        });
+        gamePane.getChildren().add(axe);
+
+        knifeLevel = new Text("0");
+        knifeLevel.setFont(Font.font("Comic Sans MS", 13));
+        knifeLevel.setLayoutX(205); knifeLevel.setLayoutY(630);
+        knifeLevel.setStrokeWidth(3); knifeLevel.setOpacity(0.5);
+        knifeLevel.setOnMouseClicked(e->{
+            knifeButtonClicked();
+        });
+        gamePane.getChildren().add(knifeLevel);
+
+        axeLevel = new Text("0");
+        axeLevel.setFont(Font.font("Comic Sans MS", 13));
+        axeLevel.setLayoutX(213+63); axeLevel.setLayoutY(630);
+        axeLevel.setStrokeWidth(3); axeLevel.setOpacity(0.5);
+        axeLevel.setOnMouseClicked(e->{
+            axeButtonClicked();
+        });
+        gamePane.getChildren().add(axeLevel);
 
         tempClicker.onMouseClickedProperty().set(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent e) {

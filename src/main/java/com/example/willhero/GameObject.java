@@ -7,17 +7,15 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-//weapon chests - tbd
 //weapon buttons
-//weapon milega - image change -> buttons, hero, chest
-//orc damage
+//hero image
 
-//cross, coins in main screen and updated - abhik
+//coins in main screen and updated - abhik
 //saved games menu, game won menu - abhik
-//serializable - TO BE DONE - abhik - 1
+//serializable - TO BE DONE - abhik
 //music - not priority - abhik
+//presentation - abhik
 //touch ups - end
-
 
 
 public abstract class GameObject {
@@ -97,7 +95,7 @@ public abstract class GameObject {
         return temp;
     }
 
-    public Node getNode(){
+    public ImageView getNode(){
         return imageView;
     }
     public Node getUpper(){
@@ -150,6 +148,15 @@ public abstract class GameObject {
     }
     public void setLength(double length){
         this.length = length;
+    }
+    public void setLower(int i){
+        this.lower.setHeight(i);
+    }
+    public void setUpper(int i){
+        this.upper.setHeight(i);
+    }
+    public void setRight(int i){
+        this.right.setWidth(i);
     }
 
     public void setBreadth(double breadth) {

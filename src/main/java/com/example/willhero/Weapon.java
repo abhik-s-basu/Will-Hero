@@ -14,10 +14,14 @@ public abstract class Weapon  { // need to figure out how this extends game obje
         this.quantity = count;
     }
     public int getDamage(){
-        return this.damage;
+        return this.damage*this.quantity;
     }
     public int getQuantity(){
         return this.quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity += quantity;
     }
     public void useWeapon(){
         //code tbd

@@ -1,20 +1,33 @@
 package com.example.willhero;
 
+import java.awt.*;
+
 public class Hero extends GameObject{
+
     private Helmet helmet;
     private int heroNoOfJumps = 0;
-//    private int heroHeight;
-    private Weapon currWeapon = null;
-    private boolean isResurrected = false;
+    private Weapon curWeapon;
+    private boolean isResurrected;
     private boolean isAlive;
     private Game curGame;
+
 //    Hero (Helmet helmet, Game game, double x, double y,
 //          String imageURL)
-        Hero(double x, double y, Game game, String imageURL){
-            super(x,y,50,0,29,29,true,imageURL);
-//        this.helmet = helmet;
+
+    Hero(double x, double y, Game game, String imageURL){
+        super(x,y,50,0,29,29,true,imageURL);
+        this.helmet = new Helmet(new ThrowingAxe(), new ThrowingKnife());
+        isResurrected = false;
+        curWeapon = null;
         this.curGame = game;
+        super.getLower().setLayoutY(super.getY() + super.getBreadth() - 25);
+        super.setLower(25);
     }
+
+    public Helmet getHelmet() {
+        return helmet;
+    }
+
     public void resurrect(){
         // code tbd
     }
@@ -42,7 +55,15 @@ public class Hero extends GameObject{
         //code tbd
     }
     public void openChest(WeaponChest wc){
-        currWeapon = wc.openChest();
+        curWeapon = wc.openChest();
+    }
+
+    public Weapon getCurWeapon(){
+        return this.curWeapon;
+    }
+
+    public void setCurWeapon(Weapon curWeapon){
+        this.curWeapon = curWeapon;
     }
 
     public boolean isAlive(){
