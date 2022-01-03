@@ -41,6 +41,9 @@ public class RegenerateObstacles {
             deserialize(fileName);
             System.out.println(fileName);
             ArrayList<GameObject> finalList = new ArrayList<>();
+            ArrayList<TNT> tempListTNT = new ArrayList<TNT>();
+            ArrayList<TNTBlinker> tempListBlinker = new ArrayList<TNTBlinker>();
+            ArrayList<TNTSmoke> tempListSmoke = new ArrayList<TNTSmoke>();
             for(GameObject obj : myList) {
                 System.out.println(obj.getX()+"   "+obj.getY()+"   "+
                         obj.getLength()+"   "+obj.getBreadth()+"   "+obj.getClass().getSimpleName());
@@ -70,13 +73,19 @@ public class RegenerateObstacles {
                                 ((BossOrc) obj).getHealth(), obj.getImageURL()));
                         break;
                     case "TNT":
-                        finalList.add(new TNT((int) obj.getX(), (int) obj.getY(), obj.getImageURL()));
+                        TNT temp = new TNT((int) obj.getX(), (int) obj.getY(), obj.getImageURL());
+                        finalList.add(temp);
+                        tempListTNT.add(temp);
                         break;
                     case "TNTBlinker":
-                        finalList.add(new TNTBlinker((int) obj.getX(), (int) obj.getY(), obj.getImageURL()));
+                        TNTBlinker temp1 = new TNTBlinker((int) obj.getX(), (int) obj.getY(), obj.getImageURL());
+                        finalList.add(temp1);
+                        tempListBlinker.add(temp1);
                         break;
                     case "TNTSmoke":
-                        finalList.add(new TNTSmoke((int) obj.getX(), (int) obj.getY(), obj.getImageURL()));
+                        TNTSmoke temp2 = new TNTSmoke((int) obj.getX(), (int) obj.getY(), obj.getImageURL());
+                        finalList.add(temp2);
+                        tempListSmoke.add(temp2);
                         break;
                     case "CoinChest":
                         finalList.add(new CoinChest(((CoinChest) (obj)).openChest(), (int) obj.getX(),
@@ -88,6 +97,14 @@ public class RegenerateObstacles {
                         break;
                     }
                 }
+
+            int i = 0;
+            for (TNT t : tempListTNT){
+                t.setSmoke(tempListSmoke.get(i)); tempListSmoke.get(i).setParent(t);
+                t.setBlinker(tempListBlinker.get(i)); tempListBlinker.get(i).setParent(t);
+                i++;
+            }
+
             return finalList;
         }
 

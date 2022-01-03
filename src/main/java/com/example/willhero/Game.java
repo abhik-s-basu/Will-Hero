@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class Game implements Screen, Serializable {
 
-    private static final long serialVersionUUID = 6592L;
+    private static final long serialVersionUID = 6592L;
     private transient AnchorPane gamePane;
     private transient Scene scene;
     private transient Scene pausedScene;
@@ -484,13 +484,16 @@ public class Game implements Screen, Serializable {
         orcs.add(new MediumOrc(1270,400,40,40,
                 0, 0, "RED", 30, 25,
                 "file:src/main/resources/Assets/Orks/big_green_ork.png"));
-        obstacles.add(new TNTBlinker(1100, 398, "file:src/main/resources/Assets/WhiteSquare.png"));
+        TNTBlinker tntB1 = new TNTBlinker(1100, 398, "file:src/main/resources/Assets/WhiteSquare.png");
+        obstacles.add(tntB1);
         TNT tnt1 = new TNT(1100,398,"file:src/main/resources/Assets/TNT.png");
         obstacles.add(tnt1);
-        obstacles.add(new TNTSmoke(1050, 348,
-                "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png"));
-        tnt1.setBlinker((TNTBlinker) obstacles.get(obstacles.size() - 3));
-        tnt1.setSmoke((TNTSmoke) obstacles.get(obstacles.size() - 1));
+        tntB1.setParent(tnt1);
+        TNTSmoke tntS1 = new TNTSmoke(1050, 348, "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png");
+        obstacles.add(tntS1);
+        tntS1.setParent(tnt1);
+        tnt1.setBlinker(tntB1);
+        tnt1.setSmoke(tntS1);
 
 
         islands.add(new Island(1425,425,200,75,
@@ -509,12 +512,16 @@ public class Game implements Screen, Serializable {
         orcs.add(new MediumOrc(1750,367,40,40,
                 0, 0, "RED", 30, 30,
                 "file:src/main/resources/Assets/Orks/big_crimson_ork.png"));
-        obstacles.add(new TNTBlinker(1700, 361, "file:src/main/resources/Assets/WhiteSquare.png"));
+        TNTBlinker tntB2 = new TNTBlinker(1700, 361, "file:src/main/resources/Assets/WhiteSquare.png");
+        obstacles.add(tntB2);
         TNT tnt2 = new TNT(1700,361,"file:src/main/resources/Assets/TNT.png");
         obstacles.add(tnt2);
-        obstacles.add(new TNTSmoke(1650, 311, "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png"));
-        tnt2.setBlinker((TNTBlinker) obstacles.get(obstacles.size() - 3));
-        tnt2.setSmoke((TNTSmoke) obstacles.get(obstacles.size() - 1));
+        tntB2.setParent(tnt2);
+        TNTSmoke tntS2 = new TNTSmoke(1650, 311, "file:src/main/resources/Assets/TNT_smoke-removebg-preview.png");
+        obstacles.add(tntS2);
+        tntS2.setParent(tnt2);
+        tnt2.setBlinker(tntB2);
+        tnt2.setSmoke(tntS2);
 
 
         islands.add(new Island(1880,500,300,125,
