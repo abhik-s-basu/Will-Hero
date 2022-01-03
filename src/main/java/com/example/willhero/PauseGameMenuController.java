@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,9 +34,10 @@ public class PauseGameMenuController  {
 
 
 
-    public void resumeGame(){
-//        Game.getInstance().resumeGame(new Stage(),false);
+    public void resumeGame() throws GameCannotBeContinuedException{
+
         PauseGameMenu.getInstance().resumeGame2();
+
     }
 
 
@@ -75,8 +75,10 @@ public class PauseGameMenuController  {
      }
 
      public void viewSavedGames() throws Exception {
-        Stage stage = (Stage)loadSavedGamesButton.getScene().getWindow();
-        PauseGameMenu.getInstance().viewSavedGames();
+//        Stage stage = (Stage)loadSavedGamesButton.getScene().getWindow();
+//        PauseGameMenu.getInstance().viewSavedGames();
+         MainMenu.getInstance().loadState();
+
      }
 
      public void savedGames () throws Exception {

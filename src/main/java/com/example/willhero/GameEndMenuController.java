@@ -23,7 +23,7 @@ public class GameEndMenuController implements Initializable {
     Button restartButton;
 
     @FXML
-    public void restartGame() throws IOException {
+    public void restartGame() throws IOException, GameCannotBeRestartedException {
         GameEndMenu.getInstance().restart();
         ;//restart game bulaana hai
     }

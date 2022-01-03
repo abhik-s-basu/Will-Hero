@@ -277,7 +277,7 @@ public class Game implements Screen, Serializable {
 
 
     private void updateClicker() throws Exception {
-        if (hero.getNode().getLayoutX() <= princess.getX() + princess.getNode().getTranslateX()) {
+        if (hero.getNode().getLayoutX() + hero.getX() <= princess.getX() + princess.getNode().getTranslateX()) {
             score++;
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2), this::doStep));
             timeline.setCycleCount(hero.getXSpeed());

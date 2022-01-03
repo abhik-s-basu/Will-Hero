@@ -52,7 +52,7 @@ public class GameEndMenu  extends Application {
         prevGame.resumeGame(stage,true);// changes here and in game
     }
 
-    public void restart() throws IOException {
+    public void restart() throws IOException, GameCannotBeRestartedException{
         Game game = new Game();
         game.startGame(stage);
     }
