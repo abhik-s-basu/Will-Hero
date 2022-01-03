@@ -78,7 +78,6 @@ public class MainMenu implements Screen {
         scene = new Scene(mainMenuPane,310,657);
         primaryStage.setScene(scene);
         primaryStage.show();
-//        loadState();
     }
 
     public static MainMenu getInstance(){

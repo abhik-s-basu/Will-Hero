@@ -63,9 +63,6 @@ public class MainMenuController implements Initializable {
     private ImageView soundImage;
 
     @FXML
-    private Text tapToBegin;
-
-    @FXML
     private Rectangle topBlocker;
 
     @FXML
@@ -194,12 +191,12 @@ public class MainMenuController implements Initializable {
     }
 
     public void loadSavedGame(MouseEvent event){
-        if(((Text)event.getSource()).getText().equals("Empty Slot")){
-            System.out.println("Cannot load game!");
-        }
-        else{
-            System.out.println("Load saved game!");
-        }
+//        if(((Text)event.getSource()).getText().equals("Empty Slot")){
+//            System.out.println("Cannot load game!");
+//        }
+//        else{
+//            System.out.println("Load saved game!");
+//        }
     }
 
     public void pressMusic(MouseEvent event){
