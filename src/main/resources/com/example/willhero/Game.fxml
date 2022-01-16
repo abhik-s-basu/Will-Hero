@@ -5,8 +5,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="657.0" maxWidth="10000.0" minHeight="657.0" minWidth="310.0" prefHeight="657.0" prefWidth="310.0" style="-fx-background-color: linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe) linear-gradient(from 25% 30%  to 100% 100%, #00B4DB,#f2fcfe);" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willhero.GameController">
    <children>
@@ -65,12 +63,12 @@
                   <Image url="@../../../Assets/WhiteSquare.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="tnt" fitHeight="80.0" fitWidth="42.0" layoutX="255.0" layoutY="171.0" onMouseClicked="#clickTNT" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="tnt" fitHeight="80.0" fitWidth="42.0" layoutX="255.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../Assets/TNT.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="chest" fitHeight="33.0" fitWidth="52.0" layoutX="178.0" layoutY="179.0" onMouseClicked="#clickChest" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="chest" fitHeight="33.0" fitWidth="52.0" layoutX="178.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../Assets/Chests/closedChest.png" />
                </image>
@@ -90,87 +88,6 @@
                </image>
             </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="57.0" layoutX="-86.0" layoutY="-41.0" onMouseClicked="#pressPause" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="79.0" />
-         </children>
-      </Group>
-      <Group fx:id="pauseObjects">
-         <children>
-            <ImageView fx:id="soundImage" fitHeight="69.0" fitWidth="35.0" layoutX="-63.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/volume_1.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="musicImage" fitHeight="46.0" fitWidth="59.0" layoutX="-70.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/MusicOn.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="76.0" fitWidth="43.0" layoutX="-66.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/BackToMainMenu.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="49.0" fitWidth="39.0" layoutX="-66.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/saveGame.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="61.0" fitWidth="42.0" layoutX="-66.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../Assets/LoadGame.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="42.0" layoutX="-78.0" layoutY="51.0" onMouseClicked="#pressSound" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="57.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="41.0" layoutX="-79.0" layoutY="96.0" onMouseClicked="#pressMusic" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="58.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="49.0" layoutX="-82.0" layoutY="139.0" onMouseClicked="#clickSaveGame" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="65.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="51.0" layoutX="-83.0" layoutY="190.0" onMouseClicked="#pressLoadGame" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="66.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="43.0" layoutX="-82.0" layoutY="241.0" onMouseClicked="#clickBackToMainMenu" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="65.0" />
-         </children>
-      </Group>
-      <Group fx:id="savedGameScreen" layoutX="47.5" layoutY="771.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" height="919.0" layoutX="-141.0" layoutY="-85.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="505.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="427.0" layoutX="-42.0" layoutY="166.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="35.0" layoutX="13.0" layoutY="547.0" stroke="BLACK" strokeType="INSIDE" width="185.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="228.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="290.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="354.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="418.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="482.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Text fill="WHITE" layoutX="-1.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Games" textAlignment="CENTER" wrappingWidth="221.17813110351562">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font>
-            </Text>
-            <Text fill="#ff3232" layoutX="78.0" layoutY="574.0" onMouseClicked="#BackToGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Back">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="37.0" layoutY="258.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Game 1">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="35.0" layoutY="321.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Game 2">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="51.0" layoutY="384.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Empty Slot">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="51.0" layoutY="448.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Empty Slot">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="51.0" layoutY="512.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Empty Slot">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
          </children>
       </Group>
    </children>

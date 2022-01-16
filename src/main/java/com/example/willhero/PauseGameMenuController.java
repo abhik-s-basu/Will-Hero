@@ -11,8 +11,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PauseGameMenuController  {
-    @FXML
-    private ImageView resume;
 
     @FXML
     private ImageView musicToggle;
@@ -22,12 +20,6 @@ public class PauseGameMenuController  {
 
     @FXML
     private ImageView mainMenuButton;
-
-    @FXML
-    private ImageView loadSavedGamesButton;
-
-    @FXML
-    private ImageView saveGameButton;
 
     private boolean musicClicked;
     private boolean soundClicked;

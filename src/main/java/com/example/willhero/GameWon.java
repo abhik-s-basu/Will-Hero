@@ -14,15 +14,15 @@ import java.io.IOException;
 
 public class GameWon  extends Application {
 
-    Text currScore;
-    Text numCoins;
+    private Text currScore;
+    private Text numCoins;
 
     private static GameWon gameEndMenu = null;
-    Game prevGame;
-    int finalCoins;
-    int totalCoins;
-    int score;
-    Stage stage;
+    private Game prevGame;
+    private int finalCoins;
+    private int totalCoins;
+    private int score;
+    private Stage stage;
 
     GameWon(Game currGame,int _score, int _totalCoins){
         score = _score;

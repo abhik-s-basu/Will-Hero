@@ -37,10 +37,7 @@ public class Game implements Screen, Serializable {
     private volatile int coinsCollected;
     private int score;
     private transient Text numCoins;
-    private boolean gamePause = false;
     private ArrayList<GameObject> gameObjects;
-    private final int RESURRECT_COINS;
-    private final int WINNING_JUMP;
     private final int ABYSS;
     private final int GRAVITY;
     private transient AnimationTimer gameLoop;
@@ -62,21 +59,18 @@ public class Game implements Screen, Serializable {
     private GameObject collidedNode;
     private boolean flag;
     private int progCounter;
+    private boolean endGameChecker;
 
 
-    transient String jumpSoundFile = "src/main/resources/Assets/Sounds/jump.wav";
-    transient Media jumpSound;
-    transient MediaPlayer jumpSoundPlayer;
-
-
-    transient String collisionSoundFile = "src/main/resources/Assets/Sounds/collision.wav";
-    transient Media collisionSound;
-    transient MediaPlayer collisionSoundPlayer;
-
-
-    transient String deadSoundFile ="src/main/resources/Assets/Sounds/dead.wav";
-    transient Media deadSound;
-    transient MediaPlayer deadSoundPlayer;
+    private transient String jumpSoundFile = "src/main/resources/Assets/Sounds/jump.wav";
+    private transient Media jumpSound;
+    private transient MediaPlayer jumpSoundPlayer;
+    private transient String collisionSoundFile = "src/main/resources/Assets/Sounds/collision.wav";
+    private transient Media collisionSound;
+    private transient MediaPlayer collisionSoundPlayer;
+    private transient String deadSoundFile ="src/main/resources/Assets/Sounds/dead.wav";
+    private transient Media deadSound;
+    private transient MediaPlayer deadSoundPlayer;
 
 
     Game() {
@@ -88,12 +82,11 @@ public class Game implements Screen, Serializable {
         this.game = this;
         this.chests = new ArrayList<Chest>();
         this.obstacles = new ArrayList<Obstacle>();
-        this.RESURRECT_COINS = 40;
         this.ABYSS = 575;
-        this.WINNING_JUMP = 75;
         this.GRAVITY = 1;
         this.collidedNode = null;
         this.flag = false;
+        this.endGameChecker = false;
     }
 
 
@@ -196,15 +189,17 @@ public class Game implements Screen, Serializable {
 
 
     private void endgame() throws Exception {
-        deadSound = new Media(new File(deadSoundFile).toURI().toString());
-        deadSoundPlayer = new MediaPlayer(deadSound);
-        deadSoundPlayer.play();
+        if (!endGameChecker) {
+            deadSound = new Media(new File(deadSoundFile).toURI().toString());
+            deadSoundPlayer = new MediaPlayer(deadSound);
+            deadSoundPlayer.play();
 
-        gamePause = true;
-        gameLoop.stop();
-        pausedScene = scene;
-        GameEndMenu gameEndMenu = new GameEndMenu(game,this.score,this.coinsCollected);
-        gameEndMenu.start(stage);
+            gameLoop.stop();
+            pausedScene = scene;
+            GameEndMenu gameEndMenu = new GameEndMenu(game, this.score, this.coinsCollected);
+            gameEndMenu.start(stage);
+        }
+        endGameChecker = true;
     }
 
 
@@ -267,7 +262,6 @@ public class Game implements Screen, Serializable {
 
 
     private void  gameWon() throws Exception {
-        gamePause = true;
         gameLoop.stop();
         pausedScene = scene;
         GameWon gameWonMenu = new GameWon(game,this.score,this.coinsCollected);
@@ -378,6 +372,7 @@ public class Game implements Screen, Serializable {
 
 
     public void pause() throws Exception {
+
         for(GameObject i: gameObjects){
             i.setX(i.getNode().getTranslateX()+i.getX());
             i.setY(i.getNode().getTranslateY()+i.getY());
@@ -389,7 +384,6 @@ public class Game implements Screen, Serializable {
 
 
     private void pauseGame() throws Exception{
-        gamePause = true;
         gameLoop.stop();
         pausedScene = scene;
         PauseGameMenu pm = new PauseGameMenu(this);
@@ -399,8 +393,8 @@ public class Game implements Screen, Serializable {
 
 
 
-    public void resumeGame(Stage stage,boolean extralife){
-
+    public void resumeGame(Stage stage, boolean extralife){
+        endGameChecker = false;
         stage.setScene(pausedScene);
         stage.show();
         if(extralife && !(hero.isResurrected())){
@@ -410,7 +404,6 @@ public class Game implements Screen, Serializable {
                 hero.setResurrected(true);
             }
         }
-        gamePause = false;
         gameLoop.start();
     }
 
@@ -757,9 +750,7 @@ public class Game implements Screen, Serializable {
         this.game = this;
         this.chests = new ArrayList<Chest>();
         this.obstacles = new ArrayList<Obstacle>();
-        this.RESURRECT_COINS = 100;
         this.ABYSS = 575;
-        this.WINNING_JUMP = 60;
         this.GRAVITY = 1;
         this.collidedNode = null;
         this.flag = false;

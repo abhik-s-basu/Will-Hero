@@ -14,16 +14,16 @@ import java.io.IOException;
 
 public class GameEndMenu  extends Application {
 
-    Text currScore;
-    Text numCoins;
+    private Text currScore;
+    private Text numCoins;
 
     private static GameEndMenu gameEndMenu = null;
-    Game prevGame;
-    int finalCoins;
-    int totalCoins;
-    boolean isResurrected;
-    int score;
-    Stage stage;
+    private Game prevGame;
+    private int finalCoins;
+    private int totalCoins;
+    private boolean isResurrected;
+    private int score;
+    private Stage stage;
 
     GameEndMenu(Game currGame,int _score, int _totalCoins){
         score = _score;

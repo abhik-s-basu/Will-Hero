@@ -19,7 +19,4 @@ public class TNTSmoke extends Obstacle{
         this.parent = p;
     }
 
-    public TNT getParent(){
-        return this.parent;
-    }
 }

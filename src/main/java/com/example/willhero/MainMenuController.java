@@ -8,7 +8,6 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -64,9 +63,6 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private Rectangle topBlocker;
-
-    @FXML
-    private ImageView exitButton;
 
     private boolean settingsClickCount;
     private boolean soundClickCount;

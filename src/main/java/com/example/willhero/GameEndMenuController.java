@@ -14,13 +14,17 @@ import java.util.ResourceBundle;
 
 public class GameEndMenuController implements Initializable {
     @FXML
-    Button resurrectButton;
+    private Button resurrectButton;
 
     @FXML
-    Button mainMenuButton;
+    private Button mainMenuButton;
 
     @FXML
-    Button restartButton;
+    private Button restartButton;
+
+    private static final String p_IDLE_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-border-color: #9CAAA9; -fx-border-width: 4;";
+    private static final String p_HOVERED_BUTTON_STYLE = "-fx-background-color: #9CAAA9; -fx-border-color: #9CAAA9; -fx-border-width: 4;";
+
 
     @FXML
     public void restartGame() throws IOException, GameCannotBeRestartedException {
@@ -28,14 +32,14 @@ public class GameEndMenuController implements Initializable {
         ;//restart game bulaana hai
     }
     @FXML
-    void mainMenu () throws Exception{
+    public void mainMenu () throws Exception{
         Stage stage = (Stage) mainMenuButton.getScene().getWindow();
 //        MainMenu mainMenu = new MainMenu();
 //        mainMenu.start(stage); // just a fix
         MainMenu.getInstance().start(stage);
     }
     @FXML
-    void revive() throws IOException {
+    public void revive() throws IOException {
         System.out.println("here");
         boolean temp = GameEndMenu.getInstance().checkEligible();
         if(!temp){
@@ -48,9 +52,6 @@ public class GameEndMenuController implements Initializable {
             GameEndMenu.getInstance().continueGame();
         }
     }
-
-    private static final String p_IDLE_BUTTON_STYLE = "-fx-background-color: #ffffff; -fx-border-color: #9CAAA9; -fx-border-width: 4;";
-    private static final String p_HOVERED_BUTTON_STYLE = "-fx-background-color: #9CAAA9; -fx-border-color: #9CAAA9; -fx-border-width: 4;";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -5,7 +5,6 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -18,10 +17,7 @@ import java.util.ResourceBundle;
 public class StartMenuController implements  Initializable  {
 
     @FXML
-    ImageView startImage;
-
-    @FXML
-    Text clickToStart;
+    private Text clickToStart;
 
     public void gotoStartMenu(MouseEvent event) throws IOException{
         Stage stage = (Stage)  clickToStart.getScene().getWindow();

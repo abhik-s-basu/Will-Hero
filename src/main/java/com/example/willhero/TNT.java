@@ -23,27 +23,10 @@ public class TNT extends Obstacle{
         ts.getNode().setVisible(false);
     }
 
-    public void setSmokeBool(boolean v){
-        this.getNode().setVisible(false);
-    }
-
-    public void setSmokeRegen(TNTSmoke ts){
-        this.smoke = ts;
-    }
-
-    public TNTSmoke getSmoke(){
-        return this.smoke;
-    }
-
-    public TNTBlinker getBlinker(){
-        return this.blinker;
-    }
-
     public  boolean getIsCollided(){
         return  this.isCollided;
     }
     public  void explode(){
-//        System.out.println("PHOOTA");
         this.isCollided = true;
         FadeTransition fade1 = new FadeTransition();
         fade1.setNode(this.getNode());
@@ -72,6 +55,7 @@ public class TNT extends Obstacle{
             });
         });
     }
+
     public void countDown(){
 
     }

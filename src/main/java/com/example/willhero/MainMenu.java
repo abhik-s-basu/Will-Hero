@@ -18,22 +18,21 @@ import java.util.ArrayList;
 
 public class MainMenu implements Screen {
     private static MainMenu mainMenu;
-    AnchorPane mainMenuPane;
-    Scene scene;
-    int totalCoinsCollected = 20;
-    static ArrayList<Game> savedGamesList;
-    Stage stage;
+    private AnchorPane mainMenuPane;
+    private Scene scene;
+    private int totalCoinsCollected = 20;
+    private Stage stage;
 
     private String backgroundMusicFile = "src/main/resources/Assets/Sounds/letithappen.wav";
-    Media backgroundMusic;
-    MediaPlayer backgroundMusicPlayer;
+    private Media backgroundMusic;
+    private MediaPlayer backgroundMusicPlayer;
 
-    public ArrayList<Game> viewSavedGames(){
-        return savedGamesList;
-    }
+//    public ArrayList<Game> viewSavedGames(){
+//        return savedGamesList;
+//    }
     MainMenu(){
         mainMenu = this;
-        savedGamesList = new ArrayList<>();
+//        savedGamesList = new ArrayList<Game>();
     }
 
 //    public void putCoins(int numCoins){
@@ -44,6 +43,7 @@ public class MainMenu implements Screen {
         return totalCoinsCollected;
     }
     public void setNumCoins(int _totalCoinsCollected){
+
         System.out.println(_totalCoinsCollected + "dc");
         totalCoinsCollected = _totalCoinsCollected;
 //        System.out.println(totalCoinsCollected + "nds");
@@ -59,7 +59,7 @@ public class MainMenu implements Screen {
         mainMenuPane.getChildren().add(coinView);
 
         Text numCoins = new Text();
-        numCoins.setLayoutX(250);
+        numCoins.setLayoutX(220);
         numCoins.setLayoutY(33);
         numCoins.setText(String.valueOf(getNumCoins()));
         numCoins.setFont(Font.font("Comic Sans MS", 25));

@@ -31,9 +31,9 @@ public abstract class GameObject implements Serializable {
     private double length;
     private double breadth;
     private boolean moves;
-    private  String imageURL;
-    private  transient Image image;
-    private  transient ImageView imageView;
+    private String imageURL;
+    private transient Image image;
+    private transient ImageView imageView;
     private double deltaX;
     private double deltaY;
 
@@ -52,8 +52,8 @@ public abstract class GameObject implements Serializable {
         this.breadth = breadth;
         this.moves = moves;
         this.imageURL = imageURL;
-        deltaX = 0;
-        deltaY = 0;
+        this.deltaX = 0;
+        this.deltaY = 0;
         this.display();
     }
 
@@ -108,7 +108,6 @@ public abstract class GameObject implements Serializable {
         imageView.setTranslateX(deltaX);
         imageView.setTranslateY(deltaY);
 
-        return;
     }
 
     public ArrayList<Node> getAll(){
@@ -192,26 +191,6 @@ public abstract class GameObject implements Serializable {
         this.moves = moves;
     }
     public void movement(){};
-
-//    private void writeObject(ObjectOutputStream out) throws IOException
-//   {
-//
-//             deltaX = imageView.getTranslateX();
-//             deltaY = imageView.getTranslateY();
-//       System.out.println(xCoordinate + deltaX + "hello");
-//             out.defaultWriteObject();
-//   }
-//   private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
-//   {
-//
-//       System.out.println(xCoordinate + "tataa");
-//             in.defaultReadObject();
-//
-//             display();
-//
-//   }
-
-
 
 
 }
