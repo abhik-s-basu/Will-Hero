@@ -167,53 +167,6 @@
          </children>
       </Group>
       <Rectangle fx:id="bottomBlocker" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="67.0" layoutX="-2.0" layoutY="596.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="314.0" />
-      <Group fx:id="savedGameScreen" layoutX="47.5" layoutY="771.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" height="919.0" layoutX="-141.0" layoutY="-85.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="505.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="427.0" layoutX="-42.0" layoutY="166.0" stroke="BLACK" strokeType="INSIDE" width="300.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="35.0" layoutX="13.0" layoutY="547.0" stroke="BLACK" strokeType="INSIDE" width="185.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="228.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="290.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="354.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="418.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#027ee4" height="44.0" layoutX="-34.0" layoutY="482.0" stroke="BLACK" strokeType="INSIDE" width="285.0" />
-            <Text fill="WHITE" layoutX="-1.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Games" textAlignment="CENTER" wrappingWidth="221.17813110351562">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font>
-            </Text>
-            <Text fill="#ff3232" layoutX="78.0" layoutY="574.0" onMouseClicked="#BackToGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Back">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="37.0" layoutY="258.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Game 1">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="35.0" layoutY="321.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Game 2">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="51.0" layoutY="384.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Empty Slot">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="51.0" layoutY="448.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Empty Slot">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="51.0" layoutY="512.0" onMouseClicked="#loadSavedGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Empty Slot">
-               <font>
-                  <Font name="System Bold Italic" size="22.0" />
-               </font>
-            </Text>
-         </children>
-      </Group>
       <Group fx:id="quitScreen" layoutX="44.0" layoutY="771.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="919.0" layoutX="-142.0" layoutY="-86.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="505.0" />

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class RegenerateObstacles {
         private ArrayList<GameObject> myList;
         private GameObject deserializedObj = null;
-        private Hero gameHero;
+//        private Hero gameHero;
         private Game game = new Game();
 
         private void deserialize(String fileName) throws IOException, ClassNotFoundException {
@@ -19,8 +19,6 @@ public class RegenerateObstacles {
             try {
                 in = new ObjectInputStream(new FileInputStream(fileName));
                 deserializedObj = (GameObject)in.readObject();
-                gameHero = new Hero(deserializedObj.getX(),deserializedObj.getY(),game,
-                        "file:src/main/resources/Assets/Knight.png");
                 while(true) {
                     try{
                         GameObject tmp = (GameObject) in.readObject();
@@ -54,7 +52,8 @@ public class RegenerateObstacles {
                         break;
                     case "Hero":
                         finalList.add(new Hero((int) obj.getX(),(int) obj.getY()
-                                , game, obj.getImageURL()));
+                                , game, obj.getImageURL(), ((Hero) obj).getHelmet(),
+                                ((Hero) obj).getCurWeapon(), ((Hero) obj).isResurrected()));
                         break;
                     case "SmallOrc":
                         finalList.add(new SmallOrc((int) obj.getX(),(int) obj.getY(),(int) obj.getLength(),(int) obj.getBreadth(),

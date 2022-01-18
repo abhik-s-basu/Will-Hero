@@ -60,10 +60,11 @@ public class PauseGameMenuController  {
     }
 
      public void pressMainMenu() throws IOException {
-        Stage stage = (Stage)mainMenuButton.getScene().getWindow();
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.start(stage);
-
+//        Stage stage = (Stage)mainMenuButton.getScene().getWindow();
+//        MainMenu mainMenu = new MainMenu();
+//        mainMenu.start(stage);
+         Stage stage = (Stage) mainMenuButton.getScene().getWindow();
+         MainMenu.getInstance().start(stage);
      }
 
      public void viewSavedGames() throws Exception {

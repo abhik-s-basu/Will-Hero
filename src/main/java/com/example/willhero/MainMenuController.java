@@ -53,9 +53,6 @@ public class MainMenuController implements Initializable {
     private Group quitScreen;
 
     @FXML
-    private Group savedGameScreen;
-
-    @FXML
     private Group soundGroup;
 
     @FXML
@@ -174,25 +171,13 @@ public class MainMenuController implements Initializable {
     }
 
     public void exitGame(MouseEvent event){
+
         Platform.exit();
         System.exit(0);
     }
 
     public void continueGame(MouseEvent event){
         setScreen(-1, quitScreen);
-    }
-
-    public void BackToGame(MouseEvent event){
-        setScreen(-1, savedGameScreen);
-    }
-
-    public void loadSavedGame(MouseEvent event){
-//        if(((Text)event.getSource()).getText().equals("Empty Slot")){
-//            System.out.println("Cannot load game!");
-//        }
-//        else{
-//            System.out.println("Load saved game!");
-//        }
     }
 
     public void pressMusic(MouseEvent event){
@@ -238,12 +223,6 @@ public class MainMenuController implements Initializable {
 
     public void pressLoadGame(MouseEvent event) throws IOException, ClassNotFoundException, GameNotFoundException {
         MainMenu.getInstance().loadState();
-    }
-
-    public void setSound(boolean sound){ //to manage pause and sound controls
-        if (sound){
-            pressSound();
-        }
     }
 
     public void startGame(MouseEvent event) throws IOException{

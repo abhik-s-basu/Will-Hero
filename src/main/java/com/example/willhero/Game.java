@@ -60,6 +60,7 @@ public class Game implements Screen, Serializable {
     private boolean flag;
     private int progCounter;
     private boolean endGameChecker;
+    private boolean isResurrected;
 
 
     private transient String jumpSoundFile = "src/main/resources/Assets/Sounds/jump.wav";
@@ -87,6 +88,7 @@ public class Game implements Screen, Serializable {
         this.collidedNode = null;
         this.flag = false;
         this.endGameChecker = false;
+        this.isResurrected = false;
     }
 
 
@@ -196,7 +198,7 @@ public class Game implements Screen, Serializable {
 
             gameLoop.stop();
             pausedScene = scene;
-            GameEndMenu gameEndMenu = new GameEndMenu(game, this.score, this.coinsCollected);
+            GameEndMenu gameEndMenu = new GameEndMenu(game, this.score, this.coinsCollected, this.isResurrected);
             gameEndMenu.start(stage);
         }
         endGameChecker = true;
@@ -260,8 +262,7 @@ public class Game implements Screen, Serializable {
 
 
 
-
-    private void  gameWon() throws Exception {
+    private void gameWon() throws Exception {
         gameLoop.stop();
         pausedScene = scene;
         GameWon gameWonMenu = new GameWon(game,this.score,this.coinsCollected);
@@ -271,6 +272,7 @@ public class Game implements Screen, Serializable {
 
 
     private void updateClicker() throws Exception {
+        System.out.println(princess.getX() + princess.getNode().getTranslateX());
         if (hero.getNode().getLayoutX() + hero.getX() <= princess.getX() + princess.getNode().getTranslateX()) {
             score++;
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(2), this::doStep));
@@ -282,6 +284,8 @@ public class Game implements Screen, Serializable {
             });
         }
         else{
+            System.out.println(hero.getNode().getLayoutX() + hero.getX() + " " +
+                    (int) (princess.getX() + princess.getNode().getTranslateX()));
             gameWon();
         }
     }
@@ -371,19 +375,8 @@ public class Game implements Screen, Serializable {
 
 
 
-    public void pause() throws Exception {
 
-        for(GameObject i: gameObjects){
-            i.setX(i.getNode().getTranslateX()+i.getX());
-            i.setY(i.getNode().getTranslateY()+i.getY());
-//            System.out.println(i.getClass().getSimpleName() + " "+ i.getX() +" "+ i.getY());
-        }
-        pauseGame();
-    }
-
-
-
-    private void pauseGame() throws Exception{
+    public void pause() throws Exception{
         gameLoop.stop();
         pausedScene = scene;
         PauseGameMenu pm = new PauseGameMenu(this);
@@ -398,8 +391,9 @@ public class Game implements Screen, Serializable {
         stage.setScene(pausedScene);
         stage.show();
         if(extralife && !(hero.isResurrected())){
+            coinsCollected = 0;
             for(Node i : hero.getAll()){
-                i.setTranslateY(i.getTranslateY()-500);
+                i.setTranslateY(-500);
                 hero.setYSpeed(0);
                 hero.setResurrected(true);
             }
@@ -407,12 +401,11 @@ public class Game implements Screen, Serializable {
         gameLoop.start();
     }
 
-
-
     private void axeButtonClicked() {
         if (!(axeButton.getOpacity() == 0.5)){
             hero.setCurWeapon(hero.getHelmet().getWeapon1());
             hero.getNode().setImage(new Image("file:src/main/resources/Assets/KnightAxe.png"));
+//            hero.setImageURL("file:src/main/resources/Assets/KnightAxe.png");
             hero.getNode().setFitWidth(70);
             hero.getNode().setFitHeight(45);
             hero.setRight(30);
@@ -425,6 +418,7 @@ public class Game implements Screen, Serializable {
         if (!(knifeButton.getOpacity() == 0.5)) {
             hero.setCurWeapon(hero.getHelmet().getWeapon2());
             hero.getNode().setImage(new Image("file:src/main/resources/Assets/KnightKnife.png"));
+//            hero.setImageURL("file:src/main/resources/Assets/KnightKnife.png");
             hero.getNode().setFitWidth(57);
             hero.getNode().setFitHeight(35);
             hero.setRight(25);
@@ -616,7 +610,7 @@ public class Game implements Screen, Serializable {
         scoreText = new Text();
         scoreText.setLayoutX(152);
         scoreText.setLayoutY(68);
-        scoreText.setText(""+score);
+        scoreText.setText(""+score); //isko kar
         scoreText.setFont(Font.font("Comic Sans MS", 26));
         scoreText.setFill(Color.rgb(255, 102, 196));
 
@@ -641,6 +635,8 @@ public class Game implements Screen, Serializable {
         Image heroProg =  new Image("file:src/main/resources/Assets/Knight.png");
         heroProgView = new ImageView(heroProg);
         heroProgView.setX(37);
+        heroProgView.setTranslateX(score*3);
+        System.out.println(score);
         heroProgView.setY(70);
         heroProgView.setFitHeight(20);
         heroProgView.setFitWidth(20);
@@ -672,7 +668,7 @@ public class Game implements Screen, Serializable {
         numCoins = new Text();
         numCoins.setLayoutX(230);
         numCoins.setLayoutY(35);
-        numCoins.setText(String.valueOf(coinsCollected));
+        numCoins.setText(String.valueOf(coinsCollected)); //isko kar
         numCoins.setFont(Font.font("Comic Sans MS", 25));
         numCoins.setFill(Color.rgb(255, 249, 2));
         gamePane.getChildren().add(numCoins);
@@ -685,7 +681,8 @@ public class Game implements Screen, Serializable {
 
         knifeButton = new Rectangle();
         knifeButton.setLayoutX(180); knifeButton.setLayoutY(593); knifeButton.setWidth(43);
-        knifeButton.setHeight(43); knifeButton.setOpacity(0.5); knifeButton.setRotate(45);
+        knifeButton.setHeight(43); knifeButton.setRotate(45);
+        knifeButton.setOpacity(hero.getHelmet().getWeapon2().getQuantity() == 0 ? 0.5 : 1);
         knifeButton.setStroke(Color.BLACK);
         knifeButton.setFill(Color.rgb(175, 216,255));
         knifeButton.setOnMouseClicked(e->{
@@ -695,7 +692,8 @@ public class Game implements Screen, Serializable {
 
         axeButton = new Rectangle();
         axeButton.setLayoutX(250); axeButton.setLayoutY(593); axeButton.setWidth(43);
-        axeButton.setHeight(43); axeButton.setOpacity(0.5); axeButton.setRotate(45);
+        axeButton.setHeight(43); axeButton.setRotate(45);
+        axeButton.setOpacity(hero.getHelmet().getWeapon1().getQuantity() == 0 ? 0.5 : 1);
         axeButton.setStroke(Color.BLACK);
         axeButton.setFill(Color.rgb(175, 216,255));
         axeButton.setOnMouseClicked(e->{
@@ -706,7 +704,8 @@ public class Game implements Screen, Serializable {
         knife = new ImageView(new Image(
                 "file:src/main/resources/Assets/Throwing Knives/ThrowingKnife2.png"));
         knife.setLayoutX(198); knife.setLayoutY(596); knife.setFitWidth(8);
-        knife.setFitHeight(35);; knife.setOpacity(0.5);
+        knife.setFitHeight(35);
+        knife.setOpacity(hero.getHelmet().getWeapon2().getQuantity() == 0 ? 0.5 : 1);
         knife.setRotate(45);
         knife.setOnMouseClicked(e->{
             knifeButtonClicked();
@@ -716,25 +715,28 @@ public class Game implements Screen, Serializable {
         axe = new ImageView(new Image(
                 "file:src/main/resources/Assets/Throwing Axes/ThrowingAxeNew.png"));
         axe.setLayoutX(261); axe.setLayoutY(596); axe.setFitWidth(20);
-        axe.setFitHeight(36);; axe.setOpacity(0.5);
+        axe.setFitHeight(36);
+        axe.setOpacity(hero.getHelmet().getWeapon1().getQuantity() == 0 ? 0.5 : 1);
         axe.setOnMouseClicked(e->{
             axeButtonClicked();
         });
         gamePane.getChildren().add(axe);
 
-        knifeLevel = new Text("0");
+        knifeLevel = new Text(""+hero.getHelmet().getWeapon2().getQuantity());
         knifeLevel.setFont(Font.font("Comic Sans MS", 13));
         knifeLevel.setLayoutX(205); knifeLevel.setLayoutY(630);
-        knifeLevel.setStrokeWidth(3); knifeLevel.setOpacity(0.5);
+        knifeLevel.setStrokeWidth(3);
+        knifeLevel.setOpacity(hero.getHelmet().getWeapon2().getQuantity() == 0 ? 0.5 : 1);
         knifeLevel.setOnMouseClicked(e->{
             knifeButtonClicked();
         });
         gamePane.getChildren().add(knifeLevel);
 
-        axeLevel = new Text("0");
+        axeLevel = new Text(""+hero.getHelmet().getWeapon1().getQuantity());
         axeLevel.setFont(Font.font("Comic Sans MS", 13));
         axeLevel.setLayoutX(213+63); axeLevel.setLayoutY(630);
-        axeLevel.setStrokeWidth(3); axeLevel.setOpacity(0.5);
+        axeLevel.setStrokeWidth(3);
+        axeLevel.setOpacity(hero.getHelmet().getWeapon1().getQuantity() == 0 ? 0.5 : 1);
         axeLevel.setOnMouseClicked(e->{
             axeButtonClicked();
         });
@@ -778,6 +780,7 @@ public class Game implements Screen, Serializable {
             if (go instanceof Hero){
                 if (go.getX() == 40){
                     hero = (Hero) go;
+                    System.out.println(hero.getHelmet().getWeapon1().getQuantity());
                 }
                 else{
                     princess = (Hero) go;
@@ -808,5 +811,21 @@ public class Game implements Screen, Serializable {
         primaryStage.show();
         stage = primaryStage;
         startGameLoop();
+    }
+
+    public int getCoinsCollected(){
+        return coinsCollected;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
+    public void setScore(String s){
+        score = Integer.parseInt(s);
+    }
+
+    public void setCoinsCollected(String s){
+        coinsCollected = Integer.parseInt(s);
     }
 }

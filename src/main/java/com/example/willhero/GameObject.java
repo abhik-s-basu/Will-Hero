@@ -60,6 +60,7 @@ public abstract class GameObject implements Serializable {
     public String getImageURL() {
         return imageURL;
     }
+    public void setImageURL(String s){this.imageURL = s;}
 
     private void display(){
 

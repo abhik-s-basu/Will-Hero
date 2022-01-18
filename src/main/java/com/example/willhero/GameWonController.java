@@ -27,9 +27,11 @@ public class GameWonController implements Initializable {
 
     @FXML
     public void mainMenu () throws Exception{
+//        Stage stage = (Stage) mainMenuButton.getScene().getWindow();
+//        MainMenu mainMenu = new MainMenu();
+//        mainMenu.start(stage);
         Stage stage = (Stage) mainMenuButton.getScene().getWindow();
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.start(stage);
+        MainMenu.getInstance().start(stage);
     }
 
     @Override

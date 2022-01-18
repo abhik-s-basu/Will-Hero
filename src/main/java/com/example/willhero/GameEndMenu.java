@@ -25,18 +25,18 @@ public class GameEndMenu  extends Application {
     private int score;
     private Stage stage;
 
-    GameEndMenu(Game currGame,int _score, int _totalCoins){
+    GameEndMenu(Game currGame,int _score, int _totalCoins, boolean isResurrected){
         score = _score;
         prevGame = currGame;
         finalCoins = _totalCoins;
         MainMenu.getInstance().setNumCoins(finalCoins + MainMenu.getInstance().getNumCoins());
         totalCoins = MainMenu.getInstance().getNumCoins();
         gameEndMenu = this;
-        isResurrected = false;
+        this.isResurrected = isResurrected;
     }
 
     public boolean checkEligible(){
-        System.out.println("Total coins " + totalCoins);
+        System.out.println("isRessurected" + isResurrected);
         if(finalCoins >= 40 && !isResurrected){
             System.out.println("hello");
             isResurrected = true;

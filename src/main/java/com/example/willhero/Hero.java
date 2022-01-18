@@ -1,6 +1,5 @@
 package com.example.willhero;
 
-import java.awt.*;
 import java.io.Serializable;
 
 public class Hero extends GameObject implements Serializable {
@@ -12,8 +11,15 @@ public class Hero extends GameObject implements Serializable {
     private boolean isAlive;
     private Game curGame;
 
-//    Hero (Helmet helmet, Game game, double x, double y,
-//          String imageURL)
+    Hero (double x, double y, Game game, String imageURL, Helmet h, Weapon curW, boolean isR){
+        super(x,y,50,0,29,29,true,imageURL);
+        this.helmet = h;
+        isResurrected = isR;
+        curWeapon = null;
+        this.curGame = game;
+        super.getLower().setLayoutY(super.getY() + super.getBreadth() - 25);
+        super.setLower(25);
+    }
 
     Hero(double x, double y, Game game, String imageURL){
         super(x,y,50,0,29,29,true,imageURL);

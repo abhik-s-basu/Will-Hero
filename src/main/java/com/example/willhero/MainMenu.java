@@ -90,6 +90,9 @@ public class MainMenu implements Screen {
         ArrayList<GameObject> tempList = regen.regenerateGameObjects("main.txt");
         //current properties
         Game gameInstance = regen.getGame();
+        BufferedReader sc = new BufferedReader(new InputStreamReader(
+                new FileInputStream("main1.txt")));
+        gameInstance.setScore(sc.readLine()); gameInstance.setCoinsCollected(sc.readLine());
         gameInstance.startSavedGame(stage, tempList);
     }
 }
