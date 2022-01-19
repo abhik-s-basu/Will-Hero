@@ -42,18 +42,24 @@ Adaptation of the popular game [Will Hero](https://apps.apple.com/us/app/will-he
 - The serialisation was also used for designing the whole saved games paradigm.
 - Implemented exception handling wherever possible
 
+## 🎁 Additional Features
+
+- The orcs movement in the original game is usually ordered and preset. However, in our game, the orcs are not only randomly jumping at different paces but their jumps are not synchronised as well, hence making it difficult for the user to win this game.
+- The spawning of weapons have been randomised for the game and one can get any weapon from the chest and swap them according to their need. 
+- A damage system has also been created in this game. In the original game, one can use any weapon and all the orcs get killed. However, in our game, there is a damage system involved where each orc has assigned health to it. So the only way of killing it is not by putting it in the abyss anymore but even continuous  sustained damage can affect it. If time was more, then this feature could have been expanded further.
+- Added sounds and. music as well to make a game made on JavaFX more immersive and fun. 
+
 ## 🎬 Visuals
 
 Loading Screen -
 
-![HomeScreen](mainScreen.jpg)
-Game Play - 
+![StartScreen](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/start.png)
+Main Menu - 
 
-![GamePlay](gamePlay.jpg)
-Helmet Choices - 
-![Helmet Choosing Menu](helmets.jpg)
-Player Statistics Menu - 
-![Player Statistics](PlayerStatistics.jpg)
+![Main Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/mainMenu.png)
+Gameplay -
+
+![Gameplay Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/gameplay.png)
 
 
 ## Designs 
