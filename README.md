@@ -60,12 +60,12 @@ Player Statistics Menu -
 
 UML Class Diagram -
 
-![UML](#path daalna hai)
+![UML](UML Diagrams/UMLClassDiagram.jpg)
 
 Use Case Diagram - 
 
-![UseCase](UseCase.png)
+![UseCase](UML Diagrams/UseCase.jpg)
 
 Creators:
 
-[Abhik](https://github.com/Kushagra20075) & [Niranjan](https://github.com/aflah02)
+[Abhik](https://github.com/abhik-s-basu) & [Niranjan](https://github.com/nin-ran-jan)
