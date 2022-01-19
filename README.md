@@ -54,9 +54,11 @@ Adaptation of the popular game [Will Hero](https://apps.apple.com/us/app/will-he
 Loading Screen -
 
 ![StartScreen](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/start.png)
+
 Main Menu - 
 
 ![Main Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/mainMenu.png)
+
 Gameplay -
 
 ![Gameplay Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/gameplay.png)
