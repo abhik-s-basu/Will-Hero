@@ -7,6 +7,8 @@ Adaptation of the popular game [Will Hero](https://apps.apple.com/us/app/will-he
 - Java
 - JavaFX
 
+## 📹 For a live demo of our game: https://youtu.be/RtdFpdrvHas
+
 ## 💡 Design & Implementation
 
 - A start menu opens up, which on tapping leads to the main menu which on tapping begins the game.
@@ -64,7 +66,7 @@ Gameplay -
 ![Gameplay Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/gameplay.png)
 
 
-## Designs 
+## 🎨 Designs 
 
 UML Class Diagram -
 
