@@ -60,11 +60,11 @@ Player Statistics Menu -
 
 UML Class Diagram -
 
-![UML](UML Diagrams/UMLClassDiagram.jpg)
+![UML](https://github.com/abhik-s-basu/Will-Hero/blob/master/UML%20Diagrams/UMLClassDiagram.jpg)
 
 Use Case Diagram - 
 
-![UseCase](UML Diagrams/UseCase.jpg)
+![UseCase](https://github.com/abhik-s-basu/Will-Hero/blob/master/UML%20Diagrams/UseCase.jpg)
 
 Creators:
 
