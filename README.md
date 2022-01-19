@@ -44,17 +44,6 @@ Use Case Diagram -
 - The EndGame, PauseGame and GameWonMenu have been created using FXML and controller classes from Java as well.
 - Sound has been added as well, to make the gameplay more immersive.
 
-## 🖼️ Design & Implementation
-
-- Fully functional game with with lots of additional features
-- Audio assets have been used to replicate the original game to the maximum
-- Revive Functionality for the Hero on his First Death based on Coins
-- 2 Kinds of Weapons for the Hero
-- Choice between 4 different Hero Helmets
-- Auto generated player statistics for recap
-- Custom implemented video recording which captures this screen only for a specified duration
-- Ghost feature which can be used to play against your previous game
-- Implemented Custom Exceptions and JavaFX Components by building on top of the standard tools
 
 ## 👀 Gameplay Design
 
@@ -74,7 +63,7 @@ Use Case Diagram -
 - The orcs movement in the original game is usually ordered and preset. However, in our game, the orcs are not only randomly jumping at different paces but their jumps are not synchronised as well, hence making it difficult for the user to win this game.
 - The spawning of weapons have been randomised for the game and one can get any weapon from the chest and swap them according to their need. 
 - A damage system has also been created in this game. In the original game, one can use any weapon and all the orcs get killed. However, in our game, there is a damage system involved where each orc has assigned health to it. So the only way of killing it is not by putting it in the abyss anymore but even continuous  sustained damage can affect it. If time was more, then this feature could have been expanded further.
-- Added sounds and. music as well to make a game made on JavaFX more immersive and fun. 
+- Added sounds and music as well to make a game made on JavaFX more immersive and fun. 
 
 
 
