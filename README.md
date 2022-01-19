@@ -7,6 +7,31 @@ Adaptation of the popular game [Will Hero](https://apps.apple.com/us/app/will-he
 - Java
 - JavaFX
 
+## 🎬 Visuals
+
+Loading Screen -
+
+![StartScreen](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/start.png)
+
+Main Menu - 
+
+![Main Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/mainMenu.png)
+
+Gameplay -
+
+![Gameplay Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/gameplay.png)
+
+
+## 🎨 Designs 
+
+UML Class Diagram -
+
+![UML](https://github.com/abhik-s-basu/Will-Hero/blob/master/UML%20Diagrams/UMLClassDiagram.jpg)
+
+Use Case Diagram - 
+
+![UseCase](https://github.com/abhik-s-basu/Will-Hero/blob/master/UML%20Diagrams/UseCase.jpg)
+
 ## 📹 For a live demo of our game: https://youtu.be/RtdFpdrvHas
 
 ## 💡 Design & Implementation
@@ -51,30 +76,7 @@ Adaptation of the popular game [Will Hero](https://apps.apple.com/us/app/will-he
 - A damage system has also been created in this game. In the original game, one can use any weapon and all the orcs get killed. However, in our game, there is a damage system involved where each orc has assigned health to it. So the only way of killing it is not by putting it in the abyss anymore but even continuous  sustained damage can affect it. If time was more, then this feature could have been expanded further.
 - Added sounds and. music as well to make a game made on JavaFX more immersive and fun. 
 
-## 🎬 Visuals
 
-Loading Screen -
-
-![StartScreen](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/start.png)
-
-Main Menu - 
-
-![Main Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/mainMenu.png)
-
-Gameplay -
-
-![Gameplay Menu](https://github.com/abhik-s-basu/Will-Hero/blob/master/Screenshots/gameplay.png)
-
-
-## 🎨 Designs 
-
-UML Class Diagram -
-
-![UML](https://github.com/abhik-s-basu/Will-Hero/blob/master/UML%20Diagrams/UMLClassDiagram.jpg)
-
-Use Case Diagram - 
-
-![UseCase](https://github.com/abhik-s-basu/Will-Hero/blob/master/UML%20Diagrams/UseCase.jpg)
 
 Creators:
 
